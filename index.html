@@ -292,15 +292,6 @@
             color: #e0e7ff;
             font-weight: 600;
         }
-        td:first-child,
-        th:first-child {
-            min-width: 70px;
-        }
-        td:nth-child(2),
-        th:nth-child(2) {
-            min-width: 120px;
-            font-size: 8px;
-        }
         .positive {
             color: #34d399;
             font-weight: 600;
@@ -447,13 +438,6 @@
                 padding: 4px 3px;
                 min-width: 60px;
             }
-            th:first-child,
-            td:first-child {
-                position: sticky;
-                left: 0;
-                z-index: 2;
-                background: #1e3a8a;
-            }
             button {
                 min-height: 48px;
                 font-size: 16px;
@@ -523,11 +507,11 @@
             <div class="date-section">
                 <h3>📅 Выберите дату</h3>
                 <div class="calendar-controls">
-                    <button class="secondary" onclick="prevPeriod()">← Предыдущий</button>
+                    <button class="secondary" onclick="prevPeriod()">‹ Предыдущий</button>
                     <button class="secondary" onclick="toggleCalendarView()">
                         <span id="warehouseViewToggleText">📆 Месяц</span>
                     </button>
-                    <button class="secondary" onclick="nextPeriod()">Следующий →</button>
+                    <button class="secondary" onclick="nextPeriod()">Следующий ›</button>
                 </div>
                 <div id="warehouseCalendar" class="calendar"></div>
                 <div id="selectedWarehouseDate" class="selected-date-display"></div>
@@ -540,7 +524,7 @@
                 <div id="categoryInputs"></div>
                 <div class="action-buttons">
                     <button type="button" onclick="saveWarehouseReport()">💾 Сохранить отчёт</button>
-                    <button type="button" class="secondary" onclick="showMainSection()">← Назад к складам</button>
+                    <button type="button" class="secondary" onclick="showMainSection()">‹ Назад к складам</button>
                 </div>
             </form>
         </div>
@@ -555,17 +539,17 @@
             <div class="date-section">
                 <h3>📅 Выберите дату для анализа</h3>
                 <div class="calendar-controls">
-                    <button class="secondary" onclick="prevPeriodSummary()">← Предыдущий</button>
+                    <button class="secondary" onclick="prevPeriodSummary()">‹ Предыдущий</button>
                     <button class="secondary" onclick="toggleCalendarViewSummary()">
                         <span id="summaryViewToggleText">📆 Месяц</span>
                     </button>
-                    <button class="secondary" onclick="nextPeriodSummary()">Следующий →</button>
+                    <button class="secondary" onclick="nextPeriodSummary()">Следующий ›</button>
                 </div>
                 <div id="summaryCalendar" class="calendar"></div>
             </div>
             <div class="action-buttons">
                 <button onclick="showSummaryData()">📈 Показать сводные данные</button>
-                <button class="secondary" onclick="showMainSection()">← Назад к складам</button>
+                <button class="secondary" onclick="showMainSection()">‹ Назад к складам</button>
             </div>
         </div>
 
@@ -574,15 +558,15 @@
             <h2>📋 Сводная таблица</h2>
             <div class="date-section">
                 <div style="display:flex;justify-content:space-between;align-items:center;gap:15px">
-                    <button class="secondary" onclick="prevSummaryDay()">← Предыдущий день</button>
+                    <button class="secondary" onclick="prevSummaryDay()">‹ Предыдущий день</button>
                     <div style="display:flex;align-items:center;gap:10px;text-align:center;font-size:18px;font-weight:600;color:#c7d2fe" id="currentSummaryDate"></div>
-                    <button class="secondary" onclick="nextSummaryDay()">Следующий день →</button>
+                    <button class="secondary" onclick="nextSummaryDay()">Следующий день ›</button>
                 </div>
             </div>
             <div id="summaryTable"></div>
             <div class="action-buttons">
                 <button onclick="toggleFullScreen()">🖥️ Полный экран</button>
-                <button class="secondary" onclick="showSummarySection()">← Назад</button>
+                <button class="secondary" onclick="showSummarySection()">‹ Назад</button>
             </div>
         </div>
     </div>
@@ -597,7 +581,7 @@
     <div id="console-output"></div>
 
     <script>
-        /* ----------  CONFIG  ---------- */
+        /* ========== CONFIG ========== */
         const WAREHOUSES = [
             "АРХАНГЕЛЬСК_ХАБ_НАХИМОВА",
             "МУРМАНСК_ХАБ_ОБЪЕЗДНАЯ",
@@ -618,10 +602,8 @@
             {name: 'Возвратный поток (Бэклог)', type: 'number'},
             {name: 'Обезличка', type: 'single', label: 'Поддоны', unit: 'шт'},
             {name: 'Эффективность', type: 'number'},
-            {name: 'Кол-во паллета-мест к отгрузке', type: 'triple',
-             fields: [{n: 'FBS', u: 'шт'}, {n: 'X-Dock', u: 'шт'}, {n: 'Возвраты', u: 'шт'}]},
-            {name: 'Хронь ХД', type: 'double',
-             fields: [{n: 'Сорт', u: 'шт'}, {n: 'Нон-Сорт', u: 'шт'}]},
+            {name: 'Кол-во паллета-мест к отгрузке', type: 'triple', fields: [{n: 'FBS', u: 'шт'}, {n: 'X-Dock', u: 'шт'}, {n: 'Возвраты', u: 'шт'}]},
+            {name: 'Хронь ХД', type: 'double', fields: [{n: 'Сорт', u: 'шт'}, {n: 'Нон-Сорт', u: 'шт'}]},
             {name: 'Риски', type: 'yesno'},
             {name: 'Промежуточная Выдача', type: 'single', label: 'Значение', unit: 'шт'},
             {name: '% не профиля', type: 'single', label: 'Процент', unit: '%'},
@@ -636,7 +618,7 @@
         let selectedSummaryDate = null;
         let currentWarehouse = '';
 
-        /* ----------  INIT  ---------- */
+        /* ========== INIT ========== */
         window.onload = () => {
             cleanOldReports();
             generateWarehouseList();
@@ -645,7 +627,7 @@
             fillTestData();
         };
 
-        /* ----------  UTILS  ---------- */
+        /* ========== UTILS ========== */
         function cleanOldReports() {
             const six = new Date(); six.setMonth(six.getMonth() - 6);
             for (let k in reports) {
@@ -702,7 +684,7 @@
             localStorage.setItem('warehouseReports', JSON.stringify(reports));
         }
 
-        /* ----------  NAV  ---------- */
+        /* ========== NAVIGATION ========== */
         function generateWarehouseList() {
             const list = document.getElementById('warehouseList');
             list.innerHTML = '';
@@ -738,7 +720,7 @@
             renderSummaryCalendar();
         }
 
-        /* ----------  CALENDAR  ---------- */
+        /* ========== CALENDAR ========== */
         function renderCalendar(calId, view, onSelect, selectedStr) {
             const cal = document.getElementById(calId);
             cal.innerHTML = '';
@@ -852,7 +834,7 @@
             renderSummaryCalendar();
         }
 
-        /* ----------  FORM  ---------- */
+        /* ========== FORM ========== */
         function loadCategoryInputs() {
             if (!selectedWarehouseDate) return;
             const type = document.querySelector('input[name="warehouseReportType"]:checked').value;
@@ -906,6 +888,7 @@
                 if (cat.type === 'number' || cat.type === 'time') {
                     const planEl = document.getElementById(`${currentWarehouse}_${type}_${cat.name}_plan`);
                     const factEl = document.getElementById(`${currentWarehouse}_${type}_${cat.name}_fact`);
+                    if (!planEl || !factEl) return;
                     const update = () => {
                         const plan = planEl.value.trim(), fact = factEl.value.trim();
                         const span = document.getElementById(`${currentWarehouse}_${type}_${cat.name}_delta`);
@@ -930,8 +913,8 @@
                             }
                         }
                     };
-                    if (planEl) planEl.addEventListener('input', update);
-                    if (factEl) factEl.addEventListener('input', update);
+                    planEl.addEventListener('input', update);
+                    factEl.addEventListener('input', update);
                     update();
                 }
             });
@@ -945,7 +928,8 @@
         }
 
         document.addEventListener('DOMContentLoaded', () => {
-            document.querySelectorAll('input[name="warehouseReportType"]').forEach(r => r.addEventListener('change', loadCategoryInputs));
+            const radios = document.querySelectorAll('input[name="warehouseReportType"]');
+            radios.forEach(r => r.addEventListener('change', loadCategoryInputs));
         });
 
         function saveWarehouseReport() {
@@ -988,11 +972,11 @@
 
             localStorage.setItem('warehouseReports', JSON.stringify(reports));
             cleanOldReports();
-            alert('✅ Сохранено! Данные доступны в общем своде.');
+            alert('✅ Сохранено!');
             showMainSection();
         }
 
-        /* ----------  SUMMARY  ---------- */
+        /* ========== SUMMARY TABLE ========== */
         function showSummaryData() {
             if (!selectedSummaryDate) return alert('⚠️ Кликните на дату в календаре!');
             const includeDay = document.getElementById('summaryDay').checked;
@@ -1004,7 +988,7 @@
             document.getElementById('summaryTableSection').classList.add('active');
 
             const tableDiv = document.getElementById('summaryTable');
-            let html = '<div class="table-wrapper"><table><thead><tr><th>Дата</th><th>Склад</th><th>ХА</th>';
+            let html = '<div class="table-wrapper"><table><thead><tr><th>Склад</th><th>ХА</th>';
 
             CATEGORIES.forEach(cat => {
                 if (cat.type === 'single' || cat.type === 'yesno' || cat.type === 'select') {
@@ -1017,8 +1001,7 @@
                     html += `<th colspan="3">${cat.name}</th>`;
                 }
             });
-
-            html += '<th>Тип</th></tr><tr style="background:linear-gradient(135deg,#1e3a8a 0%,#312e81 100%)"><th colspan="3"></th>';
+            html += '<th>Тип</th></tr><tr style="background:linear-gradient(135deg,#1e3a8a 0%,#312e81 100%)"><th colspan="2"></th>';
 
             CATEGORIES.forEach(cat => {
                 if (cat.type === 'single' || cat.type === 'yesno' || cat.type === 'select') {
@@ -1031,49 +1014,40 @@
                     html += '<th>П</th><th>Ф</th><th>Δ</th>';
                 }
             });
-
             html += '<th>Тип</th></tr></thead><tbody>';
 
-            let totalVolumePlan = 0;
             const warehouseData = reports[selectedSummaryDate] || {};
-
             WAREHOUSES.forEach(wh => {
                 const whData = warehouseData[wh] || {};
                 let rowAdded = false;
                 if (includeDay && whData.day) {
-                    const rowData = addRow(selectedSummaryDate, wh, whData.day, '☀️');
-                    html += rowData.html;
-                    totalVolumePlan += rowData.volumePlan;
+                    html += addRow(wh, whData.day, '☀️');
                     rowAdded = true;
                 }
                 if (includeNight && whData.night) {
-                    const rowData = addRow(selectedSummaryDate, wh, whData.night, '🌙');
-                    html += rowData.html;
-                    totalVolumePlan += rowData.volumePlan;
+                    html += addRow(wh, whData.night, '🌙');
                     rowAdded = true;
                 }
                 if (!rowAdded) {
-                    let cells = `<td>${selectedSummaryDate}</td><td>${wh}</td><td>ХА</td>`;
-                    const numCols = CATEGORIES.reduce((acc, cat) => {
+                    let cells = `<td>${wh}</td><td>ХА</td>`;
+                    const numDataCols = CATEGORIES.reduce((acc, cat) => {
                         if (cat.type === 'single' || cat.type === 'yesno' || cat.type === 'select') return acc + 1;
                         if (cat.type === 'triple') return acc + 3;
                         if (cat.type === 'double') return acc + 2;
                         return acc + 3;
                     }, 0);
-                    for (let i = 0; i < numCols; i++) cells += '<td>-</td>';
+                    for (let i = 0; i < numDataCols; i++) cells += '<td>-</td>';
                     cells += '<td>-</td>';
                     html += `<tr>${cells}</tr>`;
                 }
             });
 
-            html += '</tbody></table></div><div class="summary-total">📊 Итого по Объёму (план): ' + totalVolumePlan + '</div>';
+            html += '</tbody></table></div>';
             tableDiv.innerHTML = html;
         }
 
-        function addRow(date, wh, typeData, typeLabel) {
-            let html = `<tr><td>${date}</td><td>${wh}</td><td>ХА</td>`;
-            let volumePlan = 0;
-
+        function addRow(wh, typeData, typeLabel) {
+            let html = `<tr><td>${wh}</td><td>ХА</td>`;
             CATEGORIES.forEach(cat => {
                 const data = typeData[cat.name] || {};
                 if (cat.type === 'single') {
@@ -1100,9 +1074,8 @@
                     html += `<td class="${deltaClass}">${deltaCell}</td>`;
                 }
             });
-
             html += `<td>${typeLabel}</td></tr>`;
-            return { html, volumePlan };
+            return html;
         }
 
         function toggleFullScreen() {
