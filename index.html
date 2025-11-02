@@ -626,7 +626,8 @@
         // Supabase конфигурация
         const SUPABASE_URL = 'https://hpjrjpxctmlttdwqrpvc.supabase.co';
         const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhwanJqcHhjdG1sdHRkd3FycHZjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjIwNzAxMzIsImV4cCI6MjA3NzY0NjEzMn0.jgJD4uKiLoW6MPw5yMrsoYlguowcnn5tl9pKeib7tcs';
-        const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+        const { createClient } = supabase;
+        const supabaseClient = createClient(SUPABASE_URL, SUPABASE_KEY);
         
         // Склады
         const WAREHOUSES = [
@@ -678,7 +679,7 @@
         async function loadAllReports() {
             try {
                 showConsole('Загрузка данных из облака...');
-                const { data, error } = await supabase
+                const { data, error } = await supabaseClient
                     .from('reports')
                     .select('*');
                 
@@ -695,7 +696,6 @@
                 showConsole('✅ Данные загружены успешно');
                 return reports;
             } catch (error) {
-                console.error('Ошибка загрузки:', error);
                 showConsole('⚠️ Ошибка загрузки данных');
                 return {};
             }
@@ -707,7 +707,7 @@
                 showConsole('Сохранение в облако...');
                 
                 // Проверяем существует ли запись
-                const { data: existing } = await supabase
+                const { data: existing } = await supabaseClient
                     .from('reports')
                     .select('id')
                     .eq('date', date)
@@ -717,7 +717,7 @@
                 
                 if (existing) {
                     // Обновляем существующую запись
-                    const { error } = await supabase
+                    const { error } = await supabaseClient
                         .from('reports')
                         .update({ data: data, updated_at: new Date().toISOString() })
                         .eq('id', existing.id);
@@ -725,7 +725,7 @@
                     if (error) throw error;
                 } else {
                     // Создаём новую запись
-                    const { error } = await supabase
+                    const { error } = await supabaseClient
                         .from('reports')
                         .insert([{
                             date: date,
@@ -740,7 +740,6 @@
                 showConsole('✅ Данные сохранены в облаке');
                 return true;
             } catch (error) {
-                console.error('Ошибка сохранения:', error);
                 showConsole('⚠️ Ошибка сохранения данных');
                 return false;
             }
