@@ -1054,9 +1054,11 @@ th:nth-child(n+3), td:nth-child(n+3) {
                 const cd = document.createElement('div');
                 cd.className = 'category-input';
                 let html = `<h4>${cat.name}</h4>`;
-                if (cat.type === 'number' || cat.type === 'time') {
+                  if (cat.type === 'number') {
                     html += `<div class="input-row"><div><label>План:</label><input type="number" id="${currentWarehouse}_${type}_${cat.name}_plan" placeholder="План" inputmode="numeric" value="${data.plan || ''}"></div><div><label>Факт:</label><input type="number" id="${currentWarehouse}_${type}_${cat.name}_fact" placeholder="Факт" inputmode="numeric" value="${data.fact || ''}"></div></div><div class="delta-display">Дельта: <span id="${currentWarehouse}_${type}_${cat.name}_delta"></span></div>`;
-                } else if (cat.type === 'single') {
+                } else if (cat.type === 'time') {
+                    html += `<div class="input-row"><div><label>План (ЧЧ:ММ):</label><input type="text" id="${currentWarehouse}_${type}_${cat.name}_plan" placeholder="12:30" value="${data.plan || ''}"></div><div><label>Факт (ЧЧ:ММ):</label><input type="text" id="${currentWarehouse}_${type}_${cat.name}_fact" placeholder="12:25" value="${data.fact || ''}"></div></div><div class="delta-display"><span id="${currentWarehouse}_${type}_${cat.name}_delta"></span></div>`;
+                                } else if (cat.type === 'single') {
                     html += `<div><label>${cat.label} (${cat.unit}):</label><input type="number" id="${currentWarehouse}_${type}_${cat.name}_value" placeholder="${cat.label}" inputmode="numeric" value="${data.value || ''}"></div>`;
                 } else if (cat.type === 'triple') {
                     html += `<div class="input-triple">`;
