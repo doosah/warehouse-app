@@ -581,6 +581,7 @@ th:nth-child(n+3), td:nth-child(n+3) {
         <div id="warehouseReportSection" class="section">
             <h2 id="warehouseTitle">Отчёт по складу</h2>
             <div class="warehouse-list" id="warehouseList"></div>
+            <button class="large-button secondary" onclick="showSummarySection()">📊 Общий свод по всем складам</button>
             <div class="date-section">
                 <h3>📅 Выберите дату</h3>
                 <div class="calendar-controls">
@@ -601,13 +602,14 @@ th:nth-child(n+3), td:nth-child(n+3) {
                 <div id="categoryInputs"></div>
                 <div class="action-buttons">
                     <button type="button" onclick="saveWarehouseReport()">💾 Сохранить отчёт</button>
-                    <button class="secondary" onclick="backToMain()">← Назад к выбору отчёта</button>
+                    <button class="secondary" onclick="showMainSection()">← Назад к складам</button>
                 </div>
             </form>
         </div>
         <div id="personnelReportSection" class="section">
             <h2 id="personnelTitle">Отчёт по персоналу</h2>
             <div class="warehouse-list" id="personnelList"></div>
+            <button class="large-button secondary" onclick="showPersonnelSummarySection()">📊 Общий свод по персоналу</button>
             <div class="date-section">
                 <h3>📅 Выберите дату</h3>
                 <div class="calendar-controls">
@@ -628,7 +630,7 @@ th:nth-child(n+3), td:nth-child(n+3) {
                 <div id="personnelCategoryInputs"></div>
                 <div class="action-buttons">
                     <button type="button" onclick="savePersonnelReport()">💾 Сохранить отчёт</button>
-                    <button class="secondary" onclick="backToMain()">← Назад к выбору отчёта</button>
+                    <button class="secondary" onclick="showMainSection()">← Назад к выбору отчёта</button>
                 </div>
             </form>
         </div>
@@ -659,22 +661,7 @@ th:nth-child(n+3), td:nth-child(n+3) {
             </div>
             <div class="action-buttons">
                 <button onclick="showSummaryData()">📈 Показать сводные данные</button>
-                <button class="secondary" onclick="backToMain()">← Назад к выбору отчёта</button>
-            </div>
-        </div>
-        <div id="summaryTableSection" class="section">
-            <h2>📋 Сводная таблица</h2>
-            <div class="date-section">
-                <div style="display:flex;flex-direction:column;gap:10px">
-                    <button class="secondary" onclick="prevSummaryDay()">← Предыдущий день</button>
-                    <div style="text-align:center;font-size:clamp(16px,4vw,18px);font-weight:600;color:#c7d2fe;padding:10px" id="currentSummaryDate"></div>
-                    <button class="secondary" onclick="nextSummaryDay()">Следующий день →</button>
-                </div>
-            </div>
-            <div id="summaryTable"></div>
-            <div class="action-buttons">
-                <button onclick="toggleFullScreen()">🖥️ Полный экран</button>
-                <button class="secondary" onclick="showSummarySection()">← Назад</button>
+                <button class="secondary" onclick="showMainSection()">← Назад к выбору отчёта</button>
             </div>
         </div>
         <div id="personnelSummarySection" class="section">
@@ -704,11 +691,26 @@ th:nth-child(n+3), td:nth-child(n+3) {
             </div>
             <div class="action-buttons">
                 <button onclick="showPersonnelSummaryData()">📈 Показать сводные данные</button>
-                <button class="secondary" onclick="backToMain()">← Назад к выбору отчёта</button>
+                <button class="secondary" onclick="showMainSection()">← Назад к выбору отчёта</button>
+            </div>
+        </div>
+        <div id="summaryTableSection" class="section">
+            <h2>📋 Сводная таблица (Операции)</h2>
+            <div class="date-section">
+                <div style="display:flex;flex-direction:column;gap:10px">
+                    <button class="secondary" onclick="prevSummaryDay()">← Предыдущий день</button>
+                    <div style="text-align:center;font-size:clamp(16px,4vw,18px);font-weight:600;color:#c7d2fe;padding:10px" id="currentSummaryDate"></div>
+                    <button class="secondary" onclick="nextSummaryDay()">Следующий день →</button>
+                </div>
+            </div>
+            <div id="summaryTable"></div>
+            <div class="action-buttons">
+                <button onclick="toggleFullScreen()">🖥️ Полный экран</button>
+                <button class="secondary" onclick="showSummarySection()">← Назад</button>
             </div>
         </div>
         <div id="personnelSummaryTableSection" class="section">
-            <h2>📋 Сводная таблица по персоналу</h2>
+            <h2>📋 Сводная таблица (Персонал)</h2>
             <div class="date-section">
                 <div style="display:flex;flex-direction:column;gap:10px">
                     <button class="secondary" onclick="prevPersonnelSummaryDay()">← Предыдущий день</button>
@@ -762,7 +764,6 @@ th:nth-child(n+3), td:nth-child(n+3) {
             {name: '% не профиля', type: 'single', label: 'Процент', unit: '%'},
             {name: 'Руководитель', type: 'select', options: ['Территория 1 Шутин Д.М.', 'Территория 2 Любавкская М.И.']}
         ];
-        const PERSONNEL_OBJECTS = WAREHOUSES;
         const PERSONNEL_CATEGORIES = [
             { name: 'Штат', type: 'triple', fields: [{ n: 'План', u: '' }, { n: 'Факт', u: '' }, { n: 'Дельта', u: '' }] },
             { name: 'Ozon Job', type: 'quadruple', fields: [{ n: 'План', u: '' }, { n: 'Факт', u: '' }, { n: 'Капаситет', u: '' }, { n: 'Доля OJ%', u: '%' }] },
@@ -925,7 +926,7 @@ th:nth-child(n+3), td:nth-child(n+3) {
         function generatePersonnelList() {
             const list = document.getElementById('personnelList');
             list.innerHTML = '';
-            PERSONNEL_OBJECTS.forEach(obj => {
+            WAREHOUSES.forEach(obj => {
                 const btn = document.createElement('button');
                 btn.className = 'warehouse-btn';
                 btn.textContent = obj;
@@ -938,10 +939,10 @@ th:nth-child(n+3), td:nth-child(n+3) {
             currentDate = new Date();
             if (reportType === 'operational') {
                 document.getElementById('warehouseReportSection').classList.add('active');
-                showWarehouseReport(WAREHOUSES[0]);
+                generateWarehouseList();
             } else {
                 document.getElementById('personnelReportSection').classList.add('active');
-                showPersonnelReport(PERSONNEL_OBJECTS[0]);
+                generatePersonnelList();
             }
         }
         function showWarehouseReport(wh) {
@@ -1339,7 +1340,6 @@ th:nth-child(n+3), td:nth-child(n+3) {
             localStorage.setItem('warehouseReports', JSON.stringify(reports));
             cleanOldReports();
             alert('✅ Сохранено! Данные доступны в общем своде.');
-            showSummarySection();
         }
         function savePersonnelReport() {
             if (!selectedPersonnelDate) return alert('⚠️ Выберите дату!');
@@ -1367,7 +1367,6 @@ th:nth-child(n+3), td:nth-child(n+3) {
             localStorage.setItem('personnelReports', JSON.stringify(personnelReports));
             cleanOldPersonnelReports();
             alert('✅ Данные сохранены!');
-            showPersonnelSummarySection();
         }
         function showSummarySection() {
             document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
@@ -1518,7 +1517,7 @@ th:nth-child(n+3), td:nth-child(n+3) {
                         </thead>
                         <tbody>
             `;
-            PERSONNEL_OBJECTS.forEach(obj => {
+            WAREHOUSES.forEach(obj => {
                 let rowAdded = false;
                 const objData = personnelReports[selectedPersonnelSummaryDate]?.[obj] || {};
                 if (includeDay && objData.day) {
@@ -1616,6 +1615,22 @@ th:nth-child(n+3), td:nth-child(n+3) {
             document.getElementById('currentSummaryDate').textContent = selectedSummaryDate;
             showSummaryData();
         }
+        function prevPersonnelSummaryDay() {
+            if (!selectedPersonnelSummaryDate) return;
+            const [day, month, year] = selectedPersonnelSummaryDate.split('.').map(Number);
+            const date = new Date(year, month - 1, day);
+            date.setDate(date.getDate() - 1);
+            selectedPersonnelSummaryDate = date.toLocaleDateString('ru-RU');
+            document.getElementById('currentPersonnelSummaryDate').textContent = selectedPersonnelSummaryDate;
+        }
+        function nextPersonnelSummaryDay() {
+            if (!selectedPersonnelSummaryDate) return;
+            const [day, month, year] = selectedPersonnelSummaryDate.split('.').map(Number);
+            const date = new Date(year, month - 1, day);
+            date.setDate(date.getDate() + 1);
+            selectedPersonnelSummaryDate = date.toLocaleDateString('ru-RU');
+            document.getElementById('currentPersonnelSummaryDate').textContent = selectedPersonnelSummaryDate;
+        }
         function toggleFullScreen() {
             const fs = document.getElementById('fullScreenTable');
             const tbl = document.getElementById('summaryTable').innerHTML;
@@ -1640,7 +1655,7 @@ th:nth-child(n+3), td:nth-child(n+3) {
                 document.body.style.overflow = 'auto';
             }
         }
-        function backToMain() {
+        function showMainSection() {
             document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
             document.getElementById('mainSection').classList.add('active');
             currentWarehouse = '';
