@@ -21,6 +21,7 @@
     --border-color: rgba(135, 150, 200, 0.15);
     --touch-target: 44px;
 }
+
 body {
     background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 50%, #2d1b3d 100%);
     background-size: 400% 400%;
@@ -29,181 +30,170 @@ body {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     min-height: 100vh;
     padding: 10px;
-    -webkit-font-smoothing: antialiased;
-    touch-action: manipulation;
+    margin: 0;
 }
+
 @keyframes gradientShift {
     0% { background-position: 0% 50%; }
     50% { background-position: 100% 50%; }
     100% { background-position: 0% 50%; }
 }
+
 .container {
-    background: rgba(10, 14, 39, 0.75);
+    background: var(--bg-container);
     backdrop-filter: blur(20px);
     border: 1px solid rgba(135, 150, 200, 0.2);
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6),
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6), 
                 0 0 0 1px rgba(102, 126, 234, 0.1),
                 inset 0 1px 0 rgba(255, 255, 255, 0.05);
     border-radius: 16px;
     padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
 }
+
 .header {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
     background-size: 200% 200%;
     animation: gradientFlow 8s ease infinite;
-    border-bottom: 1px solid rgba(135, 150, 200, 0.2);
-    box-shadow: 0 4px 20px rgba(102, 126, 234, 0.3);
+    color: white;
     padding: 16px 20px;
+    border-bottom: 1px solid var(--border-color);
+    box-shadow: 0 4px 20px rgba(102, 126, 234, 0.3);
     margin-bottom: 20px;
+    border-radius: 12px 12px 0 0;
 }
-@keyframes gradientFlow {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-}
+
 .header-inner {
     display: flex;
     align-items: center;
     gap: 12px;
 }
+
 .logo {
     height: 40px;
     width: auto;
-    filter: drop-shadow(0 2px 8px rgba(102, 126, 234, .45));
+    filter: drop-shadow(0 2px 8px rgba(102, 126, 234, 0.45));
     transition: transform 0.3s ease;
 }
+
 .logo:hover {
     transform: scale(1.05);
 }
+
+@media (max-width: 480px) {
+    .logo { height: 32px; }
+}
+
+@keyframes gradientFlow {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
 h1 {
     color: #ffffff;
     text-shadow: 0 2px 10px rgba(255, 255, 255, 0.3);
-    margin: 0;
-    font-size: clamp(18px, 4vw, 24px);
+    margin-bottom: 8px;
 }
+
 .subtitle {
     color: rgba(255, 255, 255, 0.85);
-    margin: 0;
-    font-size: clamp(12px, 3vw, 14px);
+    font-size: 0.9em;
 }
-.section {
-    padding: 20px;
-    display: none;
-    animation: fadeIn 0.3s ease-in;
+
+h2 {
+    color: var(--text-primary);
+    text-shadow: 0 1px 5px rgba(102, 126, 234, 0.2);
+    margin-bottom: 15px;
 }
-.section.active {
-    display: block;
-}
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
-}
+
 .warehouse-btn {
     background: linear-gradient(135deg, rgba(102, 126, 234, 0.3) 0%, rgba(240, 147, 251, 0.3) 100%);
-    border: 1px solid rgba(135, 150, 200, 0.3);
-    color: #f0f4ff;
+    background-size: 200% 200%;
+    border: none;
+    color: var(--text-primary);
     box-shadow: 0 4px 15px rgba(102, 126, 234, 0.15),
                 inset 0 1px 0 rgba(255, 255, 255, 0.1);
     padding: 16px;
     border-radius: 12px;
     cursor: pointer;
+    transition: all 0.3s ease;
+    min-height: var(--touch-target);
     text-align: center;
     font-size: clamp(12px, 2.5vw, 13px);
     font-weight: 500;
-    min-height: var(--touch-target);
-    word-break: break-word;
-    margin: 8px 0;
-    transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
 }
-.warehouse-btn::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg,
-        transparent,
-        rgba(102, 126, 234, 0.4),
-        rgba(240, 147, 251, 0.4),
-        transparent);
-    transition: left 0.6s ease;
+
+.warehouse-btn:hover {
+    background-position: 100% 50%;
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.15);
 }
-.warehouse-btn:hover::before {
-    left: 100%;
-}
+
 .warehouse-btn:active {
     background: linear-gradient(135deg, rgba(102, 126, 234, 0.5) 0%, rgba(240, 147, 251, 0.5) 100%);
     box-shadow: 0 2px 10px rgba(102, 126, 234, 0.3),
                 inset 0 1px 0 rgba(255, 255, 255, 0.15);
 }
-button {
+
+.section {
+    padding: 20px;
+    margin: 15px 0;
+    border-radius: 12px;
+    background: rgba(10, 14, 39, 0.9);
+    box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.2);
+    display: none;
+    animation: fadeIn 0.3s ease-in;
+}
+
+.section.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.large-button {
+    width: 100%;
+    padding: 18px 40px;
+    margin-bottom: 10px;
+    font-size: clamp(16px, 4vw, 18px);
+    font-weight: 600;
     background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
-    background-size: 200% 200%;
-    color: #ffffff;
     border: none;
+    border-radius: 12px;
     box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4),
                 0 2px 5px rgba(0, 0, 0, 0.3),
-                inset 0 1px 0 rgba(255, 255, 255, 0.3);
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
     transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
-    padding: 14px 24px;
-    border-radius: 8px;
     cursor: pointer;
-    margin: 5px;
-    font-size: clamp(14px, 3vw, 16px);
-    font-weight: 500;
-    min-height: var(--touch-target);
 }
-button::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg,
-        transparent,
-        rgba(255, 255, 255, 0.3),
-        transparent);
-    transition: left 0.5s ease;
-}
-button:hover {
+
+.large-button:hover {
     background-position: 100% 50%;
     box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5),
                 0 3px 8px rgba(0, 0, 0, 0.3),
                 inset 0 1px 0 rgba(255, 255, 255, 0.3);
     transform: translateY(-1px);
 }
-button:hover::before {
-    left: 100%;
-}
-button:active {
+
+.large-button:active {
     transform: scale(0.98);
     box-shadow: 0 2px 10px rgba(102, 126, 234, 0.4),
                 inset 0 2px 5px rgba(0, 0, 0, 0.3);
 }
-button.secondary {
+
+.button.secondary {
     background: linear-gradient(135deg, rgba(79, 172, 254, 0.3) 0%, rgba(102, 126, 234, 0.3) 100%);
     border: 1px solid rgba(135, 150, 200, 0.3);
     box-shadow: 0 4px 15px rgba(79, 172, 254, 0.2),
                 inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    color: var(--text-primary);
 }
-button.secondary:hover {
-    background: linear-gradient(135deg, rgba(79, 172, 254, 0.5) 0%, rgba(102, 126, 234, 0.5) 100%);
-    box-shadow: 0 6px 20px rgba(79, 172, 254, 0.3),
-                inset 0 1px 0 rgba(255, 255, 255, 0.15);
-}
-.large-button {
-    width: 100%;
-    padding: 18px 40px;
-    font-size: clamp(16px, 4vw, 18px);
-    font-weight: 600;
-    min-height: 52px;
-}
+
 .calendar {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
@@ -212,55 +202,97 @@ button.secondary:hover {
     padding: 10px;
     border-radius: 12px;
     background: rgba(30, 35, 60, 0.4);
-    border: 1px solid rgba(135, 150, 200, 0.15);
+    border: 1px solid var(--border-color);
     box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.2),
                 0 1px 0 rgba(255, 255, 255, 0.05);
 }
+
+.calendar-header-row {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    margin-bottom: 10px;
+}
+
 .calendar-header {
-    text-align: center;
-    font-weight: 600;
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.2) 0%, rgba(240, 147, 251, 0.2) 100%);
+    background-size: 200% 200%;
+    color: #d0dcff;
     padding: 6px 2px;
     border-radius: 6px;
     font-size: clamp(9px, 2vw, 11px);
-    background: linear-gradient(135deg, rgba(102, 126, 234, 0.2) 0%, rgba(240, 147, 251, 0.2) 100%);
-    color: #d0dcff;
-    border: 1px solid rgba(135, 150, 200, 0.1);
-    box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.1);
+    text-align: center;
 }
-button.date-btn {
-    padding: 8px 4px;
-    font-size: clamp(11px, 2.2vw, 13px);
-    min-height: 36px;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 6px;
+
+.date-btn {
     background: rgba(51, 65, 85, 0.4);
-    border: 1px solid rgba(135, 150, 200, 0.2);
-    color: #c8d2e8;
+    border: 1px solid var(--border-color);
+    color: var(--text-secondary);
     box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.2);
+    padding: 8px 4px;
+    border-radius: 6px;
+    cursor: pointer;
     transition: all 0.2s ease;
 }
-button.date-btn:hover {
+
+.date-btn.empty {
+    color: rgba(255, 255, 255, 0.3);
+    cursor: not-allowed;
+    background: rgba(51, 65, 85, 0.2);
+}
+
+.date-btn:hover:not(.empty) {
     background: rgba(79, 172, 254, 0.3);
     border-color: rgba(102, 126, 234, 0.5);
     box-shadow: 0 0 10px rgba(102, 126, 234, 0.3);
 }
-button.date-btn:active,
-button.date-btn.selected {
+
+.date-btn.selected {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: #ffffff;
+    color: white;
     border-color: #f093fb;
     box-shadow: 0 0 15px rgba(102, 126, 234, 0.6),
                 inset 0 1px 2px rgba(255, 255, 255, 0.2);
 }
+
+.calendar-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.calendar-controls button {
+    padding: 12px 16px;
+    border-radius: 8px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+    background-size: 200% 200%;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    min-width: 100px;
+}
+
+.calendar-controls button:hover {
+    background-position: 100% 50%;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.5);
+}
+
+.date-section {
+    padding: 20px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, rgba(30, 35, 60, 0.4) 0%, rgba(45, 27, 61, 0.4) 100%);
+    border: 1px solid var(--border-color);
+    box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.2),
+                0 1px 0 rgba(255, 255, 255, 0.05);
+    margin-bottom: 20px;
+}
+
 .selected-date-display {
     background: linear-gradient(135deg, rgba(102, 126, 234, 0.2) 0%, rgba(240, 147, 251, 0.2) 100%);
     border: 1px solid rgba(102, 126, 234, 0.3);
     color: #d0dcff;
-    box-shadow: 0 0 15px rgba(102, 126, 234, 0.2),
-                inset 0 1px 2px rgba(255, 255, 255, 0.1);
     padding: 12px 20px;
     border-radius: 8px;
     margin: 15px 0;
@@ -268,130 +300,155 @@ button.date-btn.selected {
     font-weight: 500;
     font-size: clamp(14px, 3vw, 16px);
 }
-.filter-section {
-    background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(240, 147, 251, 0.1) 100%);
-    border: 1px solid rgba(135, 150, 200, 0.2);
-    box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.15),
-                0 1px 0 rgba(255, 255, 255, 0.05);
-    padding: 16px;
-    border-radius: 12px;
-    margin-bottom: 20px;
-}
-.filter-section h4 {
-    color: #a8b8ff;
-    text-shadow: 0 1px 3px rgba(102, 126, 234, 0.3);
-    margin-bottom: 10px;
-}
-.date-section {
-    background: linear-gradient(135deg, rgba(30, 35, 60, 0.4) 0%, rgba(45, 27, 61, 0.4) 100%);
-    border: 1px solid rgba(135, 150, 200, 0.15);
-    box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.2),
-                0 1px 0 rgba(255, 255, 255, 0.05);
-    padding: 20px;
-    border-radius: 12px;
-    margin-bottom: 20px;
-}
-.calendar-controls {
+
+.radio-group {
     display: flex;
-    justify-content: space-between;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.radio-group label {
+    display: flex;
     align-items: center;
-    margin-bottom: 15px;
-    gap: 10px;
-    flex-wrap: wrap;
+    gap: 8px;
+    cursor: pointer;
+    font-size: clamp(12px, 3vw, 13px);
+    color: var(--text-secondary);
 }
-.calendar-controls button {
+
+.input-row {
+    display: flex;
+    gap: 15px;
+    margin: 10px 0;
+}
+
+.input-row div {
     flex: 1;
-    min-width: 100px;
-    padding: 12px 16px;
-    font-size: clamp(12px, 2.5vw, 14px);
 }
+
+.category-input {
+    margin-bottom: 20px;
+    padding: 15px;
+    border-radius: 12px;
+    background: rgba(30, 35, 60, 0.6);
+    border: 1px solid var(--border-color);
+}
+
+.delta-display {
+    margin-top: 10px;
+    padding: 8px;
+    border-radius: 6px;
+    color: var(--text-secondary);
+}
+
+.positive {
+    color: #43e97b;
+    font-weight: 600;
+    text-shadow: 0 0 8px rgba(67, 233, 123, 0.4);
+}
+
+.negative {
+    color: #fa709a;
+    font-weight: 600;
+    text-shadow: 0 0 8px rgba(250, 112, 154, 0.4);
+}
+
+.good {
+    color: #43e97b;
+    text-shadow: 0 0 5px rgba(67, 233, 123, 0.3);
+}
+
+.bad {
+    color: #fa709a;
+    text-shadow: 0 0 5px rgba(250, 112, 154, 0.3);
+}
+
 .action-buttons {
     display: flex;
     flex-direction: column;
     gap: 10px;
     margin-top: 20px;
 }
-label {
-    display: block;
-    margin: 15px 0 8px;
-    font-weight: 500;
-    color: var(--text-secondary);
-    font-size: clamp(12px, 3vw, 13px);
-}
-input[type="text"],
-input[type="number"],
-select {
-    width: 100%;
-    padding: 14px 16px;
+
+button {
+    padding: 14px 24px;
     border-radius: 8px;
-    font-size: 16px;
-    border: 1px solid rgba(135, 150, 200, 0.25);
-    background: rgba(30, 35, 60, 0.6);
-    color: #f0f4ff;
-    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2),
-                0 1px 0 rgba(255, 255, 255, 0.05);
-    -webkit-appearance: none;
-    appearance: none;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg ' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23cbd5e1' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 12px center;
-    padding-right: 40px;
+    border: none;
+    cursor: pointer;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+    background-size: 200% 200%;
+    color: white;
+    transition: all 0.3s ease;
+    font-size: clamp(14px, 3vw, 16px);
+    font-weight: 500;
 }
-input:focus,
-select:focus {
-    border-color: #667eea;
-    background: rgba(30, 35, 60, 0.8);
-    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2),
-                inset 0 2px 4px rgba(0, 0, 0, 0.2);
+
+button:hover {
+    background-position: 100% 50%;
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5),
+                inset 0 1px 0 rgba(255, 255, 255, 0.15);
 }
-.warehouse-list {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 12px;
+
+button:active {
+    transform: scale(0.98);
+    box-shadow: 0 2px 10px rgba(102, 126, 234, 0.4),
+                inset 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+button.secondary {
+    background: linear-gradient(135deg, rgba(79, 172, 254, 0.3) 0%, rgba(102, 126, 234, 0.3) 100%);
+    border: 1px solid var(--border-color);
+    box-shadow: 0 4px 15px rgba(79, 172, 254, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+button.secondary:hover {
+    background: linear-gradient(135deg, rgba(79, 172, 254, 0.5) 0%, rgba(102, 126, 234, 0.5) 100%);
+    box-shadow: 0 6px 20px rgba(79, 172, 254, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.15);
+}
+
+.checkbox-group {
     margin-bottom: 20px;
 }
-.radio-group {
-    display: flex;
-    gap: 20px;
-    margin: 15px 0;
+
+.filter-section {
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(240, 147, 251, 0.1) 100%);
+    border: 1px solid var(--border-color);
+    box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.15),
+                0 1px 0 rgba(255, 255, 255, 0.05);
+    padding: 16px;
+    border-radius: 12px;
+    margin-bottom: 20px;
 }
-.radio-group label {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin: 0;
+
+.filter-section select {
+    width: 100%;
+    padding: 8px;
+    border-radius: 6px;
+    border: 1px solid var(--border-color);
+    background: rgba(30, 35, 60, 0.6);
+    color: var(--text-primary);
 }
-#console-output {
-    position: fixed;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: calc(100% - 20px);
-    max-width: 600px;
-    border-radius: 12px 12px 0 0;
-    padding: 8px 16px;
-    font-size: 11px;
-    font-family: 'Courier New', monospace;
-    z-index: 998;
-    pointer-events: none;
-    max-height: 40px;
-    overflow: hidden;
-    background: rgba(30, 35, 60, 0.9);
-    color: #f0f4ff;
-    border: 1px solid rgba(135, 150, 200, 0.3);
+
+.table-wrapper {
+    border: 1px solid var(--border-color);
+    box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.2),
+                0 1px 0 rgba(255, 255, 255, 0.05);
+    margin-top: 15px;
 }
+
 table {
     width: 100%;
     min-width: 600px;
     border-collapse: separate;
     border-spacing: 0;
     font-size: clamp(7px, 1.8vw, 10px);
-    table-layout: fixed;
     transform: scale(0.95);
     transform-origin: top left;
     width: calc(100% / 0.95);
-    border: 1px solid rgba(71, 85, 105, 0.3);
 }
+
 th, td {
     border: 1px solid rgba(71, 85, 105, 0.3);
     padding: 4px 3px;
@@ -401,6 +458,7 @@ th, td {
     text-overflow: ellipsis;
     line-height: 1.2;
 }
+
 th {
     font-size: clamp(7px, 1.8vw, 9px);
     line-height: 1.3;
@@ -409,8 +467,9 @@ th {
     top: 0;
     font-weight: 600;
     z-index: 10;
-    background: rgba(30, 35, 60, 0.7);
+    background: var(--bg-darker);
 }
+
 td:first-child, th:first-child {
     width: 70px;
     min-width: 70px;
@@ -418,12 +477,12 @@ td:first-child, th:first-child {
     position: sticky;
     left: 0;
     z-index: 5;
-    font-size: clamp(7px, 1.8vw, 9px);
-    background: rgba(30, 35, 60, 0.7);
 }
+
 th:first-child {
     z-index: 15;
 }
+
 td:nth-child(2), th:nth-child(2) {
     width: 140px;
     min-width: 140px;
@@ -433,95 +492,63 @@ td:nth-child(2), th:nth-child(2) {
     z-index: 5;
     text-align: left;
     padding-left: 6px;
-    font-size: clamp(7px, 1.8vw, 9px);
-    background: rgba(30, 35, 60, 0.7);
 }
-th:nth-child(n+3), td:nth-child(n+3) {
-    min-width: 35px;
-    max-width: 50px;
-    padding: 3px 2px;
-    font-size: clamp(7px, 1.8vw, 9px);
-}
-.positive {
-    color: #43e97b;
-    font-weight: 600;
-    text-shadow: 0 0 8px rgba(67, 233, 123, 0.4);
-}
-.negative {
-    color: #fa709a;
-    font-weight: 600;
-    text-shadow: 0 0 8px rgba(250, 112, 154, 0.4);
-}
-.good {
-    color: #43e97b;
-    text-shadow: 0 0 5px rgba(67, 233, 123, 0.3);
-}
-.bad {
-    color: #fa709a;
-    text-shadow: 0 0 5px rgba(250, 112, 154, 0.3);
-}
+
 .summary-total {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     background-size: 200% 200%;
-    animation: gradientFlow 8s ease infinite;
-    color: #ffffff;
+    color: white;
     text-shadow: 0 2px 10px rgba(255, 255, 255, 0.3);
     box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4),
                 inset 0 1px 0 rgba(255, 255, 255, 0.2);
-    margin-top: 20px;
     padding: 20px;
     border-radius: 12px;
     text-align: center;
     font-size: clamp(16px, 4vw, 18px);
     font-weight: 600;
+    margin-top: 20px;
 }
-.table-wrapper {
-    border: 1px solid rgba(135, 150, 200, 0.2);
-    box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.2),
-                0 1px 0 rgba(255, 255, 255, 0.05);
-    overflow: auto;
-    max-width: 100%;
-}
+
 .full-screen-table {
-    background: rgba(10, 14, 39, 0.98);
-    backdrop-filter: blur(20px);
     position: fixed;
     top: 0;
     left: 0;
-    width: 100vw;
-    height: 100vh;
+    width: 100%;
+    height: 100%;
+    background: rgba(10, 14, 39, 0.98);
+    backdrop-filter: blur(20px);
     z-index: 1000;
     overflow: auto;
     padding: 20px;
-    box-sizing: border-box;
-    -webkit-overflow-scrolling: touch;
+    display: none;
 }
+
 .close-full {
     background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
-    color: #ffffff;
+    color: white;
+    border: none;
+    padding: 14px 24px;
+    border-radius: 8px;
+    cursor: pointer;
     box-shadow: 0 10px 30px rgba(250, 112, 154, 0.5),
                 0 5px 15px rgba(0, 0, 0, 0.3),
                 inset 0 1px 0 rgba(255, 255, 255, 0.3);
-    border: none;
-    padding: 14px 24px;
-    cursor: pointer;
-    border-radius: 8px;
-    min-height: var(--touch-target);
     font-size: clamp(14px, 3vw, 16px);
-    position: fixed;
-    top: 20px;
-    right: 20px;
+    margin-bottom: 20px;
 }
+
 .close-full:hover {
     box-shadow: 0 15px 40px rgba(250, 112, 154, 0.6),
                 0 7px 20px rgba(0, 0, 0, 0.4),
                 inset 0 1px 0 rgba(255, 255, 255, 0.4);
 }
+
 .close-full:active {
     box-shadow: 0 5px 20px rgba(250, 112, 154, 0.5),
                 inset 0 2px 5px rgba(0, 0, 0, 0.3);
     transform: scale(0.95);
 }
+
 @media (max-width: 768px) {
     body { padding: 8px; }
     .container { border-radius: 16px; }
@@ -532,29 +559,81 @@ th:nth-child(n+3), td:nth-child(n+3) {
     .calendar-controls button { width: 100%; }
     button { font-size: 14px; padding: 12px 20px; }
     table { font-size: 7px; transform: scale(0.9); width: calc(100% / 0.9); }
-    td:first-child, th:first-child { width: 60px; min-width: 60px; max-width: 60px; }
-    td:nth-child(2), th:nth-child(2) { width: 120px; min-width: 120px; max-width: 120px; left: 60px; }
-    th:nth-child(n+3), td:nth-child(n+3) { min-width: 30px; max-width: 40px; padding: 2px 1px; }
-    .close-full { top: 10px; right: 10px; padding: 12px 20px; }
+    td:first-child, th:first-child { width: 60px; }
+    td:nth-child(2), th:nth-child(2) { width: 120px; }
+    th:nth-child(n+3), td:nth-child(n+3) { min-width: 30px; max-width: 40px; }
+    .close-full { top: 10px; right: 10px; }
 }
+
 @media (max-width: 480px) {
     .warehouse-btn { font-size: 12px; padding: 14px; }
     h1 { font-size: 20px; }
     h2 { font-size: 18px; }
     button { font-size: 14px; padding: 12px 20px; }
     table { font-size: 6px; transform: scale(0.85); width: calc(100% / 0.85); }
-    td:first-child, th:first-child { width: 55px; min-width: 55px; max-width: 55px; }
-    td:nth-child(2), th:nth-child(2) { width: 110px; min-width: 110px; max-width: 110px; left: 55px; }
 }
+
 @media (prefers-reduced-motion: reduce) {
     * {
         animation: none !important;
         transition: none !important;
     }
 }
-@media (min-width: 1400px) {
-    .warehouse-list { grid-template-columns: repeat(3, 1fr); }
-    table { font-size: 10px; transform: scale(1); width: 100%; }
+
+.yesno-buttons {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 8px;
+}
+
+.yes-btn, .no-btn {
+    padding: 6px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    flex: 1;
+}
+
+.yes-btn {
+    background: #43e97b;
+    border: 1px solid #43e97b;
+}
+
+.yes-btn:hover {
+    background: #43e97b;
+    filter: brightness(0.9);
+}
+
+.no-btn {
+    background: #fa709a;
+    border: 1px solid #fa709a;
+}
+
+.no-btn:hover {
+    background: #fa709a;
+    filter: brightness(0.9);
+}
+
+.yes-btn.active, .no-btn.active {
+    box-shadow: 0 2px 8px rgba(67, 233, 123, 0.5);
+}
+
+.single-input {
+    width: 100%;
+    padding: 8px;
+    border-radius: 6px;
+    border: 1px solid var(--border-color);
+    background: rgba(30, 35, 60, 0.6);
+    color: var(--text-primary);
+}
+
+.select-input {
+    width: 100%;
+    padding: 8px;
+    border-radius: 6px;
+    border: 1px solid var(--border-color);
+    background: rgba(30, 35, 60, 0.6);
+    color: var(--text-primary);
 }
     </style>
 </head>
@@ -569,26 +648,29 @@ th:nth-child(n+3), td:nth-child(n+3) {
                 </div>
             </div>
         </div>
+
+        <!-- Главная страница - выбор отчёта -->
         <div id="mainSection" class="section active">
             <h2>Выберите отчёт</h2>
-            <button class="large-button" onclick="selectReport('operational')">📄 Операционные показатели</button>
-            <button class="large-button" onclick="selectReport('personnel')">📊 Персонал</button>
+            <div class="action-buttons">
+                <button class="large-button" onclick="selectReport('operational')">📄 Операционные показатели</button>
+                <button class="large-button" onclick="selectReport('personnel')">📊 Отчет по персоналу</button>
+            </div>
             <div class="action-buttons" style="margin-top: 20px;">
                 <button class="secondary" onclick="fillTestData()">⚠️ Загрузить тестовые данные (операции)</button>
                 <button class="secondary" onclick="fillPersonnelTestData()">⚠️ Загрузить тестовые данные (персонал)</button>
             </div>
         </div>
+
+        <!-- Отчёт по складу (операции) -->
         <div id="warehouseReportSection" class="section">
             <h2 id="warehouseTitle">Отчёт по складу</h2>
             <div class="warehouse-list" id="warehouseList"></div>
-            <button class="large-button secondary" onclick="showSummarySection()">📊 Общий свод по всем складам</button>
             <div class="date-section">
                 <h3>📅 Выберите дату</h3>
                 <div class="calendar-controls">
                     <button class="secondary" onclick="prevPeriod()">← Предыдущий</button>
-                    <button class="secondary" onclick="toggleCalendarView()">
-                        <span id="warehouseViewToggleText">📅 Неделя</span>
-                    </button>
+                    <button class="secondary" onclick="toggleCalendarView()"><span id="warehouseViewToggleText">📅 Неделя</span></button>
                     <button class="secondary" onclick="nextPeriod()">Следующий →</button>
                 </div>
                 <div id="warehouseCalendar" class="calendar"></div>
@@ -598,25 +680,22 @@ th:nth-child(n+3), td:nth-child(n+3) {
                 <label><input type="radio" name="warehouseReportType" value="day" checked> ☀️ Дневная смена</label>
                 <label><input type="radio" name="warehouseReportType" value="night"> 🌙 Ночная смена</label>
             </div>
-            <form id="reportForm">
-                <div id="categoryInputs"></div>
-                <div class="action-buttons">
-                    <button type="button" onclick="saveWarehouseReport()">💾 Сохранить отчёт</button>
-                    <button class="secondary" onclick="showMainSection()">← Назад к складам</button>
-                </div>
-            </form>
+            <div id="categoryInputs"></div>
+            <div class="action-buttons">
+                <button onclick="saveWarehouseReport()">💾 Сохранить отчёт</button>
+                <button class="secondary" onclick="backToMain()">← Назад</button>
+            </div>
         </div>
+
+        <!-- Отчёт по персоналу -->
         <div id="personnelReportSection" class="section">
             <h2 id="personnelTitle">Отчёт по персоналу</h2>
             <div class="warehouse-list" id="personnelList"></div>
-            <button class="large-button secondary" onclick="showPersonnelSummarySection()">📊 Общий свод по персоналу</button>
             <div class="date-section">
                 <h3>📅 Выберите дату</h3>
                 <div class="calendar-controls">
                     <button class="secondary" onclick="prevPeriodPersonnel()">← Предыдущий</button>
-                    <button class="secondary" onclick="toggleCalendarViewPersonnel()">
-                        <span id="personnelViewToggleText">📅 Неделя</span>
-                    </button>
+                    <button class="secondary" onclick="toggleCalendarViewPersonnel()"><span id="personnelViewToggleText">📅 Неделя</span></button>
                     <button class="secondary" onclick="nextPeriodPersonnel()">Следующий →</button>
                 </div>
                 <div id="personnelCalendar" class="calendar"></div>
@@ -626,14 +705,14 @@ th:nth-child(n+3), td:nth-child(n+3) {
                 <label><input type="radio" name="personnelReportType" value="day" checked> ☀️ Дневная смена</label>
                 <label><input type="radio" name="personnelReportType" value="night"> 🌙 Ночная смена</label>
             </div>
-            <form id="personnelReportForm">
-                <div id="personnelCategoryInputs"></div>
-                <div class="action-buttons">
-                    <button type="button" onclick="savePersonnelReport()">💾 Сохранить отчёт</button>
-                    <button class="secondary" onclick="showMainSection()">← Назад к выбору отчёта</button>
-                </div>
-            </form>
+            <div id="personnelCategoryInputs"></div>
+            <div class="action-buttons">
+                <button onclick="savePersonnelReport()">💾 Сохранить отчёт</button>
+                <button class="secondary" onclick="backToMain()">← Назад</button>
+            </div>
         </div>
+
+        <!-- Свод операции -->
         <div id="summarySection" class="section">
             <h2>📊 Общий свод по всем складам</h2>
             <div class="checkbox-group">
@@ -644,26 +723,43 @@ th:nth-child(n+3), td:nth-child(n+3) {
                 <h4>👤 Фильтр по руководителю</h4>
                 <select id="managerFilter" onchange="updateSummaryTable()">
                     <option value="">Все руководители</option>
-                    <option value="Территория 1 Шутин Д.М.">Территория 1 Шутин Д.М.</option>
-                    <option value="Территория 2 Любавкская М.И.">Территория 2 Любавкская М.И.</option>
+                    <option value="Территория 1 Шутин Д.М.">Территория 1</option>
+                    <option value="Территория 2 Любавкская М.И.">Территория 2</option>
                 </select>
             </div>
             <div class="date-section">
                 <h3>📅 Выберите дату для анализа</h3>
                 <div class="calendar-controls">
                     <button class="secondary" onclick="prevPeriodSummary()">← Предыдущий день</button>
-                    <button class="secondary" onclick="toggleCalendarViewSummary()">
-                        <span id="summaryViewToggleText">📆 Месяц</span>
-                    </button>
+                    <button class="secondary" onclick="toggleCalendarViewSummary()"><span id="summaryViewToggleText">📆 Месяц</span></button>
                     <button class="secondary" onclick="nextPeriodSummary()">Следующий день →</button>
                 </div>
                 <div id="summaryCalendar" class="calendar"></div>
             </div>
             <div class="action-buttons">
                 <button onclick="showSummaryData()">📈 Показать сводные данные</button>
-                <button class="secondary" onclick="showMainSection()">← Назад к выбору отчёта</button>
+                <button class="secondary" onclick="backToMain()">← Назад</button>
             </div>
         </div>
+
+        <!-- Сводная таблица операции -->
+        <div id="summaryTableSection" class="section">
+            <h2>📋 Сводная таблица</h2>
+            <div class="date-section">
+                <div style="display:flex;flex-direction:column;gap:10px">
+                    <button class="secondary" onclick="prevSummaryDay()">← Предыдущий день</button>
+                    <div id="currentSummaryDate" style="text-align:center;font-size:clamp(16px,4vw,18px);font-weight:600;color:#c7d2fe;padding:10px"></div>
+                    <button class="secondary" onclick="nextSummaryDay()">Следующий день →</button>
+                </div>
+            </div>
+            <div id="summaryTable" class="table-wrapper"></div>
+            <div class="action-buttons">
+                <button onclick="toggleFullScreen()">🖥️ Полный экран</button>
+                <button class="secondary" onclick="showSummarySection()">← Назад</button>
+            </div>
+        </div>
+
+        <!-- Свод персонала -->
         <div id="personnelSummarySection" class="section">
             <h2>📊 Свод по персоналу</h2>
             <div class="checkbox-group">
@@ -674,78 +770,63 @@ th:nth-child(n+3), td:nth-child(n+3) {
                 <h4>👤 Фильтр по руководителю</h4>
                 <select id="personnelManagerFilter" onchange="updatePersonnelSummaryTable()">
                     <option value="">Все руководители</option>
-                    <option value="Территория 1 Шутин Д.М.">Территория 1 Шутин Д.М.</option>
-                    <option value="Территория 2 Любавкская М.И.">Территория 2 Любавкская М.И.</option>
+                    <option value="Территория 1 Шутин Д.М.">Территория 1</option>
+                    <option value="Территория 2 Любавкская М.И.">Территория 2</option>
                 </select>
             </div>
             <div class="date-section">
                 <h3>📅 Выберите дату для анализа</h3>
                 <div class="calendar-controls">
                     <button class="secondary" onclick="prevPersonnelSummaryDay()">← Предыдущий день</button>
-                    <button class="secondary" onclick="toggleCalendarViewPersonnelSummary()">
-                        <span id="personnelSummaryViewToggleText">📆 Месяц</span>
-                    </button>
+                    <button class="secondary" onclick="toggleCalendarViewPersonnelSummary()"><span id="personnelSummaryViewToggleText">📆 Месяц</span></button>
                     <button class="secondary" onclick="nextPersonnelSummaryDay()">Следующий день →</button>
                 </div>
                 <div id="personnelSummaryCalendar" class="calendar"></div>
             </div>
             <div class="action-buttons">
                 <button onclick="showPersonnelSummaryData()">📈 Показать сводные данные</button>
-                <button class="secondary" onclick="showMainSection()">← Назад к выбору отчёта</button>
+                <button class="secondary" onclick="backToMain()">← Назад</button>
             </div>
         </div>
-        <div id="summaryTableSection" class="section">
-            <h2>📋 Сводная таблица (Операции)</h2>
-            <div class="date-section">
-                <div style="display:flex;flex-direction:column;gap:10px">
-                    <button class="secondary" onclick="prevSummaryDay()">← Предыдущий день</button>
-                    <div style="text-align:center;font-size:clamp(16px,4vw,18px);font-weight:600;color:#c7d2fe;padding:10px" id="currentSummaryDate"></div>
-                    <button class="secondary" onclick="nextSummaryDay()">Следующий день →</button>
-                </div>
-            </div>
-            <div id="summaryTable"></div>
-            <div class="action-buttons">
-                <button onclick="toggleFullScreen()">🖥️ Полный экран</button>
-                <button class="secondary" onclick="showSummarySection()">← Назад</button>
-            </div>
-        </div>
+
+        <!-- Сводная таблица персонала -->
         <div id="personnelSummaryTableSection" class="section">
-            <h2>📋 Сводная таблица (Персонал)</h2>
+            <h2>📋 Сводная таблица по персоналу</h2>
             <div class="date-section">
                 <div style="display:flex;flex-direction:column;gap:10px">
                     <button class="secondary" onclick="prevPersonnelSummaryDay()">← Предыдущий день</button>
-                    <div style="text-align:center;font-size:clamp(16px,4vw,18px);font-weight:600;color:#c7d2fe;padding:10px" id="currentPersonnelSummaryDate"></div>
+                    <div id="currentPersonnelSummaryDate" style="text-align:center;font-size:clamp(16px,4vw,18px);font-weight:600;color:#c7d2fe;padding:10px"></div>
                     <button class="secondary" onclick="nextPersonnelSummaryDay()">Следующий день →</button>
                 </div>
             </div>
-            <div id="personnelSummaryTable"></div>
+            <div id="personnelSummaryTable" class="table-wrapper"></div>
             <div class="action-buttons">
                 <button onclick="togglePersonnelFullScreen()">🖥️ Полный экран</button>
                 <button class="secondary" onclick="showPersonnelSummarySection()">← Назад</button>
             </div>
         </div>
-        <div id="fullScreenTable" class="full-screen-table" style="display:none">
+
+        <!-- Полнэкранный режим операции -->
+        <div id="fullScreenTable" class="full-screen-table">
             <button class="close-full" onclick="toggleFullScreen()">✕ Закрыть</button>
             <div id="fullSummaryTable"></div>
         </div>
-        <div id="personnelFullScreenTable" class="full-screen-table" style="display:none">
+
+        <!-- Полнэкранный режим персонала -->
+        <div id="psFullScreen" class="full-screen-table">
             <button class="close-full" onclick="togglePersonnelFullScreen()">✕ Закрыть</button>
-            <div id="fullPersonnelSummaryTable"></div>
+            <div id="psFullTable"></div>
         </div>
+
         <div id="console-output"></div>
     </div>
+
     <script>
+        // Операционные данные
         const WAREHOUSES = [
-            "АРХАНГЕЛЬСК_ХАБ_НАХИМОВА",
-            "МУРМАНСК_ХАБ_ОБЪЕЗДНАЯ",
-            "ВЕЛИКИЙ_НОВГОРОД_ХАБ_НЕХИНСКАЯ",
-            "ПЕТРОЗАВОДСК_ХАБ_ПРЯЖИНСКОЕ",
-            "ПСКОВ_ХАБ_МАРГЕЛОВА",
-            "ПСКОВ_ХАБ_НОВЫЙ",
-            "СЫКТЫВКАР_ХАБ_ЛЕСОПАРКОВАЯ",
-            "СЫКТЫВКАР_ХАБ_ОКТЯБРЬСКИЙ",
-            "ЧЕРЕПОВЕЦ_ХАБ_СТРОЙИНДУСТРИИ",
-            "ВОЛОГДА_ХАБ_БЕЛОЗЕРСКОЕ"
+            "АРХАНГЕЛЬСК_ХАБ_НАХИМОВА","МУРМАНСК_ХАБ_ОБЪЕЗДНАЯ","ВЕЛИКИЙ_НОВГОРОД_ХАБ_НЕХИНСКАЯ",
+            "ПЕТРОЗАВОДСК_ХАБ_ПРЯЖИНСКОЕ","ПСКОВ_ХАБ_МАРГЕЛОВА","ПСКОВ_ХАБ_НОВЫЙ",
+            "СЫКТЫВКАР_ХАБ_ЛЕСОПАРКОВАЯ","СЫКТЫВКАР_ХАБ_ОКТЯБРЬСКИЙ","ЧЕРЕПОВЕЦ_ХАБ_СТРОЙИНДУСТРИИ","ВОЛОГДА_ХАБ_БЕЛОЗЕРСКОЕ"
         ];
         const CATEGORIES = [
             {name: 'Обработка', type: 'number'},
@@ -761,924 +842,868 @@ th:nth-child(n+3), td:nth-child(n+3) {
              fields: [{n: 'Сорт', u: 'шт'}, {n: 'Нон-Сорт', u: 'шт'}]},
             {name: 'Риски', type: 'yesno'},
             {name: 'Промежуточная Выдача', type: 'single', label: 'Значение', unit: 'шт'},
-            {name: '% не профиля', type: 'single', label: 'Процент', unit: '%'},
+            '% не профиля': {name: '% не профиля', type: 'single', label: 'Процент', unit: '%'},
             {name: 'Руководитель', type: 'select', options: ['Территория 1 Шутин Д.М.', 'Территория 2 Любавкская М.И.']}
         ];
-        const PERSONNEL_CATEGORIES = [
-            { name: 'Штат', type: 'triple', fields: [{ n: 'План', u: '' }, { n: 'Факт', u: '' }, { n: 'Дельта', u: '' }] },
-            { name: 'Ozon Job', type: 'quadruple', fields: [{ n: 'План', u: '' }, { n: 'Факт', u: '' }, { n: 'Капаситет', u: '' }, { n: 'Доля OJ%', u: '%' }] },
-            { name: 'РВ', type: 'single', label: 'РВ', unit: '' },
-            { name: 'Командировка', type: 'single', label: 'Командировка', unit: '' },
-            { name: 'Total', type: 'triple', fields: [{ n: 'План', u: '' }, { n: 'Факт', u: '' }, { n: 'Дельта', u: '' }] },
-            { name: 'Производительность', type: 'single', label: 'Производительность', unit: '' },
-            { name: 'Причины невыхода', type: 'triple', fields: [{ n: 'ОТ', u: '' }, { n: 'БЛ', u: '' }, { n: 'НН', u: '' }] },
-            { name: 'Комментарии', type: 'single', label: 'Комментарии', unit: '' },
-            { name: 'Руководитель', type: 'select', options: ['Территория 1 Шутин Д.М.', 'Территория 2 Любавкская М.И.'] }
-        ];
         let reports = JSON.parse(localStorage.getItem('warehouseReports')) || {};
-        let personnelReports = JSON.parse(localStorage.getItem('personnelReports')) || {};
         let currentDate = new Date();
         let warehouseCalendarView = 'week';
-        let personnelCalendarView = 'week';
-        let summaryCalendarView = 'month';
-        let personnelSummaryCalendarView = 'month';
         let selectedWarehouseDate = null;
-        let selectedPersonnelDate = null;
-        let selectedSummaryDate = null;
-        let selectedPersonnelSummaryDate = null;
         let currentWarehouse = '';
+        let selectedSummaryDate = null;
+
+        // Данные по персоналу
+        const PERSONNEL_OBJECTS = ["Отдел 1", "Отдел 2", "Отдел 3", "Отдел 4"];
+        const PERSONNEL_CATEGORIES = [
+            {name: 'Количество сотрудников', type: 'number'},
+            {name: 'Отработано часов', type: 'number'},
+            {name: 'Пропуски', type: 'number'},
+            {name: 'Руководитель', type: 'select', options: ['Территория 1 Шутин Д.М.', 'Территория 2 Любавкская М.И.']}
+        ];
+        let personnelReports = JSON.parse(localStorage.getItem('personnelReports')) || {};
         let currentPersonnelObj = '';
-        function cleanOldReports() {
+        let selectedPersonnelDate = null;
+        let personnelCalendarView = 'week';
+
+        // Очистка старых данных (6 месяцев)
+        function cleanOldReports(reportsObj) {
             const sixMonthsAgo = new Date();
             sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 6);
             const keysToDelete = [];
-            Object.keys(reports).forEach(dateStr => {
+            Object.keys(reportsObj).forEach(dateStr => {
                 try {
                     const [day, month, year] = dateStr.split('.').map(Number);
                     const reportDate = new Date(year, month - 1, day);
-                    if (reportDate < sixMonthsAgo) keysToDelete.push(dateStr);
-                } catch (e) { keysToDelete.push(dateStr); }
+                    if (reportDate < sixMonthsAgo) {
+                        keysToDelete.push(dateStr);
+                    }
+                } catch (e) {
+                    keysToDelete.push(dateStr);
+                }
             });
-            keysToDelete.forEach(key => delete reports[key]);
+            keysToDelete.forEach(key => delete reportsObj[key]);
             localStorage.setItem('warehouseReports', JSON.stringify(reports));
-        }
-        function cleanOldPersonnelReports() {
-            const sixMonthsAgo = new Date();
-            sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 6);
-            const keysToDelete = [];
-            Object.keys(personnelReports).forEach(dateStr => {
-                try {
-                    const [day, month, year] = dateStr.split('.').map(Number);
-                    const reportDate = new Date(year, month - 1, day);
-                    if (reportDate < sixMonthsAgo) keysToDelete.push(dateStr);
-                } catch (e) { keysToDelete.push(dateStr); }
-            });
-            keysToDelete.forEach(key => delete personnelReports[key]);
             localStorage.setItem('personnelReports', JSON.stringify(personnelReports));
         }
-        function fillTestData() {
-            const today = new Date();
-            const testDates = [];
-            for (let i = 0; i < 5; i++) {
-                const date = new Date(today);
-                date.setDate(today.getDate() - i);
-                testDates.push(date.toLocaleDateString('ru-RU'));
-            }
-            const testWarehouses = [
-                "ВЕЛИКИЙ_НОВГОРОД_ХАБ_НЕХИНСКАЯ",
-                "ПСКОВ_ХАБ_НОВЫЙ",
-                "ВОЛОГДА_ХАБ_БЕЛОЗЕРСКОЕ"
-            ];
-            testDates.forEach(dateStr => {
-                if (!reports[dateStr]) reports[dateStr] = {};
-                testWarehouses.forEach((wh, whIndex) => {
-                    if (!reports[dateStr][wh]) reports[dateStr][wh] = {};
-                    reports[dateStr][wh].day = {
-                        'Обработка': { plan: String(200 + whIndex * 30), fact: String(210 + whIndex * 30), delta: 10 },
-                        'Персонал': { plan: String(15 + whIndex), fact: String(15 + whIndex), delta: 0 },
-                        'Окончание выдачи': { plan: '12:30', fact: '12:25', delta: 'Норма' },
-                        'Обработка FBS': { plan: String(12 + whIndex), fact: String(11 + whIndex), delta: -1 },
-                        'Возвратный поток (Бэклог)': { plan: String(5), fact: String(7), delta: 2 },
-                        'Обезличка': { value: String(10 + whIndex) },
-                        'Эффективность': { plan: String(95 + whIndex), fact: String(98 + whIndex), delta: 3 },
-                        'Кол-во паллета-мест к отгрузке': { 'FBS': String(20 + whIndex), 'X-Dock': String(15 + whIndex), 'Возвраты': String(5 + whIndex) },
-                        'Хронь ХД': { 'Сорт': String(30 + whIndex), 'Нон-Сорт': String(25 + whIndex) },
-                        'Риски': { value: (whIndex % 2 === 0 ? 'yes' : 'no') },
-                        'Промежуточная Выдача': { value: String(50 + whIndex * 10) },
-                        '% не профиля': { value: String(5 + whIndex) },
-                        'Руководитель': { value: (whIndex % 2 === 0 ? 'Территория 1 Шутин Д.М.' : 'Территория 2 Любавкская М.И.') }
-                    };
-                    reports[dateStr][wh].night = {
-                        'Обработка': { plan: String(100 + whIndex * 15), fact: String(105 + whIndex * 15), delta: 5 },
-                        'Персонал': { plan: String(8 + whIndex), fact: String(8 + whIndex), delta: 0 },
-                        'Окончание выдачи': { plan: '03:00', fact: '03:15', delta: 'Отклонение' },
-                        'Обработка FBS': { plan: String(15), fact: String(14), delta: -1 },
-                        'Возвратный поток (Бэклог)': { plan: String(3), fact: String(4), delta: 1 },
-                        'Обезличка': { value: String(5 + whIndex) },
-                        'Эффективность': { plan: String(90 + whIndex), fact: String(92 + whIndex), delta: 2 },
-                        'Кол-во паллета-мест к отгрузке': { 'FBS': String(10 + whIndex), 'X-Dock': String(8 + whIndex), 'Возвраты': String(3 + whIndex) },
-                        'Хронь ХД': { 'Сорт': String(15 + whIndex), 'Нон-Сорт': String(12 + whIndex) },
-                        'Риски': { value: (whIndex % 2 === 1 ? 'yes' : 'no') },
-                        'Промежуточная Выдача': { value: String(25 + whIndex * 5) },
-                        '% не профиля': { value: String(3 + whIndex) },
-                        'Руководитель': { value: (whIndex % 2 === 1 ? 'Территория 1 Шутин Д.М.' : 'Территория 2 Любавкская М.И.') }
-                    };
-                });
-            });
-            localStorage.setItem('warehouseReports', JSON.stringify(reports));
-            alert(`✅ Тестовые данные загружены!\n📦 Склады: ${testWarehouses.length}\n📅 Дат: ${testDates.length}\n🔢 Записей: ${testWarehouses.length * testDates.length * 2}`);
-        }
-        function fillPersonnelTestData() {
-            const today = new Date();
-            const testDates = [];
-            for (let i = 0; i < 5; i++) {
-                const d = new Date(today);
-                d.setDate(today.getDate() - i);
-                testDates.push(d.toLocaleDateString('ru-RU'));
-            }
-            const testObjects = [
-                "ВЕЛИКИЙ_НОВГОРОД_ХАБ_НЕХИНСКАЯ",
-                "ПСКОВ_ХАБ_НОВЫЙ",
-                "ВОЛОГДА_ХАБ_БЕЛОЗЕРСКОЕ"
-            ];
-            testDates.forEach(dateStr => {
-                if (!personnelReports[dateStr]) personnelReports[dateStr] = {};
-                testObjects.forEach((obj, objIndex) => {
-                    if (!personnelReports[dateStr][obj]) personnelReports[dateStr][obj] = {};
-                    personnelReports[dateStr][obj].day = {
-                        'Штат': { План: 20 + objIndex * 5, Факт: 22 + objIndex * 5, Дельта: 2 },
-                        'Ozon Job': { План: 10 + objIndex * 2, Факт: 12 + objIndex * 2, Капаситет: 15 + objIndex * 2, 'Доля OJ%': '50%' },
-                        'РВ': { value: '2' },
-                        'Командировка': { value: '1' },
-                        'Total': { План: 30 + objIndex * 5, Факт: 32 + objIndex * 5, Дельта: 2 },
-                        'Производительность': { value: '95%' },
-                        'Причины невыхода': { ОТ: '1', БЛ: '0', НН: '0' },
-                        'Комментарии': { value: 'Тестовые данные' },
-                        'Руководитель': { value: objIndex % 2 === 0 ? 'Территория 1 Шутин Д.М.' : 'Территория 2 Любавкская М.И.' }
-                    };
-                    personnelReports[dateStr][obj].night = {
-                        'Штат': { План: 10 + objIndex * 3, Факт: 11 + objIndex * 3, Дельта: 1 },
-                        'Ozon Job': { План: 5 + objIndex, Факт: 6 + objIndex, Капаситет: 8 + objIndex, 'Доля OJ%': '55%' },
-                        'РВ': { value: '1' },
-                        'Командировка': { value: '0' },
-                        'Total': { План: 15 + objIndex * 3, Факт: 16 + objIndex * 3, Дельта: 1 },
-                        'Производительность': { value: '90%' },
-                        'Причины невыхода': { ОТ: '0', БЛ: '1', НН: '0' },
-                        'Комментарии': { value: 'Тестовые данные (ночь)' },
-                        'Руководитель': { value: objIndex % 2 === 1 ? 'Территория 1 Шутин Д.М.' : 'Территория 2 Любавкская М.И.' }
-                    };
-                });
-            });
-            localStorage.setItem('personnelReports', JSON.stringify(personnelReports));
-            alert(`✅ Тестовые данные по персоналу загружены!\n📦 Объектов: ${testObjects.length}\n📅 Дат: ${testDates.length}`);
-        }
+
+        // Генерация списка складов
         function generateWarehouseList() {
             const list = document.getElementById('warehouseList');
-            list.innerHTML = '';
-            WAREHOUSES.forEach(wh => {
-                const btn = document.createElement('button');
-                btn.className = 'warehouse-btn';
-                btn.textContent = wh;
-                btn.onclick = () => showWarehouseReport(wh);
-                list.appendChild(btn);
-            });
+            list.innerHTML = WAREHOUSES.map(wh => `
+                <button class="warehouse-btn" onclick="showWarehouseReport('${wh}')">${wh}</button>
+            `).join('');
         }
+
+        // Генерация списка объектов персонала
         function generatePersonnelList() {
             const list = document.getElementById('personnelList');
-            list.innerHTML = '';
-            WAREHOUSES.forEach(obj => {
-                const btn = document.createElement('button');
-                btn.className = 'warehouse-btn';
-                btn.textContent = obj;
-                btn.onclick = () => showPersonnelReport(obj);
-                list.appendChild(btn);
-            });
+            list.innerHTML = PERSONNEL_OBJECTS.map(obj => `
+                <button class="warehouse-btn" onclick="showPersonnelReport('${obj}')">${obj}</button>
+            `).join('');
         }
-        function selectReport(reportType) {
-            document.getElementById('mainSection').classList.remove('active');
-            currentDate = new Date();
-            if (reportType === 'operational') {
-                document.getElementById('warehouseReportSection').classList.add('active');
-                generateWarehouseList();
+
+        // Работа с календарями
+        function renderCalendar(calendarId, viewMode, onSelect, selectedDate) {
+            const cal = document.getElementById(calendarId);
+            cal.innerHTML = '';
+            const today = new Date();
+            const daysOfWeek = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'];
+
+            // Заголовок недели
+            const headerRow = document.createElement('div');
+            headerRow.className = 'calendar-header-row';
+            headerRow.innerHTML = daysOfWeek.map(day => `
+                <div class="calendar-header">${day}</div>
+            `).join('');
+            cal.appendChild(headerRow);
+
+            // Получение дат для режима
+            let dates = [];
+            if (viewMode === 'week') {
+                const startDay = new Date(today);
+                startDay.setDate(today.getDate() - ((today.getDay() || 7) - 1));
+                for (let i = 0; i < 7; i++) {
+                    const d = new Date(startDay);
+                    d.setDate(startDay.getDate() + i);
+                    dates.push(d);
+                }
             } else {
-                document.getElementById('personnelReportSection').classList.add('active');
-                generatePersonnelList();
+                const [year, month] = [today.getFullYear(), today.getMonth()];
+                const firstDay = new Date(year, month, 1);
+                const startDayOfWeek = firstDay.getDay() || 7;
+                const lastDay = new Date(year, month + 1, 0);
+                
+                // Дополнение пустыми днями
+                for (let i = 0; i < startDayOfWeek - 1; i++) {
+                    dates.push(null);
+                }
+                
+                // Дни месяца
+                for (let day = 1; day <= lastDay.getDate(); day++) {
+                    dates.push(new Date(year, month, day));
+                }
             }
+
+            // Отрисовка кнопок дат
+            const datesContainer = document.createElement('div');
+            datesContainer.style.display = 'grid';
+            datesContainer.style.gridTemplateColumns = 'repeat(7, 1fr)';
+            datesContainer.style.gap = '3px';
+            
+            dates.forEach(date => {
+                const b = document.createElement('button');
+                b.className = 'date-btn';
+                if (!date) {
+                    b.className += ' empty';
+                    b.textContent = '';
+                    b.disabled = true;
+                } else {
+                    const isToday = date.toDateString() === today.toDateString();
+                    const isSelected = selectedDate ? date.toDateString() === selectedDate.toDateString() : false;
+                    b.textContent = date.getDate();
+                    b.disabled = false;
+                    b.onclick = () => {
+                        currentDate = new Date(date);
+                        selectedDate = new Date(date);
+                        onSelect(date);
+                    };
+                    if (isSelected) b.className += ' selected';
+                    if (isToday) b.style.boxShadow = 'inset 0 2px 4px rgba(102, 126, 234, 0.3)';
+                }
+                datesContainer.appendChild(b);
+            });
+
+            cal.appendChild(datesContainer);
         }
+
+        // Календарь для операций
+        function renderWarehouseCalendar() {
+            renderCalendar('warehouseCalendar', warehouseCalendarView, () => {
+                selectedWarehouseDate = currentDate.toLocaleDateString('ru-RU');
+                document.getElementById('selectedWarehouseDate').textContent = `Выбрано: ${selectedWarehouseDate}`;
+                loadCategoryInputs();
+            }, selectedWarehouseDate);
+            document.getElementById('warehouseViewToggleText').textContent = 
+                warehouseCalendarView === 'week' ? '📅 Неделя' : '📆 Месяц';
+        }
+
+        // Календарь для персонала
+        function renderPersonnelCalendar() {
+            renderCalendar('personnelCalendar', personnelCalendarView, () => {
+                selectedPersonnelDate = currentDate.toLocaleDateString('ru-RU');
+                document.getElementById('selectedPersonnelDate').textContent = `Выбрано: ${selectedPersonnelDate}`;
+                loadPersonnelCategoryInputs();
+            }, selectedPersonnelDate);
+            document.getElementById('personnelViewToggleText').textContent = 
+                personnelCalendarView === 'week' ? '📅 Неделя' : '📆 Месяц';
+        }
+
+        // Навигация по календарю операций
+        function prevPeriod() {
+            if (warehouseCalendarView === 'week') {
+                currentDate.setDate(currentDate.getDate() - 7);
+            } else {
+                currentDate.setMonth(currentDate.getMonth() - 1);
+            }
+            renderWarehouseCalendar();
+        }
+
+        function nextPeriod() {
+            if (warehouseCalendarView === 'week') {
+                currentDate.setDate(currentDate.getDate() + 7);
+            } else {
+                currentDate.setMonth(currentDate.getMonth() + 1);
+            }
+            renderWarehouseCalendar();
+        }
+
+        function toggleCalendarView() {
+            warehouseCalendarView = warehouseCalendarView === 'week' ? 'month' : 'week';
+            renderWarehouseCalendar();
+        }
+
+        // Навигация по календарю персонала
+        function prevPeriodPersonnel() {
+            if (personnelCalendarView === 'week') {
+                currentDate.setDate(currentDate.getDate() - 7);
+            } else {
+                currentDate.setMonth(currentDate.getMonth() - 1);
+            }
+            renderPersonnelCalendar();
+        }
+
+        function nextPeriodPersonnel() {
+            if (personnelCalendarView === 'week') {
+                currentDate.setDate(currentDate.getDate() + 7);
+            } else {
+                currentDate.setMonth(currentDate.getMonth() + 1);
+            }
+            renderPersonnelCalendar();
+        }
+
+        function toggleCalendarViewPersonnel() {
+            personnelCalendarView = personnelCalendarView === 'week' ? 'month' : 'week';
+            renderPersonnelCalendar();
+        }
+
+        // Показ формы операций
         function showWarehouseReport(wh) {
             currentWarehouse = wh;
-            document.getElementById('warehouseTitle').textContent = `📍 ${wh}`;
+            document.getElementById('warehouseTitle').textContent = `📍 Склад: ${wh}`;
             document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
             document.getElementById('warehouseReportSection').classList.add('active');
+            currentDate = new Date(); // Сброс на текущую дату при выборе склада
             selectedWarehouseDate = currentDate.toLocaleDateString('ru-RU');
-            document.getElementById('selectedWarehouseDate').innerHTML = `<strong>Выбрано:</strong> ${selectedWarehouseDate}`;
+            document.getElementById('selectedWarehouseDate').textContent = `Выбрано: ${selectedWarehouseDate}`;
             renderWarehouseCalendar();
             loadCategoryInputs();
         }
+
+        // Показ формы персонала
         function showPersonnelReport(obj) {
             currentPersonnelObj = obj;
-            document.getElementById('personnelTitle').textContent = `📍 ${obj}`;
+            document.getElementById('personnelTitle').textContent = `📍 Объект: ${obj}`;
             document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
             document.getElementById('personnelReportSection').classList.add('active');
+            currentDate = new Date(); // Сброс на текущую дату при выборе объекта
             selectedPersonnelDate = currentDate.toLocaleDateString('ru-RU');
-            document.getElementById('selectedPersonnelDate').innerHTML = `<strong>Выбрано:</strong> ${selectedPersonnelDate}`;
+            document.getElementById('selectedPersonnelDate').textContent = `Выбрано: ${selectedPersonnelDate}`;
             renderPersonnelCalendar();
             loadPersonnelCategoryInputs();
         }
-        function renderCalendar(calendarId, view, onSelect, selectedDateStr = null) {
-            const cal = document.getElementById(calendarId);
-            cal.innerHTML = '';
-            const days = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'];
-            days.forEach(d => {
-                const h = document.createElement('div');
-                h.className = 'calendar-header';
-                h.textContent = d;
-                cal.appendChild(h);
-            });
-            let dates = [];
-            if (view === 'week') {
-                const mon = new Date(currentDate);
-                mon.setDate(mon.getDate() - ((mon.getDay() || 7) - 1));
-                for (let i = 0; i < 7; i++) {
-                    const d = new Date(mon);
-                    d.setDate(mon.getDate() + i);
-                    dates.push({ date: d, day: d.getDate(), empty: false });
-                }
-            } else {
-                const y = currentDate.getFullYear(), m = currentDate.getMonth();
-                const first = new Date(y, m, 1), last = new Date(y, m + 1, 0), start = first.getDay() || 7;
-                for (let i = 0; i < start - 1; i++) {
-                    const b = document.createElement('button');
-                    b.className = 'date-btn empty';
-                    b.disabled = true;
-                    cal.appendChild(b);
-                }
-                for (let day = 1; day <= last.getDate(); day++) {
-                    const d = new Date(y, m, day);
-                    dates.push({ date: d, day: day, empty: false });
-                }
+
+        // Загрузка тестовых данных операций
+        function fillTestData() {
+            cleanOldReports(reports);
+            const testDates = [];
+            for (let i = 0; i < 5; i++) {
+                const d = new Date(currentDate);
+                d.setDate(currentDate.getDate() - i);
+                testDates.push(d.toLocaleDateString('ru-RU'));
             }
-            dates.forEach(o => {
-                const b = document.createElement('button');
-                b.className = `date-btn ${o.empty ? 'empty' : ''}`;
-                b.textContent = o.day;
-                if (!o.empty && selectedDateStr === o.date.toLocaleDateString('ru-RU')) b.classList.add('selected');
-                if (!o.empty) b.onclick = () => onSelect(o.date);
-                cal.appendChild(b);
+
+            WAREHOUSES.forEach(wh => {
+                testDates.forEach(date => {
+                    if (!reports[date]) reports[date] = {};
+                    if (!reports[date][wh]) reports[date][wh] = {};
+
+                    reports[date][wh].day = {
+                        'Обработка': { plan: 200 + Math.floor(Math.random() * 50), fact: 210 + Math.floor(Math.random() * 40) },
+                        'Персонал': { plan: 15 + Math.floor(Math.random() * 5), fact: 15 + Math.floor(Math.random() * 5) },
+                        'Окончание выдачи': { plan: '12:00', fact: `${12}:${Math.floor(Math.random() * 60).toString().padStart(2, '0')}` },
+                        'Обработка FBS': { plan: 50 + Math.floor(Math.random() * 20), fact: 45 + Math.floor(Math.random() * 20) },
+                        'Возвратный поток (Бэклог)': { plan: 10, fact: 12 + Math.floor(Math.random() * 5) },
+                        'Обезличка': { value: 30 + Math.floor(Math.random() * 20) },
+                        'Эффективность': { plan: 90 + Math.floor(Math.random() * 8), fact: 92 + Math.floor(Math.random() * 7) },
+                        'Кол-во паллета-мест к отгрузке': {
+                            FBS: 20 + Math.floor(Math.random() * 10),
+                            X_Dock: 15 + Math.floor(Math.random() * 8),
+                            Возвраты: 5 + Math.floor(Math.random() * 5)
+                        },
+                        'Хронь ХД': {
+                            Сорт: 30 + Math.floor(Math.random() * 15),
+                            Нон-Сорт: 25 + Math.floor(Math.random() * 10)
+                        },
+                        'Риски': { value: Math.random() < 0.5 ? 'yes' : 'no' },
+                        'Промежуточная Выдача': { value: 50 + Math.floor(Math.random() * 30) },
+                        '% не профиля': { value: 5 + Math.floor(Math.random() * 10) },
+                        'Руководитель': { value: ['Территория 1 Шутин Д.М.', 'Территория 2 Любавкская М.И.'][Math.floor(Math.random() * 2)] }
+                    };
+
+                    reports[date][wh].night = {
+                        'Обработка': { plan: 100 + Math.floor(Math.random() * 30), fact: 105 + Math.floor(Math.random() * 25) },
+                        'Персонал': { plan: 8 + Math.floor(Math.random() * 4), fact: 8 + Math.floor(Math.random() * 4) },
+                        'Окончание выдачи': { plan: '03:00', fact: `${3}:${Math.floor(Math.random() * 60).toString().padStart(2, '0')}` },
+                        'Обработка FBS': { plan: 20 + Math.floor(Math.random() * 15), fact: 18 + Math.floor(Math.random() * 15) },
+                        'Возвратный поток (Бэклог)': { plan: 3, fact: 4 + Math.floor(Math.random() * 3) },
+                        'Обезличка': { value: 10 + Math.floor(Math.random() * 15) },
+                        'Эффективность': { plan: 85 + Math.floor(Math.random() * 9), fact: 87 + Math.floor(Math.random() * 8) },
+                        'Кол-во паллета-мест к отгрузке': {
+                            FBS: 10 + Math.floor(Math.random() * 7),
+                            X_Dock: 8 + Math.floor(Math.random() * 5),
+                            Возвраты: 3 + Math.floor(Math.random() * 4)
+                        },
+                        'Хронь ХД': {
+                            Сорт: 15 + Math.floor(Math.random() * 10),
+                            Нон-Сорт: 12 + Math.floor(Math.random() * 8)
+                        },
+                        'Риски': { value: Math.random() < 0.5 ? 'yes' : 'no' },
+                        'Промежуточная Выдача': { value: 25 + Math.floor(Math.random() * 15) },
+                        '% не профиля': { value: 3 + Math.floor(Math.random() * 7) },
+                        'Руководитель': { value: ['Территория 1 Шутин Д.М.', 'Территория 2 Любавкская М.И.'][Math.floor(Math.random() * 2)] }
+                    };
+                });
             });
+
+            localStorage.setItem('warehouseReports', JSON.stringify(reports));
+            alert(`✅ Тестовые данные загружены!\n\n📦 Складов: ${WAREHOUSES.length}\n📅 Дат: 5`);
         }
-        function renderWarehouseCalendar() {
-            renderCalendar('warehouseCalendar', warehouseCalendarView, (date) => {
-                currentDate = date;
-                selectedWarehouseDate = currentDate.toLocaleDateString('ru-RU');
-                document.getElementById('selectedWarehouseDate').innerHTML = `<strong>Выбрано:</strong> ${selectedWarehouseDate}`;
-                renderWarehouseCalendar();
-                loadCategoryInputs();
-            }, selectedWarehouseDate);
+
+        // Загрузка тестовых данных персонала
+        function fillPersonnelTestData() {
+            cleanOldReports(personnelReports);
+            const testDates = [];
+            for (let i = 0; i < 5; i++) {
+                const d = new Date(currentDate);
+                d.setDate(currentDate.getDate() - i);
+                testDates.push(d.toLocaleDateString('ru-RU'));
+            }
+
+            PERSONNEL_OBJECTS.forEach(obj => {
+                testDates.forEach(date => {
+                    if (!personnelReports[date]) personnelReports[date] = {};
+                    if (!personnelReports[date][obj]) personnelReports[date][obj] = {};
+
+                    personnelReports[date][obj].day = {
+                        'Количество сотрудников': { plan: 20, fact: 20 + Math.floor(Math.random() * 5) },
+                        'Отработано часов': { plan: 8, fact: 8 },
+                        'Пропуски': { plan: 0, fact: Math.floor(Math.random() * 2) },
+                        'Руководитель': { value: ['Территория 1 Шутин Д.М.', 'Территория 2 Любавкская М.И.'][Math.floor(Math.random() * 2)] }
+                    };
+
+                    personnelReports[date][obj].night = {
+                        'Количество сотрудников': { plan: 10, fact: 10 + Math.floor(Math.random() * 3) },
+                        'Отработано часов': { plan: 4, fact: 4 },
+                        'Пропуски': { plan: 0, fact: Math.floor(Math.random() * 2) },
+                        'Руководитель': { value: ['Территория 1 Шутин Д.М.', 'Территория 2 Любавкская М.И.'][Math.floor(Math.random() * 2)] }
+                    };
+                });
+            });
+
+            localStorage.setItem('personnelReports', JSON.stringify(personnelReports));
+            alert(`✅ Тестовые данные по персоналу загружены!\n📦 Объектов: ${PERSONNEL_OBJECTS.length}\n📅 Дат: 5`);
         }
-        function renderPersonnelCalendar() {
-            renderCalendar('personnelCalendar', personnelCalendarView, (date) => {
-                currentDate = date;
-                selectedPersonnelDate = currentDate.toLocaleDateString('ru-RU');
-                document.getElementById('selectedPersonnelDate').innerHTML = `<strong>Выбрано:</strong> ${selectedPersonnelDate}`;
-                renderPersonnelCalendar();
-                loadPersonnelCategoryInputs();
-            }, selectedPersonnelDate);
-        }
-        function renderSummaryCalendar() {
-            renderCalendar('summaryCalendar', summaryCalendarView, (date) => {
-                selectedSummaryDate = date.toLocaleDateString('ru-RU');
-                document.getElementById('currentSummaryDate').textContent = selectedSummaryDate;
-            }, selectedSummaryDate);
-        }
-        function renderPersonnelSummaryCalendar() {
-            renderCalendar('personnelSummaryCalendar', personnelSummaryCalendarView, (date) => {
-                selectedPersonnelSummaryDate = date.toLocaleDateString('ru-RU');
-                document.getElementById('currentPersonnelSummaryDate').textContent = selectedPersonnelSummaryDate;
-            }, selectedPersonnelSummaryDate);
-        }
-        function prevPeriod() {
-            warehouseCalendarView === 'week' ? currentDate.setDate(currentDate.getDate() - 7) : currentDate.setMonth(currentDate.getMonth() - 1);
-            renderWarehouseCalendar();
-        }
-        function nextPeriod() {
-            warehouseCalendarView === 'week' ? currentDate.setDate(currentDate.getDate() + 7) : currentDate.setMonth(currentDate.getMonth() + 1);
-            renderWarehouseCalendar();
-        }
-        function toggleCalendarView() {
-            warehouseCalendarView = warehouseCalendarView === 'week' ? 'month' : 'week';
-            document.getElementById('warehouseViewToggleText').textContent = warehouseCalendarView === 'week' ? '📅 Неделя' : '📆 Месяц';
-            renderWarehouseCalendar();
-        }
-        function prevPeriodPersonnel() {
-            personnelCalendarView === 'week' ? currentDate.setDate(currentDate.getDate() - 7) : currentDate.setMonth(currentDate.getMonth() - 1);
-            renderPersonnelCalendar();
-        }
-        function nextPeriodPersonnel() {
-            personnelCalendarView === 'week' ? currentDate.setDate(currentDate.getDate() + 7) : currentDate.setMonth(currentDate.getMonth() + 1);
-            renderPersonnelCalendar();
-        }
-        function toggleCalendarViewPersonnel() {
-            personnelCalendarView = personnelCalendarView === 'week' ? 'month' : 'week';
-            document.getElementById('personnelViewToggleText').textContent = personnelCalendarView === 'week' ? '📅 Неделя' : '📆 Месяц';
-            renderPersonnelCalendar();
-        }
-        function prevPeriodSummary() {
-            summaryCalendarView === 'week' ? currentDate.setDate(currentDate.getDate() - 7) : currentDate.setMonth(currentDate.getMonth() - 1);
-            renderSummaryCalendar();
-        }
-        function nextPeriodSummary() {
-            summaryCalendarView === 'week' ? currentDate.setDate(currentDate.getDate() + 7) : currentDate.setMonth(currentDate.getMonth() + 1);
-            renderSummaryCalendar();
-        }
-        function toggleCalendarViewSummary() {
-            summaryCalendarView = summaryCalendarView === 'week' ? 'month' : 'week';
-            document.getElementById('summaryViewToggleText').textContent = summaryCalendarView === 'week' ? '📅 Неделя' : '📆 Месяц';
-            renderSummaryCalendar();
-        }
-        function prevPersonnelSummaryDay() {
-            if (!selectedPersonnelSummaryDate) return;
-            const [day, month, year] = selectedPersonnelSummaryDate.split('.').map(Number);
-            const date = new Date(year, month - 1, day);
-            date.setDate(date.getDate() - 1);
-            selectedPersonnelSummaryDate = date.toLocaleDateString('ru-RU');
-            document.getElementById('currentPersonnelSummaryDate').textContent = selectedPersonnelSummaryDate;
-        }
-        function nextPersonnelSummaryDay() {
-            if (!selectedPersonnelSummaryDate) return;
-            const [day, month, year] = selectedPersonnelSummaryDate.split('.').map(Number);
-            const date = new Date(year, month - 1, day);
-            date.setDate(date.getDate() + 1);
-            selectedPersonnelSummaryDate = date.toLocaleDateString('ru-RU');
-            document.getElementById('currentPersonnelSummaryDate').textContent = selectedPersonnelSummaryDate;
-        }
-        function toggleCalendarViewPersonnelSummary() {
-            personnelSummaryCalendarView = personnelSummaryCalendarView === 'week' ? 'month' : 'week';
-            document.getElementById('personnelSummaryViewToggleText').textContent = personnelSummaryCalendarView === 'week' ? '📅 Неделя' : '📆 Месяц';
-            renderPersonnelSummaryCalendar();
-        }
+
+        // Генерация полей ввода для операций
         function loadCategoryInputs() {
-            if (!selectedWarehouseDate) return;
+            if (!currentWarehouse || !selectedWarehouseDate) return;
             const type = document.querySelector('input[name="warehouseReportType"]:checked').value;
-            const div = document.getElementById('categoryInputs');
-            div.innerHTML = '';
+            const categoryDiv = document.getElementById('categoryInputs');
+            categoryDiv.innerHTML = '';
+
             CATEGORIES.forEach(cat => {
-                const data = reports[selectedWarehouseDate]?.[currentWarehouse]?.[type]?.[cat.name] || {};
+                const data = reports[selectedWarehouseDate][currentWarehouse][type]?.[cat.name] || {};
                 const cd = document.createElement('div');
-                cd.className = 'category-input';
-                let html = `<h4>${cat.name}</h4>`;
-                if (cat.type === 'number') {
-                    html += `
-                        <div class="input-row">
-                            <div><label>План:</label><input type="number" id="${currentWarehouse}_${type}_${cat.name}_plan" placeholder="План" value="${data.plan || ''}"></div>
-                            <div><label>Факт:</label><input type="number" id="${currentWarehouse}_${type}_${cat.name}_fact" placeholder="Факт" value="${data.fact || ''}"></div>
-                        </div>
-                        <div class="delta-display">Дельта: <span id="${currentWarehouse}_${type}_${cat.name}_delta"></span></div>
-                    `;
-                } else if (cat.type === 'time') {
-                    html += `
-                        <div class="input-row">
-                            <div><label>План (ЧЧ:ММ):</label><input type="text" id="${currentWarehouse}_${type}_${cat.name}_plan" placeholder="12:30" value="${data.plan || ''}"></div>
-                            <div><label>Факт (ЧЧ:ММ):</label><input type="text" id="${currentWarehouse}_${type}_${cat.name}_fact" placeholder="12:25" value="${data.fact || ''}"></div>
-                        </div>
-                        <div class="delta-display"><span id="${currentWarehouse}_${type}_${cat.name}_delta"></span></div>
-                    `;
-                } else if (cat.type === 'single') {
-                    html += `<div><label>${cat.label} (${cat.unit}):</label><input type="number" id="${currentWarehouse}_${type}_${cat.name}_value" placeholder="${cat.label}" value="${data.value || ''}"></div>`;
-                } else if (cat.type === 'triple') {
-                    html += `<div class="input-triple">`;
-                    cat.fields.forEach(f => html += `<div><label>${f.n} (${f.u}):</label><input type="number" id="${currentWarehouse}_${type}_${cat.name}_${f.n}" placeholder="${f.n}" value="${data[f.n] || ''}"></div>`);
-                    html += `</div>`;
-                } else if (cat.type === 'double') {
-                    html += `<div class="input-double">`;
-                    cat.fields.forEach(f => html += `<div><label>${f.n} (${f.u}):</label><input type="number" id="${currentWarehouse}_${type}_${cat.name}_${f.n}" placeholder="${f.n}" value="${data[f.n] || ''}"></div>`);
-                    html += `</div>`;
-                } else if (cat.type === 'yesno') {
-                    const val = data.value || '';
-                    html += `
-                        <div class="yesno-buttons">
-                            <button type="button" class="yesno-btn yes ${val === 'yes' ? 'selected' : ''}" onclick="selectYesNo('${currentWarehouse}','${type}','${cat.name}','yes',event)">ДА</button>
-                            <button type="button" class="yesno-btn no ${val === 'no' ? 'selected' : ''}" onclick="selectYesNo('${currentWarehouse}','${type}','${cat.name}','no',event)">НЕТ</button>
-                        </div>
-                        <input type="hidden" id="${currentWarehouse}_${type}_${cat.name}_value" value="${val}">
-                    `;
-                } else if (cat.type === 'select') {
-                    html += `
-                        <div>
-                            <label>Выберите:</label>
-                            <select id="${currentWarehouse}_${type}_${cat.name}_value">
-                                <option value="">-- Не выбрано --</option>
-                                ${cat.options.map(opt => `<option value="${opt}" ${data.value === opt ? 'selected' : ''}>${opt}</option>`).join('')}
-                            </select>
-                        </div>
-                    `;
-                }
-                cd.innerHTML = html;
-                div.appendChild(cd);
-                if (cat.type === 'number' || cat.type === 'time') {
-                    const planEl = document.getElementById(`${currentWarehouse}_${type}_${cat.name}_plan`);
-                    const factEl = document.getElementById(`${currentWarehouse}_${type}_${cat.name}_fact`);
-                    const update = () => {
-                        const plan = planEl.value.trim();
-                        const fact = factEl.value.trim();
-                        const span = document.getElementById(`${currentWarehouse}_${type}_${cat.name}_delta`);
-                        if (!span) return;
-                        if (cat.type === 'number') {
-                            const p = parseInt(plan) || 0, f = parseInt(fact) || 0, delta = f - p;
-                            span.textContent = delta;
-                            span.className = delta >= 0 ? 'positive' : 'negative';
-                        } else if (cat.type === 'time') {
-                            if (plan && fact) {
-                                const pMin = parseTimeToMin(plan), fMin = parseTimeToMin(fact);
-                                if (!isNaN(pMin) && !isNaN(fMin)) {
-                                    const ok = fMin <= pMin;
-                                    span.textContent = ok ? 'Норма' : 'Отклонение';
-                                    span.className = ok ? 'good' : 'bad';
-                                } else {
-                                    span.textContent = 'Неверный формат (ЧЧ:ММ)';
-                                    span.className = 'bad';
-                                }
+                cd.className = `category-input ${cat.type}`;
+                cd.innerHTML = `
+                    <h4>${cat.name}</h4>
+                `;
+
+                const createInput = () => {
+                    if (cat.type === 'number') {
+                        cd.innerHTML += `
+                            <div class="input-row">
+                                <div><label>План:</label><input type="number" class="plan-input" value="${data.plan || ''}"></div>
+                                <div><label>Факт:</label><input type="number" class="fact-input" value="${data.fact || ''}"></div>
+                            </div>
+                            <div class="delta-display">Δ: <span class="delta">${data.delta !== undefined ? data.delta : '-'}</span></div>
+                        `;
+                    } else if (cat.type === 'time') {
+                        cd.innerHTML += `
+                            <div class="input-row">
+                                <div><label>План:</label><input type="text" class="time-input" value="${data.plan || ''}"></div>
+                                <div><label>Факт:</label><input type="text" class="time-input" value="${data.fact || ''}"></div>
+                            </div>
+                            <div class="delta-display" style="font-weight: 600;">
+                                Δ: <span class="delta">${data.delta !== undefined ? (data.delta === 'Норма' ? '✅' : '❌') : '-'}</span>
+                            </div>
+                        `;
+                        // Добавляем валидацию времени
+                        const factInput = cd.querySelector('.time-input');
+                        factInput.addEventListener('input', () => {
+                            const plan = cd.querySelector('.time-input:first-child').value;
+                            const fact = factInput.value;
+                            const deltaEl = cd.querySelector('.delta');
+                            const p = parseTimeToMin(plan);
+                            const f = parseTimeToMin(fact);
+                            if (!isNaN(p) && !isNaN(f)) {
+                                deltaEl.textContent = f <= p ? 'Норма' : 'Отклонение';
+                                deltaEl.className = f <= p ? 'good' : 'bad';
                             } else {
-                                span.textContent = '';
+                                deltaEl.textContent = 'Неверный формат (ЧЧ:ММ)';
+                                deltaEl.className = 'bad';
                             }
-                        }
-                    };
-                    planEl.addEventListener('input', update);
-                    factEl.addEventListener('input', update);
-                    update();
-                }
+                        });
+                    } else if (cat.type === 'single') {
+                        cd.innerHTML += `
+                            <div>
+                                <label>${cat.label} (${cat.unit}):</label>
+                                <input type="number" class="single-input" value="${data.value || ''}">
+                            </div>
+                        `;
+                    } else if (cat.type === 'triple') {
+                        cd.innerHTML += `
+                            <div class="input-triple">
+                                ${cat.fields.map(f => `
+                                    <div><label>${f.n} (${f.u}):</label><input type="number" class="triple-input" value="${data[f.n] || ''}"></div>
+                                `).join('')}
+                            </div>
+                        `;
+                    } else if (cat.type === 'double') {
+                        cd.innerHTML += `
+                            <div class="input-double">
+                                ${cat.fields.map(f => `
+                                    <div><label>${f.n} (${f.u}):</label><input type="number" class="double-input" value="${data[f.n] || ''}"></div>
+                                `).join('')}
+                            </div>
+                        `;
+                    } else if (cat.type === 'yesno') {
+                        cd.innerHTML += `
+                            <div class="yesno-buttons">
+                                <button class="yes-btn ${data.value === 'yes' ? 'active' : ''}" 
+                                        onclick="handleYesNo('${cat.name}', 'yes', this)">Да</button>
+                                <button class="no-btn ${data.value === 'no' ? 'active' : ''}" 
+                                        onclick="handleYesNo('${cat.name}', 'no', this)">Нет</button>
+                            </div>
+                        `;
+                    } else if (cat.type === 'select') {
+                        cd.innerHTML += `
+                            <div>
+                                <label>Выберите ${cat.name}:</label>
+                                <select class="select-input">
+                                    <option value="">Не выбрано</option>
+                                    ${cat.options.map(opt => `
+                                        <option value="${opt}" ${data.value === opt ? 'selected' : ''}>${opt}</option>
+                                    `).join('')}
+                                </select>
+                            </div>
+                        `;
+                    }
+                    categoryDiv.appendChild(cd);
+                };
+
+                createInput();
             });
         }
-        function loadPersonnelCategoryInputs() {
-            if (!selectedPersonnelDate || !currentPersonnelObj) return;
-            const type = document.querySelector('input[name="personnelReportType"]:checked').value;
-            const div = document.getElementById('personnelCategoryInputs');
-            div.innerHTML = '';
-            PERSONNEL_CATEGORIES.forEach(cat => {
-                const data = personnelReports[selectedPersonnelDate]?.[currentPersonnelObj]?.[type]?.[cat.name] || {};
-                const cd = document.createElement('div');
-                cd.className = 'category-input';
-                let html = `<h4>${cat.name}</h4>`;
-                if (cat.type === 'triple') {
-                    html += `<div class="input-triple">`;
-                    cat.fields.forEach(f => {
-                        if (f.n === 'Дельта') {
-                            html += `<div><label>${f.n}:</label><span id="${currentPersonnelObj}_${type}_${cat.name}_${f.n}">${data[f.n] || '-'}</span></div>`;
-                        } else {
-                            html += `<div><label>${f.n}:</label><input type="number" id="${currentPersonnelObj}_${type}_${cat.name}_${f.n}" placeholder="${f.n}" value="${data[f.n] || ''}"></div>`;
-                        }
-                    });
-                    html += `</div>`;
-                } else if (cat.type === 'quadruple') {
-                    html += `<div class="input-quadruple">`;
-                    cat.fields.forEach(f => {
-                        if (f.n === 'Доля OJ%') {
-                            html += `<div><label>${f.n}:</label><span id="${currentPersonnelObj}_${type}_${cat.name}_${f.n}">${data[f.n] || '-'}</span></div>`;
-                        } else {
-                            html += `<div><label>${f.n}:</label><input type="number" id="${currentPersonnelObj}_${type}_${cat.name}_${f.n}" placeholder="${f.n}" value="${data[f.n] || ''}"></div>`;
-                        }
-                    });
-                    html += `</div>`;
-                } else if (cat.type === 'single') {
-                    html += `<div><label>${cat.label}:</label><input type="text" id="${currentPersonnelObj}_${type}_${cat.name}_value" placeholder="${cat.label}" value="${data.value || ''}"></div>`;
-                } else if (cat.type === 'select') {
-                    html += `
-                        <div>
-                            <label>Выберите:</label>
-                            <select id="${currentPersonnelObj}_${type}_${cat.name}_value">
-                                <option value="">-- Не выбрано --</option>
-                                ${cat.options.map(opt => `<option value="${opt}" ${data.value === opt ? 'selected' : ''}>${opt}</option>`).join('')}
-                            </select>
-                        </div>
-                    `;
-                }
-                cd.innerHTML = html;
-                div.appendChild(cd);
-                if (cat.name === 'Штат') {
-                    const planEl = document.getElementById(`${currentPersonnelObj}_${type}_${cat.name}_План`);
-                    const factEl = document.getElementById(`${currentPersonnelObj}_${type}_${cat.name}_Факт`);
-                    const deltaEl = document.getElementById(`${currentPersonnelObj}_${type}_${cat.name}_Дельта`);
-                    const updateDelta = () => {
-                        const plan = parseInt(planEl.value) || 0;
-                        const fact = parseInt(factEl.value) || 0;
-                        deltaEl.textContent = fact - plan;
-                        deltaEl.className = (fact - plan) >= 0 ? 'positive' : 'negative';
-                    };
-                    planEl.addEventListener('input', updateDelta);
-                    factEl.addEventListener('input', updateDelta);
-                    updateDelta();
-                } else if (cat.name === 'Ozon Job') {
-                    const factOJEl = document.getElementById(`${currentPersonnelObj}_${type}_${cat.name}_Факт`);
-                    const totalFactEl = document.getElementById(`${currentPersonnelObj}_${type}_Total_Факт`);
-                    const ojPercentEl = document.getElementById(`${currentPersonnelObj}_${type}_${cat.name}_Доля OJ%`);
-                    const updateOJPercent = () => {
-                        const factOJ = parseInt(factOJEl.value) || 0;
-                        const totalFact = parseInt(totalFactEl.value) || 1;
-                        const percent = Math.round((factOJ / totalFact) * 100);
-                        ojPercentEl.textContent = percent + '%';
-                    };
-                    factOJEl.addEventListener('input', updateOJPercent);
-                    totalFactEl.addEventListener('input', updateOJPercent);
-                    updateOJPercent();
-                } else if (cat.name === 'Total') {
-                    const planEl = document.getElementById(`${currentPersonnelObj}_${type}_${cat.name}_План`);
-                    const factEl = document.getElementById(`${currentPersonnelObj}_${type}_${cat.name}_Факт`);
-                    const deltaEl = document.getElementById(`${currentPersonnelObj}_${type}_${cat.name}_Дельта`);
-                    const updateDelta = () => {
-                        const plan = parseInt(planEl.value) || 0;
-                        const fact = parseInt(factEl.value) || 0;
-                        deltaEl.textContent = fact - plan;
-                        deltaEl.className = (fact - plan) >= 0 ? 'positive' : 'negative';
-                    };
-                    planEl.addEventListener('input', updateDelta);
-                    factEl.addEventListener('input', updateDelta);
-                    updateDelta();
-                }
-            });
+
+        // Обработка кнопок Да/Нет для операций
+        function handleYesNo(categoryName, value, button) {
+            const otherButton = button.classList.contains('yes-btn') 
+                ? cd.querySelector('.no-btn') 
+                : cd.querySelector('.yes-btn');
+            
+            otherButton.classList.remove('active');
+            button.classList.add('active');
+            
+            // Сохраняем текущее значение
+            const currentData = reports[selectedWarehouseDate][currentWarehouse][type];
+            currentData[categoryName].value = value;
+            localStorage.setItem('warehouseReports', JSON.stringify(reports));
         }
-        function selectYesNo(wh, t, cat, val, e) {
-            e.preventDefault();
-            document.getElementById(`${wh}_${t}_${cat}_value`).value = val;
-            e.target.parentElement.querySelectorAll('.yesno-btn').forEach(b => b.classList.remove('selected'));
-            e.target.classList.add('selected');
-        }
+
+        // Парсим время в минуты
         function parseTimeToMin(timeStr) {
-            const parts = timeStr.split(':');
-            if (parts.length !== 2) return NaN;
-            const h = parseInt(parts[0]) || 0;
-            const m = parseInt(parts[1]) || 0;
-            return h * 60 + m;
+            if (!timeStr) return NaN;
+            const [h, m] = timeStr.split(':').map(Number);
+            return isNaN(h) || isNaN(m) ? NaN : h * 60 + m;
         }
+
+        // Сохранение операций
         function saveWarehouseReport() {
-            if (!selectedWarehouseDate) return alert('⚠️ Выберите дату!');
-            if (!currentWarehouse) return alert('⚠️ Выберите склад!');
+            if (!currentWarehouse || !selectedWarehouseDate) {
+                alert('⚠️ Выберите склад и дату!');
+                return;
+            }
             const type = document.querySelector('input[name="warehouseReportType"]:checked').value;
-            if (!reports[selectedWarehouseDate]) reports[selectedWarehouseDate] = {};
-            if (!reports[selectedWarehouseDate][currentWarehouse]) reports[selectedWarehouseDate][currentWarehouse] = {};
-            if (!reports[selectedWarehouseDate][currentWarehouse][type]) reports[selectedWarehouseDate][currentWarehouse][type] = {};
+            const reportData = {};
+
+            // Обрабатываем каждую категорию
             CATEGORIES.forEach(cat => {
                 let data = {};
-                if (cat.type === 'number' || cat.type === 'time') {
-                    const planEl = document.getElementById(`${currentWarehouse}_${type}_${cat.name}_plan`);
-                    const factEl = document.getElementById(`${currentWarehouse}_${type}_${cat.name}_fact`);
-                    if (planEl && factEl) {
-                        const plan = planEl.value.trim();
-                        const fact = factEl.value.trim();
-                        let delta = '';
-                        if (cat.type === 'number') {
-                            const p = parseInt(plan) || 0;
-                            const f = parseInt(fact) || 0;
-                            delta = f - p;
-                        } else if (cat.type === 'time') {
-                            if (plan && fact) {
-                                const pMin = parseTimeToMin(plan);
-                                const fMin = parseTimeToMin(fact);
-                                if (!isNaN(pMin) && !isNaN(fMin)) {
-                                    delta = fMin <= pMin ? 'Норма' : 'Отклонение';
-                                }
-                            }
-                        }
-                        data = { plan, fact, delta };
-                    }
-                } else if (cat.type === 'single') {
-                    const valueEl = document.getElementById(`${currentWarehouse}_${type}_${cat.name}_value`);
-                    if (valueEl) data = { value: valueEl.value.trim() };
-                } else if (cat.type === 'triple' || cat.type === 'double') {
-                    cat.fields.forEach(f => {
-                        const el = document.getElementById(`${currentWarehouse}_${type}_${cat.name}_${f.n}`);
-                        if (el) data[f.n] = el.value.trim();
-                    });
-                } else if (cat.type === 'yesno') {
-                    const valueEl = document.getElementById(`${currentWarehouse}_${type}_${cat.name}_value`);
-                    if (valueEl) data = { value: valueEl.value.trim() };
-                } else if (cat.type === 'select') {
-                    const valueEl = document.getElementById(`${currentWarehouse}_${type}_${cat.name}_value`);
-                    if (valueEl) data = { value: valueEl.value.trim() };
-                }
-                reports[selectedWarehouseDate][currentWarehouse][type][cat.name] = data;
-            });
-            localStorage.setItem('warehouseReports', JSON.stringify(reports));
-            cleanOldReports();
-            alert('✅ Сохранено! Данные доступны в общем своде.');
-        }
-        function savePersonnelReport() {
-            if (!selectedPersonnelDate) return alert('⚠️ Выберите дату!');
-            if (!currentPersonnelObj) return alert('⚠️ Выберите объект!');
-            const type = document.querySelector('input[name="personnelReportType"]:checked').value;
-            if (!personnelReports[selectedPersonnelDate]) personnelReports[selectedPersonnelDate] = {};
-            if (!personnelReports[selectedPersonnelDate][currentPersonnelObj]) personnelReports[selectedPersonnelDate][currentPersonnelObj] = {};
-            if (!personnelReports[selectedPersonnelDate][currentPersonnelObj][type]) personnelReports[selectedPersonnelDate][currentPersonnelObj][type] = {};
-            PERSONNEL_CATEGORIES.forEach(cat => {
-                const data = {};
-                if (cat.type === 'triple' || cat.type === 'quadruple') {
-                    cat.fields.forEach(f => {
-                        const el = document.getElementById(`${currentPersonnelObj}_${type}_${cat.name}_${f.n}`);
-                        if (el) data[f.n] = el.value.trim();
-                    });
-                } else if (cat.type === 'single') {
-                    const valueEl = document.getElementById(`${currentPersonnelObj}_${type}_${cat.name}_value`);
-                    if (valueEl) data.value = valueEl.value.trim();
-                } else if (cat.type === 'select') {
-                    const valueEl = document.getElementById(`${currentPersonnelObj}_${type}_${cat.name}_value`);
-                    if (valueEl) data.value = valueEl.value.trim();
-                }
-                personnelReports[selectedPersonnelDate][currentPersonnelObj][type][cat.name] = data;
-            });
-            localStorage.setItem('personnelReports', JSON.stringify(personnelReports));
-            cleanOldPersonnelReports();
-            alert('✅ Данные сохранены!');
-        }
-        function showSummarySection() {
-            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-            document.getElementById('summarySection').classList.add('active');
-            selectedSummaryDate = currentDate.toLocaleDateString('ru-RU');
-            document.getElementById('currentSummaryDate').textContent = selectedSummaryDate;
-            renderSummaryCalendar();
-        }
-        function showPersonnelSummarySection() {
-            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-            document.getElementById('personnelSummarySection').classList.add('active');
-            selectedPersonnelSummaryDate = currentDate.toLocaleDateString('ru-RU');
-            document.getElementById('currentPersonnelSummaryDate').textContent = selectedPersonnelSummaryDate;
-            renderPersonnelSummaryCalendar();
-        }
-        function showSummaryData() {
-            if (!selectedSummaryDate) return alert('⚠️ Кликните на дату в календаре!');
-            const includeDay = document.getElementById('summaryDay').checked;
-            const includeNight = document.getElementById('summaryNight').checked;
-            if (!includeDay && !includeNight) return alert('⚠️ Выберите хотя бы один тип отчёта!');
-            const selectedManager = document.getElementById('managerFilter').value;
-            document.getElementById('summarySection').classList.remove('active');
-            document.getElementById('summaryTableSection').classList.add('active');
-            const tableDiv = document.getElementById('summaryTable');
-            let html = '<div class="table-wrapper"><table><thead><tr><th>Дата</th><th>Склад</th><th>ХА</th>';
-            html += CATEGORIES.map(cat => {
-                if (cat.type === 'single' || cat.type === 'yesno' || cat.type === 'select') return `<th>${cat.name}</th>`;
-                if (cat.type === 'triple') return `<th colspan="3">${cat.name}</th>`;
-                if (cat.type === 'double') return `<th colspan="2">${cat.name}</th>`;
-                return `<th colspan="3">${cat.name}</th>`;
-            }).join('') + '<th>Тип</th></tr>';
-            html += '<tr><th>Дата</th><th>Склад</th><th>ХА</th>';
-            html += CATEGORIES.map(cat => {
-                if (cat.type === 'single') return `<th>${cat.unit}</th>`;
-                if (cat.type === 'triple' || cat.type === 'double') return cat.fields.map(f => `<th>${f.u}</th>`).join('');
-                if (cat.type === 'time') return '<th>План</th><th>Факт</th><th>Δ</th>';
-                if (cat.type === 'number') return '<th>План</th><th>Факт</th><th>Δ</th>';
-                return `<th>${cat.label}</th>`;
-            }).join('') + '<th>Тип</th></tr></thead><tbody>';
-            let totalVolumePlan = 0;
-            const warehouseData = reports[selectedSummaryDate] || {};
-            WAREHOUSES.forEach(wh => {
-                const whData = warehouseData[wh] || {};
-                let rowAdded = false;
-                if (includeDay && whData.day) {
-                    const managerValue = whData.day['Руководитель']?.value || '';
-                    if (!selectedManager || managerValue === selectedManager) {
-                        const rowData = addRow(selectedSummaryDate, wh, whData.day, '☀️');
-                        html += rowData.html;
-                        totalVolumePlan += rowData.volumePlan;
-                        rowAdded = true;
-                    }
-                }
-                if (includeNight && whData.night) {
-                    const managerValue = whData.night['Руководитель']?.value || '';
-                    if (!selectedManager || managerValue === selectedManager) {
-                        const rowData = addRow(selectedSummaryDate, wh, whData.night, '🌙');
-                        html += rowData.html;
-                        totalVolumePlan += rowData.volumePlan;
-                        rowAdded = true;
-                    }
-                }
-                if (!rowAdded) {
-                    let cells = `<td>${selectedSummaryDate}</td><td>${wh}</td><td>ХА</td>`;
-                    const numCols = CATEGORIES.reduce((acc, cat) => {
-                        if (cat.type === 'single' || cat.type === 'yesno' || cat.type === 'select' || cat.type === 'time') return acc + 1;
-                        if (cat.type === 'triple') return acc + 3;
-                        if (cat.type === 'double') return acc + 2;
-                        return acc + 3;
-                    }, 0);
-                    for (let i = 0; i < numCols; i++) cells += '<td>-</td>';
-                    cells += '<td>-</td>';
-                    html += `<tr>${cells}</tr>`;
-                }
-            });
-            html += '</tbody></table></div>';
-            html += `<div class="summary-total">📊 Итого по Объёму (план): ${totalVolumePlan}</div>`;
-            tableDiv.innerHTML = html;
-        }
-        function addRow(date, wh, typeData, typeLabel) {
-            let cells = '';
-            let volumePlan = 0;
-            cells += `<td>${date}</td><td>${wh}</td><td>ХА</td>`;
-            CATEGORIES.forEach(cat => {
-                const data = typeData[cat.name] || {};
-                if (cat.type === 'single') {
-                    cells += `<td>${data.value || '-'}</td>`;
-                } else if (cat.type === 'yesno') {
-                    const val = data.value || '';
-                    const isBad = val === 'yes';
-                    cells += `<td class="${isBad ? 'bad' : (val ? 'good' : '')}">${val ? (isBad ? '❌' : '✅') : '-'}</td>`;
-                } else if (cat.type === 'select') {
-                    cells += `<td>${data.value || '-'}</td>`;
-                } else if (cat.type === 'triple') {
-                    cat.fields.forEach(f => cells += `<td>${data[f.n] || '-'}</td>`);
-                } else if (cat.type === 'double') {
-                    cat.fields.forEach(f => cells += `<td>${data[f.n] || '-'}</td>`);
+                const inputEl = document.querySelector(`.category-input.${cat.type}`);
+                if (!inputEl) return;
+
+                if (cat.type === 'number') {
+                    const plan = parseInt(inputEl.querySelector('.plan-input').value) || 0;
+                    const fact = parseInt(inputEl.querySelector('.fact-input').value) || 0;
+                    data = { plan, fact, delta: fact - plan };
                 } else if (cat.type === 'time') {
-                    cells += `<td>${data.plan || '-'}</td><td>${data.fact || '-'}</td>`;
-                    const deltaText = data.delta || '';
-                    const isGood = deltaText === 'Норма';
-                    cells += `<td class="${isGood ? 'good' : (deltaText ? 'bad' : '')}">${deltaText ? (isGood ? '✅' : '❌') : '-'}</td>`;
-                } else if (cat.type === 'number') {
-                    cells += `<td>${data.plan || '-'}</td><td>${data.fact || '-'}</td>`;
-                    const deltaCell = data.delta !== undefined && data.delta !== '' ? data.delta : '-';
-                    const deltaClass = typeof deltaCell === 'number' ? (deltaCell >= 0 ? 'positive' : 'negative') : '';
-                    cells += `<td class="${deltaClass}">${deltaCell}</td>`;
-                    if (cat.name === 'Обработка') {
-                        const p = parseInt(data.plan) || 0;
-                        volumePlan += p;
-                    }
+                    const plan = inputEl.querySelector('.time-input:first-child').value.trim();
+                    const fact = inputEl.querySelector('.time-input:last-child').value.trim();
+                    const p = parseTimeToMin(plan);
+                    const f = parseTimeToMin(fact);
+                    data = { 
+                        plan, 
+                        fact, 
+                        delta: !isNaN(p) && !isNaN(f) ? (f <= p ? 'Норма' : 'Отклонение') : 'Ошибка' 
+                    };
+                } else if (cat.type === 'single') {
+                    data.value = parseInt(inputEl.querySelector('.single-input').value) || 0;
+                } else if (cat.type === 'triple') {
+                    data = cat.fields.reduce((acc, f) => {
+                        acc[f.n] = parseInt(inputEl.querySelector(`.triple-input`).value) || 0;
+                        return acc;
+                    }, {});
+                } else if (cat.type === 'double') {
+                    data = cat.fields.reduce((acc, f) => {
+                        acc[f.n] = parseInt(inputEl.querySelector(`.double-input`).value) || 0;
+                        return acc;
+                    }, {});
+                } else if (cat.type === 'yesno') {
+                    data.value = inputEl.querySelector('.yes-btn.active') ? 'yes' : 
+                                 inputEl.querySelector('.no-btn.active') ? 'no' : '';
+                } else if (cat.type === 'select') {
+                    data.value = inputEl.querySelector('.select-input').value.trim();
                 }
+
+                reportData[cat.name] = data;
             });
-            cells += `<td>${typeLabel}</td>`;
-            return { html: `<tr>${cells}</tr>`, volumePlan };
+
+            reports[selectedWarehouseDate][currentWarehouse][type] = reportData;
+            localStorage.setItem('warehouseReports', JSON.stringify(reports));
+            cleanOldReports(reports);
+            alert('✅ Отчет сохранен!');
+            showSummarySection();
         }
-        function showPersonnelSummaryData() {
-            if (!selectedPersonnelSummaryDate) return alert('⚠️ Выберите дату!');
-            const includeDay = document.getElementById('personnelSummaryDay').checked;
-            const includeNight = document.getElementById('personnelSummaryNight').checked;
-            if (!includeDay && !includeNight) return alert('⚠️ Выберите тип смены!');
-            const selectedManager = document.getElementById('personnelManagerFilter').value;
-            document.getElementById('personnelSummarySection').classList.remove('active');
-            document.getElementById('personnelSummaryTableSection').classList.add('active');
-            const tableDiv = document.getElementById('personnelSummaryTable');
-            let html = `
-                <div class="table-wrapper">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th rowspan="2">Территория</th>
-                                <th colspan="3">Штат</th>
-                                <th colspan="4">Ozon Job</th>
-                                <th rowspan="2">РВ</th>
-                                <th rowspan="2">Командировка</th>
-                                <th colspan="3">Total</th>
-                                <th rowspan="2">Производительность</th>
-                                <th colspan="3">Причины невыхода</th>
-                                <th rowspan="2">Комментарии</th>
-                                <th rowspan="2">Тип</th>
-                            </tr>
-                            <tr>
-                                <th>План</th><th>Факт</th><th>Дельта</th>
-                                <th>План</th><th>Факт</th><th>Капаситет</th><th>Доля OJ%</th>
-                                <th>План</th><th>Факт</th><th>Дельта</th>
-                                <th>ОТ</th><th>БЛ</th><th>НН</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-            `;
-            WAREHOUSES.forEach(obj => {
-                let rowAdded = false;
-                const objData = personnelReports[selectedPersonnelSummaryDate]?.[obj] || {};
-                if (includeDay && objData.day) {
-                    const manager = objData.day['Руководитель']?.value || '';
-                    if (!selectedManager || manager === selectedManager) {
-                        html += `
-                            <tr>
-                                <td>${obj}</td>
-                                <td>${objData.day['Штат']?.План || '-'}</td>
-                                <td>${objData.day['Штат']?.Факт || '-'}</td>
-                                <td>${objData.day['Штат']?.Дельта || '-'}</td>
-                                <td>${objData.day['Ozon Job']?.План || '-'}</td>
-                                <td>${objData.day['Ozon Job']?.Факт || '-'}</td>
-                                <td>${objData.day['Ozon Job']?.Капаситет || '-'}</td>
-                                <td>${objData.day['Ozon Job']?.['Доля OJ%'] || '-'}</td>
-                                <td>${objData.day['РВ']?.value || '-'}</td>
-                                <td>${objData.day['Командировка']?.value || '-'}</td>
-                                <td>${objData.day['Total']?.План || '-'}</td>
-                                <td>${objData.day['Total']?.Факт || '-'}</td>
-                                <td>${objData.day['Total']?.Дельта || '-'}</td>
-                                <td>${objData.day['Производительность']?.value || '-'}</td>
-                                <td>${objData.day['Причины невыхода']?.ОТ || '-'}</td>
-                                <td>${objData.day['Причины невыхода']?.БЛ || '-'}</td>
-                                <td>${objData.day['Причины невыхода']?.НН || '-'}</td>
-                                <td>${objData.day['Комментарии']?.value || '-'}</td>
-                                <td>☀️ Дневная</td>
-                            </tr>
-                        `;
-                        rowAdded = true;
-                    }
-                }
-                if (includeNight && objData.night) {
-                    const manager = objData.night['Руководитель']?.value || '';
-                    if (!selectedManager || manager === selectedManager) {
-                        html += `
-                            <tr>
-                                <td>${obj}</td>
-                                <td>${objData.night['Штат']?.План || '-'}</td>
-                                <td>${objData.night['Штат']?.Факт || '-'}</td>
-                                <td>${objData.night['Штат']?.Дельта || '-'}</td>
-                                <td>${objData.night['Ozon Job']?.План || '-'}</td>
-                                <td>${objData.night['Ozon Job']?.Факт || '-'}</td>
-                                <td>${objData.night['Ozon Job']?.Капаситет || '-'}</td>
-                                <td>${objData.night['Ozon Job']?.['Доля OJ%'] || '-'}</td>
-                                <td>${objData.night['РВ']?.value || '-'}</td>
-                                <td>${objData.night['Командировка']?.value || '-'}</td>
-                                <td>${objData.night['Total']?.План || '-'}</td>
-                                <td>${objData.night['Total']?.Факт || '-'}</td>
-                                <td>${objData.night['Total']?.Дельта || '-'}</td>
-                                <td>${objData.night['Производительность']?.value || '-'}</td>
-                                <td>${objData.night['Причины невыхода']?.ОТ || '-'}</td>
-                                <td>${objData.night['Причины невыхода']?.БЛ || '-'}</td>
-                                <td>${objData.night['Причины невыхода']?.НН || '-'}</td>
-                                <td>${objData.night['Комментарии']?.value || '-'}</td>
-                                <td>🌙 Ночная</td>
-                            </tr>
-                        `;
-                        rowAdded = true;
-                    }
-                }
-                if (!rowAdded) {
-                    html += `
-                        <tr>
-                            <td>${obj}</td>
-                            <td>-</td><td>-</td><td>-</td>
-                            <td>-</td><td>-</td><td>-</td><td>-</td>
-                            <td>-</td><td>-</td>
-                            <td>-</td><td>-</td><td>-</td>
-                            <td>-</td>
-                            <td>-</td><td>-</td><td>-</td>
-                            <td>-</td>
-                            <td>-</td>
-                        </tr>
+
+        // Генерация полей ввода для персонала
+        function loadPersonnelCategoryInputs() {
+            if (!currentPersonnelObj || !selectedPersonnelDate) return;
+            const type = document.querySelector('input[name="personnelReportType"]:checked').value;
+            const categoryDiv = document.getElementById('personnelCategoryInputs');
+            categoryDiv.innerHTML = '';
+
+            PERSONNEL_CATEGORIES.forEach(cat => {
+                const data = personnelReports[selectedPersonnelDate][currentPersonnelObj][type]?.[cat.name] || {};
+                const cd = document.createElement('div');
+                cd.className = `category-input ${cat.type}`;
+                cd.innerHTML = `<h4>${cat.name}</h4>`;
+
+                if (cat.type === 'number') {
+                    cd.innerHTML += `
+                        <div class="input-row">
+                            <div><label>План:</label><input type="number" class="plan-input" value="${data.plan || ''}"></div>
+                            <div><label>Факт:</label><input type="number" class="fact-input" value="${data.fact || ''}"></div>
+                        </div>
+                        <div class="delta-display">Δ: <span class="delta">${data.delta !== undefined ? data.delta : '-'}</span></div>
                     `;
+                    // Обновляем delta при изменении значений
+                    const factInput = cd.querySelector('.fact-input');
+                    factInput.addEventListener('input', () => {
+                        const plan = parseInt(cd.querySelector('.plan-input').value) || 0;
+                        const fact = parseInt(factInput.value) || 0;
+                        cd.querySelector('.delta').textContent = fact - plan;
+                        cd.querySelector('.delta').className = `delta ${fact - plan >= 0 ? 'positive' : 'negative'}`;
+                    });
+                } else if (cat.type === 'select') {
+                    cd.innerHTML += `
+                        <div>
+                            <label>Выберите ${cat.name}:</label>
+                            <select class="select-input">
+                                <option value="">Не выбрано</option>
+                                ${cat.options.map(opt => `
+                                    <option value="${opt}" ${data.value === opt ? 'selected' : ''}>${opt}</option>
+                                `).join('')}
+                            </select>
+                        </div>
+                    `;
+                    data.value = cd.querySelector('.select-input').value.trim();
                 }
+                categoryDiv.appendChild(cd);
             });
-            html += `</tbody></table></div>`;
-            tableDiv.innerHTML = html;
         }
-        function prevSummaryDay() {
-            if (!selectedSummaryDate) return;
-            const [day, month, year] = selectedSummaryDate.split('.').map(Number);
-            const date = new Date(year, month - 1, day);
-            date.setDate(date.getDate() - 1);
-            selectedSummaryDate = date.toLocaleDateString('ru-RU');
-            document.getElementById('currentSummaryDate').textContent = selectedSummaryDate;
-            showSummaryData();
+
+        // Сохранение персонала
+        function savePersonnelReport() {
+            if (!currentPersonnelObj || !selectedPersonnelDate) {
+                alert('⚠️ Выберите объект и дату!');
+                return;
+            }
+            const type = document.querySelector('input[name="personnelReportType"]:checked').value;
+            const personnelData = {};
+
+            PERSONNEL_CATEGORIES.forEach(cat => {
+                let data = {};
+                const inputEl = document.querySelector(`.category-input.${cat.type}`);
+                if (!inputEl) return;
+
+                if (cat.type === 'number') {
+                    const plan = parseInt(inputEl.querySelector('.plan-input').value) || 0;
+                    const fact = parseInt(inputEl.querySelector('.fact-input').value) || 0;
+                    data = { plan, fact, delta: fact - plan };
+                } else if (cat.type === 'select') {
+                    data.value = inputEl.querySelector('.select-input').value.trim();
+                }
+
+                personnelData[cat.name] = data;
+            });
+
+            personnelReports[selectedPersonnelDate][currentPersonnelObj][type] = personnelData;
+            localStorage.setItem('personnelReports', JSON.stringify(personnelReports));
+            cleanOldReports(personnelReports);
+            alert('✅ Данные персонала сохранены!');
+            showPersonnelSummarySection();
         }
-        function nextSummaryDay() {
-            if (!selectedSummaryDate) return;
-            const [day, month, year] = selectedSummaryDate.split('.').map(Number);
-            const date = new Date(year, month - 1, day);
-            date.setDate(date.getDate() + 1);
-            selectedSummaryDate = date.toLocaleDateString('ru-RU');
-            document.getElementById('currentSummaryDate').textContent = selectedSummaryDate;
-            showSummaryData();
-        }
-        function prevPersonnelSummaryDay() {
-            if (!selectedPersonnelSummaryDate) return;
-            const [day, month, year] = selectedPersonnelSummaryDate.split('.').map(Number);
-            const date = new Date(year, month - 1, day);
-            date.setDate(date.getDate() - 1);
-            selectedPersonnelSummaryDate = date.toLocaleDateString('ru-RU');
-            document.getElementById('currentPersonnelSummaryDate').textContent = selectedPersonnelSummaryDate;
-        }
-        function nextPersonnelSummaryDay() {
-            if (!selectedPersonnelSummaryDate) return;
-            const [day, month, year] = selectedPersonnelSummaryDate.split('.').map(Number);
-            const date = new Date(year, month - 1, day);
-            date.setDate(date.getDate() + 1);
-            selectedPersonnelSummaryDate = date.toLocaleDateString('ru-RU');
-            document.getElementById('currentPersonnelSummaryDate').textContent = selectedPersonnelSummaryDate;
-        }
-        function toggleFullScreen() {
-            const fs = document.getElementById('fullScreenTable');
-            const tbl = document.getElementById('summaryTable').innerHTML;
-            if (fs.style.display === 'none') {
-                document.getElementById('fullSummaryTable').innerHTML = tbl;
-                fs.style.display = 'block';
-                document.body.style.overflow = 'hidden';
-            } else {
-                fs.style.display = 'none';
-                document.body.style.overflow = 'auto';
+
+        // Смена раздела
+        function selectReport(reportType) {
+            backToMain();
+            currentDate = new Date();
+            switch (reportType) {
+                case 'operational':
+                    showWarehouseReport(WAREHOUSES[0]); // Показываем первый склад
+                    break;
+                case 'personnel':
+                    showPersonnelReport(PERSONNEL_OBJECTS[0]); // Показываем первый объект персонала
+                    break;
             }
         }
-        function togglePersonnelFullScreen() {
-            const fs = document.getElementById('personnelFullScreenTable');
-            const tbl = document.getElementById('personnelSummaryTable').innerHTML;
-            if (fs.style.display === 'none') {
-                document.getElementById('fullPersonnelSummaryTable').innerHTML = tbl;
-                fs.style.display = 'block';
-                document.body.style.overflow = 'hidden';
-            } else {
-                fs.style.display = 'none';
-                document.body.style.overflow = 'auto';
-            }
-        }
-        function showMainSection() {
+
+        // Возврат к главной странице
+        function backToMain() {
             document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
             document.getElementById('mainSection').classList.add('active');
-            currentWarehouse = '';
-            currentPersonnelObj = '';
-            selectedWarehouseDate = null;
-            selectedPersonnelDate = null;
-            selectedSummaryDate = null;
-            selectedPersonnelSummaryDate = null;
+            currentWarehouse = currentPersonnelObj = '';
+            selectedWarehouseDate = selectedPersonnelDate = selectedSummaryDate = null;
         }
-        document.addEventListener('DOMContentLoaded', () => {
-            document.querySelectorAll('input[name="warehouseReportType"]').forEach(r => r.addEventListener('change', loadCategoryInputs));
-            document.querySelectorAll('input[name="personnelReportType"]').forEach(r => r.addEventListener('change', loadPersonnelCategoryInputs));
-        });
-        window.onload = function() {
-            cleanOldReports();
-            cleanOldPersonnelReports();
-            generateWarehouseList();
-            generatePersonnelList();
-            renderWarehouseCalendar();
-            renderPersonnelCalendar();
-            renderSummaryCalendar();
-            renderPersonnelSummaryCalendar();
-        };
-    </script>
-</body>
-</html>
+
+        // Сводные данные операции
+        function showSummaryData() {
+            if (!selectedSummaryDate) {
+                alert('⚠️ Выберите дату в календаре!');
+                return;
+            }
+            const includeDay = document.getElementById('summaryDay').checked;
+            const includeNight = document.getElementById('summaryNight').checked;
+            const managerFilter = document.getElementById('managerFilter').value;
+
+            if (!includeDay && !includeNight) {
+                alert('⚠️ Выберите тип смены!');
+                return;
+            }
+
+            const summaryDate = new Date(selectedSummaryDate);
+            const tableData = [];
+
+            // Обрабатываем каждый склад
+            WAREHOUSES.forEach(wh => {
+                const whData = reports[summaryDate.toLocaleDateString('ru-RU')]?.[wh] || {};
+                
+                // Дневная смена
+                if (includeDay) {
+                    const dayData = whData.day || {};
+                    const manager = dayData['Руководитель']?.value || '';
+                    if (!managerFilter || manager === managerFilter) {
+                        tableData.push({
+                            type: 'day',
+                            wh,
+                            data: dayData
+                        });
+                    }
+                }
+
+                // Ночная смена
+                if (includeNight) {
+                    const nightData = whData.night || {};
+                    const manager = nightData['Руководитель']?.value || '';
+                    if (!managerFilter || manager === managerFilter) {
+                        tableData.push({
+                            type: 'night',
+                            wh,
+                            data: nightData
+                        });
+                    }
+                }
+            });
+
+            // Генерируем HTML таблицы
+            const tableHtml = `
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Склад</th>
+                            <th>Тип смены</th>
+                            ${CATEGORIES.map(cat => `
+                                <th>${cat.name}</th>
+                            `).join('')}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${tableData.map(item => `
+                            <tr>
+                                <td>${item.wh}</td>
+                                <td>${item.type === 'day' ? '☀️ Дневная' : '🌙 Ночная'}</td>
+                                ${CATEGORIES.map(cat => {
+                                    const data = item.data[cat.name] || {};
+                                    if (cat.type === 'number') {
+                                        return `
+                                            <td>${data.plan || '-'}</td>
+                                            <td>${data.fact || '-'}</td>
+                                            <td class="${data.delta >= 0 ? 'positive' : 'negative'}">${data.delta || '-'}</td>
+                                        `;
+                                    } else if (cat.type === 'time') {
+                                        return `
+                                            <td>${data.plan || '-'}</td>
+                                            <td>${data.fact || '-'}</td>
+                                            <td class="${data.delta === 'Норма' ? 'good' : 'bad'}">${data.delta || '-'}</td>
+                                        `;
+                                    } else if (cat.type === 'single') {
+                                        return `<td>${data.value || '-'}</td>`;
+                                    } else if (cat.type === 'triple') {
+                                        return `
+                                            <td>${data.FBS || '-'}</td>
+                                            <td>${data.X_Dock || '-'}</td>
+                                            <td>${data.Возвраты || '-'}</td>
+                                        `;
+                                    } else if (cat.type === 'double') {
+                                        return `
+                                            <td>${data.Сорт || '-'}</td>
+                                            <td>${data.Нон-Сорт || '-'}</td>
+                                        `;
+                                    } else if (cat.type === 'yesno') {
+                                        return `<td>${data.value === 'yes' ? '✅' : '❌'}</td>`;
+                                    } else if (cat.type === 'select') {
+                                        return `<td>${data.value || '-'}</td>`;
+                                    }
+                                    return '<td>-</td>';
+                                }).join('')}
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                </table>
+                <div class="summary-total">
+                    Итого по обработке (план):
+                    ${WAREHOUSES.reduce((sum, wh) => {
+                        const whDataDay = whData.day?.['Обработка']?.plan || 0;
+                        const whDataNight = whData.night?.['Обработка']?.plan || 0;
+                        return sum + (includeDay ? whDataDay : 0) + (includeNight ? whDataNight : 0);
+                    }, 0)}
+                </div>
+            `;
+
+            document.getElementById('summaryTable').innerHTML = tableHtml;
+            document.getElementById('summarySection').classList.remove('active');
+            document.getElementById('summaryTableSection').classList.add('active');
+            document.getElementById('currentSummaryDate').textContent = selectedSummaryDate;
+        }
+
+        // Обновление таблицы при фильтре руководителя
+        function updateSummaryTable() {
+            showSummaryData();
+        }
+
+        // Навигация по датам свода операций
+        function prevSummaryDay() {
+            selectedSummaryDate = getDateOffset(-1);
+            showSummaryData();
+        }
+
+        function nextSummaryDay() {
+            selectedSummaryDate = getDateOffset(1);
+            showSummaryData();
+        }
+
+        function getDateOffset(offset) {
+            const date = new Date(selectedSummaryDate);
+            date.setDate(date.getDate() + offset);
+            return date.toLocaleDateString('ru-RU');
+        }
+
+        // Сводные данные персонала
+        function showPersonnelSummaryData() {
+            if (!selectedSummaryDate) {
+                alert('⚠️ Выберите дату в календаре!');
+                return;
+            }
+            const includeDay = document.getElementById('personnelSummaryDay').checked;
+            const includeNight = document.getElementById('personnelSummaryNight').checked;
+            const managerFilter = document.getElementById('personnelManagerFilter').value;
+
+            if (!includeDay && !includeNight) {
+                alert('⚠️ Выберите тип смены!');
+                return;
+            }
+
+            const summaryDate = new Date(selectedSummaryDate);
+            const tableData = [];
+
+            PERSONNEL_OBJECTS.forEach(obj => {
+                const objData = personnelReports[summaryDate.toLocaleDateString('ru-RU')]?.[obj] || {};
+
+                // Дневная смена
+                if (includeDay) {
+                    const dayData = objData.day || {};
+                    const manager = dayData['Руководитель']?.value || '';
+                    if (!managerFilter || manager === managerFilter) {
+                        tableData.push({
+                            type: 'day',
+                            obj,
+                            data: dayData
+                        });
+                    }
+                }
+
+                // Ночная смена
+                if (includeNight) {
+                    const nightData = objData.night || {};
+                    const manager = nightData['Руководитель']?.value || '';
+                    if (!managerFilter || manager === managerFilter) {
+                        tableData.push({
+                            type: 'night',
+                            obj,
+                            data: nightData
+                        });
+                    }
+                }
+            });
+
+            // Генерируем HTML таблицы
+            const tableHtml = `
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Объект</th>
+                            <th>Тип смены</th>
+                            ${PERSONNEL_CATEGORIES.map(cat => `
+                                <th>${cat.name}</th>
+                            `).join('')}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${tableData.map(item => `
+                            <tr>
+                                <td>${item.obj}</td>
+                                <td>${item.type === 'day' ? '☀️ Дневная' : '🌙 Ночная'}</td>
+                                ${PERSONNEL_CATEGORIES.map(cat => {
+                                    const data = item.data[cat.name] || {};
+                                    if (cat.type === 'number') {
+                                        return `
+                                            <td>${data.plan || '-'}</td>
+                                            <td>${data.fact || '-'}</td>
+                                            <td class="${data.delta >= 0 ? 'positive' : 'negative'}">${data.delta || '-'}</td>
+                                        `;
+                                    } else if (cat.type === 'select') {
+                                        return `<td>${data.value || '-'}</td>`;
+                                    }
+                                    return '<td>-</td>';
+                                }).join('')}
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                </table>
+            `;
+
+            document.getElementById('personnelSummaryTable').innerHTML = tableHtml;
+            document.getElementById('personnelSummarySection').classList.remove('active');
+            document.getElementById('personnelSummaryTableSection').classList.add('active');
+            document.getElementById('currentPersonnelSummaryDate').textContent = selectedSummaryDate;
+        }
+
+        function updatePersonnelSummaryTable() {
+            showPersonnelSummaryData();
+        }
+
+        // Полнэкранный режим для операций
+        function toggleFullScreen() {
+            const fs = document.getElementById('fullScreenTable');
+            const mainTable = document.getElementById('summaryTable').innerHTML;
+            fs.style.display = fs.style.display === 'none' ? 'block' : 'none';
+            document.getElementById('fullSummaryTable').innerHTML = mainTable;
+            document.body.style.overflow = fs.style.display === 'block' ? 'hidden' : 'auto';
+        }
+
+        // Полнэкранный режим для персонала
+        function togglePersonnelFullScreen() {
+            const fs = document.getElementById('psFullScreen');
+            const mainTable = document.getElementById('personnelSummaryTable').innerHTML;
+            fs.style.display = fs.style.display === 'none' ? 'block' : '
