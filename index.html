@@ -38,18 +38,18 @@ body {
     background: rgba(10, 14, 39, 0.75);
     backdrop-filter: blur(20px);
     border: 1px solid rgba(135, 150, 200, 0.2);
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6), 
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6),
                 0 0 0 1px rgba(102, 126, 234, 0.1),
                 inset 0 1px 0 rgba(255, 255, 255, 0.05);
 }
-/* ==========  НОВЫЙ ХЕДЕР С ЛОГОТИПОМ ========== */
+/* ========== НОВЫЙ ХЕДЕР С ЛОГОТИПОМ ========== */
 .header {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
     background-size: 200% 200%;
     animation: gradientFlow 8s ease infinite;
     border-bottom: 1px solid rgba(135, 150, 200, 0.2);
     box-shadow: 0 4px 20px rgba(102, 126, 234, 0.3);
-    padding: 16px 20px;  /* Добавлен padding для контейнера с лого */
+    padding: 16px 20px; /* Добавлен padding для контейнера с лого */
 }
 .header-inner {
     display: flex;
@@ -57,7 +57,7 @@ body {
     gap: 12px;
 }
 .logo {
-    height: 40px;          /* base size */
+    height: 40px; /* base size */
     width: auto;
     filter: drop-shadow(0 2px 8px rgba(102, 126, 234, .45));
     transition: transform 0.3s ease;
@@ -65,7 +65,7 @@ body {
 .logo:hover {
     transform: scale(1.05);
 }
-/*  mobile  */
+/* mobile */
 @media (max-width: 480px) {
     .logo { height: 32px; }
 }
@@ -101,9 +101,9 @@ h2 {
     left: -100%;
     width: 100%;
     height: 100%;
-    background: linear-gradient(90deg, 
-        transparent, 
-        rgba(102, 126, 234, 0.4), 
+    background: linear-gradient(90deg,
+        transparent,
+        rgba(102, 126, 234, 0.4),
         rgba(240, 147, 251, 0.4),
         transparent);
     transition: left 0.6s ease;
@@ -151,8 +151,8 @@ button::before {
     left: -100%;
     width: 100%;
     height: 100%;
-    background: linear-gradient(90deg, 
-        transparent, 
+    background: linear-gradient(90deg,
+        transparent,
         rgba(255, 255, 255, 0.3),
         transparent);
     transition: left 0.5s ease;
@@ -301,10 +301,17 @@ select {
     font-size: 16px;
     -webkit-appearance: none;
     appearance: none;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg ' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23cbd5e1' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23cbd5e1' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
     background-repeat: no-repeat;
     background-position: right 12px center;
     padding-right: 40px;
+}
+textarea {
+    width: 100%;
+    padding: 14px 16px;
+    border-radius: 8px;
+    font-size: 16px;
+    resize: vertical;
 }
 button {
     padding: 14px 24px;
@@ -587,16 +594,19 @@ th:nth-child(n+3), td:nth-child(n+3) {
         width: 100%;
     }
 }
+.hidden {
+    display: none;
+}
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- ==========  NEW HEADER WITH LOGO  ========== -->
+        <!-- ========== NEW HEADER WITH LOGO ========== -->
         <div class="header">
             <div class="header-inner">
-                <!--  LOGO  -->
+                <!-- LOGO -->
                 <img src="image.png" alt="W V3LS3N" class="logo">
-                <!--  TEXT  -->
+                <!-- TEXT -->
                 <div class="header-text">
                     <h1>📊 Сводные данные</h1>
                     <div class="subtitle">Система учёта и аналитики складских операций</div>
@@ -608,16 +618,16 @@ th:nth-child(n+3), td:nth-child(n+3) {
             <h2>Выберите отчёт</h2>
             <button class="large-button" onclick="selectReport('operational')">📄 Операционные показатели</button>
             <button class="large-button" onclick="selectReport('personnel')">📊 Персонал</button>
-            <div class="action-buttons" style="margin-top: 20px;">
-                <button class="secondary" onclick="fillTestData()">⚠️ Загрузить тестовые данные (операции)</button>
-                <button class="secondary" onclick="fillPersonnelTestData()">⚠️ Загрузить тестовые данные (персонал)</button>
-            </div>
         </div>
         <!-- Отчёт по складу -->
         <div id="warehouseReportSection" class="section">
             <h2 id="warehouseTitle">Отчёт по складу</h2>
             <div class="warehouse-list" id="warehouseList"></div>
-            <div class="date-section">
+            <div class="action-buttons" style="margin-top: 20px;">
+                <button class="secondary large-button" onclick="showSummarySection()">📋 Сводная таблица</button>
+                <button class="secondary" onclick="backToMain()">← Назад к выбору отчёта</button>
+            </div>
+            <div class="date-section hidden">
                 <h3>📅 Выберите дату</h3>
                 <div class="calendar-controls">
                     <button class="secondary" onclick="prevPeriod()">← Предыдущий</button>
@@ -629,11 +639,11 @@ th:nth-child(n+3), td:nth-child(n+3) {
                 <div id="warehouseCalendar" class="calendar"></div>
                 <div id="selectedWarehouseDate" class="selected-date-display"></div>
             </div>
-            <div class="radio-group">
+            <div class="radio-group hidden">
                 <label><input type="radio" name="warehouseReportType" value="day" checked> ☀️ Дневная смена</label>
                 <label><input type="radio" name="warehouseReportType" value="night"> 🌙 Ночная смена</label>
             </div>
-            <form id="reportForm">
+            <form id="reportForm" class="hidden">
                 <div id="categoryInputs"></div>
                 <div class="action-buttons">
                     <button type="button" onclick="saveWarehouseReport()">💾 Сохранить отчёт</button>
@@ -645,7 +655,11 @@ th:nth-child(n+3), td:nth-child(n+3) {
         <div id="personnelReportSection" class="section">
             <h2 id="personnelTitle">Отчёт по персоналу</h2>
             <div class="warehouse-list" id="personnelList"></div>
-            <div class="date-section">
+            <div class="action-buttons" style="margin-top: 20px;">
+                <button class="secondary large-button" onclick="showPersonnelSummarySection()">📋 Сводная таблица</button>
+                <button class="secondary" onclick="backToMain()">← Назад к выбору отчёта</button>
+            </div>
+            <div class="date-section hidden">
                 <h3>📅 Выберите дату</h3>
                 <div class="calendar-controls">
                     <button class="secondary" onclick="prevPeriodPersonnel()">← Предыдущий</button>
@@ -657,11 +671,11 @@ th:nth-child(n+3), td:nth-child(n+3) {
                 <div id="personnelCalendar" class="calendar"></div>
                 <div id="selectedPersonnelDate" class="selected-date-display"></div>
             </div>
-            <div class="radio-group">
+            <div class="radio-group hidden">
                 <label><input type="radio" name="personnelReportType" value="day" checked> ☀️ Дневная смена</label>
                 <label><input type="radio" name="personnelReportType" value="night"> 🌙 Ночная смена</label>
             </div>
-            <form id="personnelReportForm">
+            <form id="personnelReportForm" class="hidden">
                 <div id="personnelCategoryInputs"></div>
                 <div class="action-buttons">
                     <button type="button" onclick="savePersonnelReport()">💾 Сохранить отчёт</button>
@@ -687,11 +701,11 @@ th:nth-child(n+3), td:nth-child(n+3) {
             <div class="date-section">
                 <h3>📅 Выберите дату для анализа</h3>
                 <div class="calendar-controls">
-                    <button class="secondary" onclick="prevPeriodSummary()">← Предыдущий день</button>
+                    <button class="secondary" onclick="prevPeriodSummary()">← Предыдущий</button>
                     <button class="secondary" onclick="toggleCalendarViewSummary()">
                         <span id="summaryViewToggleText">📆 Месяц</span>
                     </button>
-                    <button class="secondary" onclick="nextPeriodSummary()">Следующий день →</button>
+                    <button class="secondary" onclick="nextPeriodSummary()">Следующий →</button>
                 </div>
                 <div id="summaryCalendar" class="calendar"></div>
             </div>
@@ -718,7 +732,7 @@ th:nth-child(n+3), td:nth-child(n+3) {
         </div>
         <!-- Общий свод (Персонал) -->
         <div id="personnelSummarySection" class="section">
-            <h2>📊 Свод по персоналу</h2>
+            <h2>📊 Общий свод по персоналу</h2>
             <div class="checkbox-group">
                 <label><input type="checkbox" id="personnelSummaryDay" checked> ☀️ Дневные смены</label>
                 <label><input type="checkbox" id="personnelSummaryNight"> 🌙 Ночные смены</label>
@@ -734,11 +748,11 @@ th:nth-child(n+3), td:nth-child(n+3) {
             <div class="date-section">
                 <h3>📅 Выберите дату для анализа</h3>
                 <div class="calendar-controls">
-                    <button class="secondary" onclick="prevPersonnelSummaryDay()">← Предыдущий день</button>
+                    <button class="secondary" onclick="prevPeriodPersonnelSummary()">← Предыдущий</button>
                     <button class="secondary" onclick="toggleCalendarViewPersonnelSummary()">
                         <span id="personnelSummaryViewToggleText">📆 Месяц</span>
                     </button>
-                    <button class="secondary" onclick="nextPersonnelSummaryDay()">Следующий день →</button>
+                    <button class="secondary" onclick="nextPeriodPersonnelSummary()">Следующий →</button>
                 </div>
                 <div id="personnelSummaryCalendar" class="calendar"></div>
             </div>
@@ -768,6 +782,11 @@ th:nth-child(n+3), td:nth-child(n+3) {
             <button class="close-full" onclick="toggleFullScreen()">✕ Закрыть</button>
             <div id="fullSummaryTable"></div>
         </div>
+        <!-- Полноэкранная таблица (Персонал) -->
+        <div id="fullPersonnelScreenTable" class="full-screen-table" style="display:none">
+            <button class="close-full" onclick="togglePersonnelFullScreen()">✕ Закрыть</button>
+            <div id="fullPersonnelSummaryTable"></div>
+        </div>
         <!-- Консоль -->
         <div id="console-output"></div>
     </div>
@@ -784,7 +803,6 @@ th:nth-child(n+3), td:nth-child(n+3) {
             "СЫКТЫВКАР_ХАБ_ОКТЯБРЬСКИЙ",
             "ЧЕРЕПОВЕЦ_ХАБ_СТРОЙИНДУСТРИИ",
             "ВОЛОГДА_ХАБ_БЕЛОЗЕРСКОЕ",
-            // --- Новые склады ---
             "СПБ_ХАБ_Осиновая Роща",
             "СПБ_Хаб_Парголово",
             "СПБ_Хаб_Парголово_Блок_3",
@@ -814,12 +832,18 @@ th:nth-child(n+3), td:nth-child(n+3) {
         let selectedWarehouseDate = null;
         let selectedSummaryDate = null;
         let currentWarehouse = '';
+        let summaryCurrentDate = new Date();
         // Данные по персоналу
-        const PERSONNEL_OBJECTS = ["Отдел 1", "Отдел 2", "Отдел 3", "Отдел 4"];
+        const PERSONNEL_OBJECTS = WAREHOUSES;
         const PERSONNEL_CATEGORIES = [
-            {name: 'Количество сотрудников', type: 'number'},
-            {name: 'Отработано часов', type: 'number'},
-            {name: 'Пропуски', type: 'number'},
+            {name: 'Штат', type: 'number'},
+            {name: 'Ozon Job', type: 'quadruple', fields: [{n: 'План', u: ''}, {n: 'Факт', u: ''}, {n: 'Капац.', u: ''}, {n: 'Доля', u: '%'}]},
+            {name: 'РВ', type: 'single', label: 'Значение', unit: ''},
+            {name: 'Командировка', type: 'single', label: 'Значение', unit: ''},
+            {name: 'Total', type: 'number'},
+            {name: 'Производительность', type: 'single', label: 'Процент', unit: '%'},
+            {name: 'Причины невыхода', type: 'triple', fields: [{n: 'ОТ', u: ''}, {n: 'БЛ', u: ''}, {n: 'НН', u: ''}]},
+            {name: 'Комментарии', type: 'text'},
             {name: 'Руководитель', type: 'select', options: ['Территория 1 Шутин Д.М.', 'Территория 2 Любавкская М.И.']}
         ];
         let personnelReports = JSON.parse(localStorage.getItem('personnelReports')) || {};
@@ -827,6 +851,7 @@ th:nth-child(n+3), td:nth-child(n+3) {
         let selectedPersonnelDate = null;
         let personnelCalendarView = 'week';
         let personnelSummaryCalendarView = 'week';
+        let personnelSummaryCurrentDate = new Date();
         function cleanOldReports() {
             const sixMonthsAgo = new Date();
             sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 6);
@@ -863,96 +888,6 @@ th:nth-child(n+3), td:nth-child(n+3) {
             keysToDelete.forEach(key => delete personnelReports[key]);
             localStorage.setItem('personnelReports', JSON.stringify(personnelReports));
         }
-        function fillTestData() {
-            const today = new Date();
-            const testDates = [];
-            for (let i = 0; i < 5; i++) {
-                const date = new Date(today);
-                date.setDate(today.getDate() - i);
-                testDates.push(date.toLocaleDateString('ru-RU'));
-            }
-            const testWarehouses = [
-                "ВЕЛИКИЙ_НОВГОРОД_ХАБ_НЕХИНСКАЯ",
-                "ПСКОВ_ХАБ_НОВЫЙ",
-                "ВОЛОГДА_ХАБ_БЕЛОЗЕРСКОЕ"
-            ];
-            testDates.forEach(dateStr => {
-                if (!reports[dateStr]) reports[dateStr] = {};
-                testWarehouses.forEach((wh, whIndex) => {
-                    if (!reports[dateStr][wh]) reports[dateStr][wh] = {};
-                    // Дневная смена
-                    reports[dateStr][wh].day = {
-                        'Обработка': { plan: String(200 + whIndex * 30), fact: String(210 + whIndex * 30), delta: 10 },
-                        'Персонал': { plan: String(15 + whIndex), fact: String(15 + whIndex), delta: 0 },
-                        'Окончание выдачи': { plan: '12:30', fact: '12:25', delta: 'Норма' },
-                        'Обработка FBS': { plan: String(12 + whIndex), fact: String(11 + whIndex), delta: (11 + whIndex) - (12 + whIndex) },
-                        'Возвратный поток (Бэклог)': { plan: String(5), fact: String(7), delta: 2 },
-                        'Обезличка': { value: String(10 + whIndex) },
-                        'Эффективность': { plan: String(95 + whIndex), fact: String(98 + whIndex), delta: 3 },
-                        'Кол-во паллета-мест к отгрузке': { 'FBS': String(20 + whIndex), 'X-Dock': String(15 + whIndex), 'Возвраты': String(5 + whIndex) },
-                        'Хронь ХД': { 'Сорт': String(30 + whIndex), 'Нон-Сорт': String(25 + whIndex) },
-                        'Риски': { value: (whIndex % 2 === 0 ? 'yes' : 'no') },
-                        'Промежуточная Выдача': { value: String(50 + whIndex * 10) },
-                        '% не профиля': { value: String(5 + whIndex) },
-                        'Руководитель': { value: (whIndex % 2 === 0 ? 'Территория 1 Шутин Д.М.' : 'Территория 2 Любавкская М.И.') }
-                    };
-                    // Ночная смена
-                    reports[dateStr][wh].night = {
-                        'Обработка': { plan: String(100 + whIndex * 15), fact: String(105 + whIndex * 15), delta: 5 },
-                        'Персонал': { plan: String(8 + whIndex), fact: String(8 + whIndex), delta: 0 },
-                        'Окончание выдачи': { plan: '03:00', fact: '03:15', delta: 'Отклонение' },
-                        'Обработка FBS': { plan: String(15), fact: String(14), delta: -1 },
-                        'Возвратный поток (Бэклог)': { plan: String(3), fact: String(4), delta: 1 },
-                        'Обезличка': { value: String(5 + whIndex) },
-                        'Эффективность': { plan: String(90 + whIndex), fact: String(92 + whIndex), delta: 2 },
-                        'Кол-во паллета-мест к отгрузке': { 'FBS': String(10 + whIndex), 'X-Dock': String(8 + whIndex), 'Возвраты': String(3 + whIndex) },
-                        'Хронь ХД': { 'Сорт': String(15 + whIndex), 'Нон-Сорт': String(12 + whIndex) },
-                        'Риски': { value: (whIndex % 2 === 1 ? 'yes' : 'no') },
-                        'Промежуточная Выдача': { value: String(25 + whIndex * 5) },
-                        '% не профиля': { value: String(3 + whIndex) },
-                        'Руководитель': { value: (whIndex % 2 === 1 ? 'Территория 1 Шутин Д.М.' : 'Территория 2 Любавкская М.И.') }
-                    };
-                });
-            });
-            localStorage.setItem('warehouseReports', JSON.stringify(reports));
-            alert(`✅ Тестовые данные загружены!
-📦 Складов: ${testWarehouses.length}
-📅 Дат: ${testDates.length}
-🔢 Записей: ${testWarehouses.length * testDates.length * 2}`);
-        }
-        function fillPersonnelTestData() {
-            const today = new Date();
-            const testDates = [];
-            for (let i = 0; i < 5; i++) {
-                const d = new Date(today);
-                d.setDate(today.getDate() - i);
-                testDates.push(d.toLocaleDateString('ru-RU'));
-            }
-            PERSONNEL_OBJECTS.forEach((obj, i) => {
-                testDates.forEach((dateStr, j) => {
-                    if (!personnelReports[dateStr]) personnelReports[dateStr] = {};
-                    if (!personnelReports[dateStr][obj]) personnelReports[dateStr][obj] = {};
-                    // Дневная смена
-                    personnelReports[dateStr][obj].day = {
-                        'Количество сотрудников': { plan: 20 + i*5, fact: 22 + i*5, delta: 2 },
-                        'Отработано часов': { plan: 8, fact: 8, delta: 0 },
-                        'Пропуски': { plan: 0, fact: j%2 === 0 ? 1 : 0, delta: j%2 === 0 ? 1 : 0 },
-                        'Руководитель': { value: i%2 === 0 ? 'Территория 1 Шутин Д.М.' : 'Территория 2 Любавкская М.И.' }
-                    };
-                    // Ночная смена
-                    personnelReports[dateStr][obj].night = {
-                        'Количество сотрудников': { plan: 10 + i*3, fact: 11 + i*3, delta: 1 },
-                        'Отработано часов': { plan: 4, fact: 4, delta: 0 },
-                        'Пропуски': { plan: 0, fact: j%2 === 1 ? 1 : 0, delta: j%2 === 1 ? 1 : 0 },
-                        'Руководитель': { value: i%2 === 1 ? 'Территория 1 Шутин Д.М.' : 'Территория 2 Любавкская М.И.' }
-                    };
-                });
-            });
-            localStorage.setItem('personnelReports', JSON.stringify(personnelReports));
-            alert(`✅ Тестовые данные по персоналу загружены!
-📦 Объектов: ${PERSONNEL_OBJECTS.length}
-📅 Дат: ${testDates.length}`);
-        }
         function generateWarehouseList() {
             const list = document.getElementById('warehouseList');
             list.innerHTML = '';
@@ -980,20 +915,27 @@ th:nth-child(n+3), td:nth-child(n+3) {
             currentDate = new Date();
             switch (reportType) {
                 case 'operational':
-                    document.getElementById('warehouseReportSection').classList.remove('active');
-                    showWarehouseReport(WAREHOUSES[0]);
+                    document.getElementById('warehouseReportSection').classList.add('active');
+                    generateWarehouseList();
+                    document.querySelector('#warehouseReportSection .date-section').classList.add('hidden');
+                    document.querySelector('#warehouseReportSection .radio-group').classList.add('hidden');
+                    document.querySelector('#warehouseReportSection #reportForm').classList.add('hidden');
                     break;
                 case 'personnel':
-                    document.getElementById('personnelReportSection').classList.remove('active');
-                    showPersonnelReport(PERSONNEL_OBJECTS[0]);
+                    document.getElementById('personnelReportSection').classList.add('active');
+                    generatePersonnelList();
+                    document.querySelector('#personnelReportSection .date-section').classList.add('hidden');
+                    document.querySelector('#personnelReportSection .radio-group').classList.add('hidden');
+                    document.querySelector('#personnelReportSection #personnelReportForm').classList.add('hidden');
                     break;
             }
         }
         function showWarehouseReport(wh) {
             currentWarehouse = wh;
             document.getElementById('warehouseTitle').textContent = `📍 ${wh}`;
-            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-            document.getElementById('warehouseReportSection').classList.add('active');
+            document.querySelector('#warehouseReportSection .date-section').classList.remove('hidden');
+            document.querySelector('#warehouseReportSection .radio-group').classList.remove('hidden');
+            document.querySelector('#warehouseReportSection #reportForm').classList.remove('hidden');
             selectedWarehouseDate = currentDate.toLocaleDateString('ru-RU');
             document.getElementById('selectedWarehouseDate').innerHTML = `<strong>Выбрано:</strong> ${selectedWarehouseDate}`;
             renderWarehouseCalendar();
@@ -1002,14 +944,15 @@ th:nth-child(n+3), td:nth-child(n+3) {
         function showPersonnelReport(obj) {
             currentPersonnelObj = obj;
             document.getElementById('personnelTitle').textContent = `📍 ${obj}`;
-            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-            document.getElementById('personnelReportSection').classList.add('active');
+            document.querySelector('#personnelReportSection .date-section').classList.remove('hidden');
+            document.querySelector('#personnelReportSection .radio-group').classList.remove('hidden');
+            document.querySelector('#personnelReportSection #personnelReportForm').classList.remove('hidden');
             selectedPersonnelDate = currentDate.toLocaleDateString('ru-RU');
             document.getElementById('selectedPersonnelDate').innerHTML = `<strong>Выбрано:</strong> ${selectedPersonnelDate}`;
             renderPersonnelCalendar();
             loadPersonnelCategoryInputs();
         }
-        function renderCalendar(calendarId, view, onSelect) {
+        function renderCalendar(calendarId, view, onSelect, current) {
             const cal = document.getElementById(calendarId);
             cal.innerHTML = '';
             const days = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'];
@@ -1021,7 +964,7 @@ th:nth-child(n+3), td:nth-child(n+3) {
             });
             let dates = [];
             if (view === 'week') {
-                const mon = new Date(currentDate);
+                const mon = new Date(current);
                 mon.setDate(mon.getDate() - ((mon.getDay() || 7) - 1));
                 for (let i = 0; i < 7; i++) {
                     const d = new Date(mon);
@@ -1029,25 +972,21 @@ th:nth-child(n+3), td:nth-child(n+3) {
                     dates.push({ date: d, day: d.getDate(), empty: false });
                 }
             } else {
-                const y = currentDate.getFullYear(), m = currentDate.getMonth();
+                const y = current.getFullYear(), m = current.getMonth();
                 const first = new Date(y, m, 1), last = new Date(y, m + 1, 0), start = first.getDay() || 7;
                 for (let i = 0; i < start - 1; i++) {
-                    const b = document.createElement('button');
-                    b.className = 'date-btn empty';
-                    b.disabled = true;
-                    cal.appendChild(b);
+                    dates.push({ empty: true });
                 }
                 for (let day = 1; day <= last.getDate(); day++) {
-                    const d = new Date(y, m, day);
-                    dates.push({ date: d, day: day, empty: false });
+                    dates.push({ date: new Date(y, m, day), day, empty: false });
                 }
             }
             dates.forEach(o => {
                 const b = document.createElement('button');
                 b.className = `date-btn ${o.empty ? 'empty' : ''}`;
-                b.textContent = o.day;
+                b.textContent = o.day || '';
                 if (o.empty) b.disabled = true;
-                b.onclick = () => onSelect(o.date);
+                else b.onclick = () => onSelect(o.date);
                 cal.appendChild(b);
             });
         }
@@ -1058,7 +997,8 @@ th:nth-child(n+3), td:nth-child(n+3) {
                 document.getElementById('selectedWarehouseDate').innerHTML = `<strong>Выбрано:</strong> ${selectedWarehouseDate}`;
                 renderWarehouseCalendar();
                 loadCategoryInputs();
-            });
+            }, currentDate);
+            document.getElementById('warehouseViewToggleText').textContent = warehouseCalendarView === 'week' ? '📅 Неделя' : '📆 Месяц';
         }
         function renderPersonnelCalendar() {
             renderCalendar('personnelCalendar', personnelCalendarView, (date) => {
@@ -1067,7 +1007,8 @@ th:nth-child(n+3), td:nth-child(n+3) {
                 document.getElementById('selectedPersonnelDate').innerHTML = `<strong>Выбрано:</strong> ${selectedPersonnelDate}`;
                 renderPersonnelCalendar();
                 loadPersonnelCategoryInputs();
-            });
+            }, currentDate);
+            document.getElementById('personnelViewToggleText').textContent = personnelCalendarView === 'week' ? '📅 Неделя' : '📆 Месяц';
         }
         function prevPeriod() {
             warehouseCalendarView === 'week' ? currentDate.setDate(currentDate.getDate() - 7) : currentDate.setMonth(currentDate.getMonth() - 1);
@@ -1079,7 +1020,6 @@ th:nth-child(n+3), td:nth-child(n+3) {
         }
         function toggleCalendarView() {
             warehouseCalendarView = warehouseCalendarView === 'week' ? 'month' : 'week';
-            document.getElementById('warehouseViewToggleText').textContent = warehouseCalendarView === 'week' ? '📅 Неделя' : '📆 Месяц';
             renderWarehouseCalendar();
         }
         function prevPeriodPersonnel() {
@@ -1092,7 +1032,6 @@ th:nth-child(n+3), td:nth-child(n+3) {
         }
         function toggleCalendarViewPersonnel() {
             personnelCalendarView = personnelCalendarView === 'week' ? 'month' : 'week';
-            document.getElementById('personnelViewToggleText').textContent = personnelCalendarView === 'week' ? '📅 Неделя' : '📆 Месяц';
             renderPersonnelCalendar();
         }
         function loadCategoryInputs() {
@@ -1112,19 +1051,19 @@ th:nth-child(n+3), td:nth-child(n+3) {
                 } else if (cat.type === 'single') {
                     html += `<div><label>${cat.label} (${cat.unit}):</label><input type="number" id="${currentWarehouse}_${type}_${cat.name}_value" placeholder="${cat.label}" inputmode="numeric" value="${data.value || ''}"></div>`;
                 } else if (cat.type === 'triple') {
-                    html += `<div class="input-triple">`; 
-                    cat.fields.forEach(f => html += `<div><label>${f.n} (${f.u}):</label><input type="number" id="${currentWarehouse}_${type}_${cat.name}_${f.n}" placeholder="${f.n}" inputmode="numeric" value="${data[f.n] || ''}"></div>`); 
+                    html += `<div class="input-triple">`;
+                    cat.fields.forEach(f => html += `<div><label>${f.n} (${f.u}):</label><input type="number" id="${currentWarehouse}_${type}_${cat.name}_${f.n}" placeholder="${f.n}" inputmode="numeric" value="${data[f.n] || ''}"></div>`);
                     html += `</div>`;
                 } else if (cat.type === 'double') {
-                    html += `<div class="input-double">`; 
-                    cat.fields.forEach(f => html += `<div><label>${f.n} (${f.u}):</label><input type="number" id="${currentWarehouse}_${type}_${cat.name}_${f.n}" placeholder="${f.n}" inputmode="numeric" value="${data[f.n] || ''}"></div>`); 
+                    html += `<div class="input-double">`;
+                    cat.fields.forEach(f => html += `<div><label>${f.n} (${f.u}):</label><input type="number" id="${currentWarehouse}_${type}_${cat.name}_${f.n}" placeholder="${f.n}" inputmode="numeric" value="${data[f.n] || ''}"></div>`);
                     html += `</div>`;
                 } else if (cat.type === 'yesno') {
                     const val = data.value || '';
                     html += `<div class="yesno-buttons"><button type="button" class="yesno-btn yes ${val === 'yes' ? 'selected' : ''}" onclick="selectYesNo('${currentWarehouse}','${type}','${cat.name}','yes',event)">ДА</button><button type="button" class="yesno-btn no ${val === 'no' ? 'selected' : ''}" onclick="selectYesNo('${currentWarehouse}','${type}','${cat.name}','no',event)">НЕТ</button></div><input type="hidden" id="${currentWarehouse}_${type}_${cat.name}_value" value="${val}">`;
                 } else if (cat.type === 'select') {
-                    html += `<div><label>Выберите:</label><select id="${currentWarehouse}_${type}_${cat.name}_value"><option value="">-- Не выбрано --</option>`; 
-                    cat.options.forEach(opt => html += `<option value="${opt}" ${data.value === opt ? 'selected' : ''}>${opt}</option>`); 
+                    html += `<div><label>Выберите:</label><select id="${currentWarehouse}_${type}_${cat.name}_value"><option value="">-- Не выбрано --</option>`;
+                    cat.options.forEach(opt => html += `<option value="${opt}" ${data.value === opt ? 'selected' : ''}>${opt}</option>`);
                     html += `</select></div>`;
                 }
                 cd.innerHTML = html;
@@ -1139,7 +1078,7 @@ th:nth-child(n+3), td:nth-child(n+3) {
                         if (!span) return;
                         if (cat.type === 'number') {
                             const p = parseInt(plan) || 0, f = parseInt(fact) || 0, delta = f - p;
-                            span.textContent = delta; 
+                            span.textContent = delta;
                             span.className = delta >= 0 ? 'positive' : 'negative';
                         } else if (cat.type === 'time') {
                             if (plan && fact) {
@@ -1149,7 +1088,7 @@ th:nth-child(n+3), td:nth-child(n+3) {
                                     span.textContent = ok ? 'Норма' : 'Отклонение';
                                     span.className = ok ? 'good' : 'bad';
                                 } else {
-                                    span.textContent = 'Неверный формат (ЧЧ:ММ)'; 
+                                    span.textContent = 'Неверный формат (ЧЧ:ММ)';
                                     span.className = 'bad';
                                 }
                             } else {
@@ -1173,6 +1112,7 @@ th:nth-child(n+3), td:nth-child(n+3) {
                 const cd = document.createElement('div');
                 cd.className = 'category-input';
                 let html = `<h4>${cat.name}</h4>`;
+               
                 if (cat.type === 'number') {
                     html += `
                         <div class="input-row">
@@ -1180,6 +1120,36 @@ th:nth-child(n+3), td:nth-child(n+3) {
                             <div><label>Факт:</label><input type="number" id="${currentPersonnelObj}_${type}_${cat.name}_fact" placeholder="Факт" value="${data.fact || ''}"></div>
                         </div>
                         <div class="delta-display">Дельта: <span id="${currentPersonnelObj}_${type}_${cat.name}_delta"></span></div>
+                    `;
+                } else if (cat.type === 'quadruple') {
+                    html += `
+                        <div class="input-row">
+                            ${cat.fields.map((f, i) => `
+                                <div><label>${f.n} (${f.u}):</label><input type="${i === 3 ? 'text' : 'number'}" id="${currentPersonnelObj}_${type}_${cat.name}_${f.n}" placeholder="${f.n}" value="${data[f.n] || ''}" ${i === 3 ? 'readonly' : ''}></div>
+                            `).join('')}
+                        </div>
+                    `;
+                } else if (cat.type === 'single') {
+                    html += `
+                        <div>
+                            <label>${cat.label} (${cat.unit}):</label>
+                            <input type="number" id="${currentPersonnelObj}_${type}_${cat.name}_value" placeholder="${cat.label}" value="${data.value || ''}">
+                        </div>
+                    `;
+                } else if (cat.type === 'triple') {
+                    html += `
+                        <div class="input-row">
+                            ${cat.fields.map(f => `
+                                <div><label>${f.n} (${f.u}):</label><input type="number" id="${currentPersonnelObj}_${type}_${cat.name}_${f.n}" placeholder="${f.n}" value="${data[f.n] || ''}"></div>
+                            `).join('')}
+                        </div>
+                    `;
+                } else if (cat.type === 'text') {
+                    html += `
+                        <div>
+                            <label>Комментарии:</label>
+                            <textarea id="${currentPersonnelObj}_${type}_${cat.name}_value" rows="3">${data.value || ''}</textarea>
+                        </div>
                     `;
                 } else if (cat.type === 'select') {
                     html += `
@@ -1192,23 +1162,43 @@ th:nth-child(n+3), td:nth-child(n+3) {
                         </div>
                     `;
                 }
+               
                 cd.innerHTML = html;
                 div.appendChild(cd);
+               
                 if (cat.type === 'number') {
                     const planEl = document.getElementById(`${currentPersonnelObj}_${type}_${cat.name}_plan`);
                     const factEl = document.getElementById(`${currentPersonnelObj}_${type}_${cat.name}_fact`);
                     const deltaEl = document.getElementById(`${currentPersonnelObj}_${type}_${cat.name}_delta`);
+                   
                     const updateDelta = () => {
-                        const plan = parseInt(planEl.value) || 0;
-                        const fact = parseInt(factEl.value) || 0;
-                        deltaEl.textContent = fact - plan;
-                        deltaEl.className = (fact - plan) >= 0 ? 'positive' : 'negative';
+                        const plan = (parseInt(planEl.value) || 0);
+                        const fact = (parseInt(factEl.value) || 0);
+                        const delta = fact - plan;
+                        deltaEl.textContent = delta;
+                        deltaEl.className = delta >= 0 ? 'positive' : 'negative';
                     };
+                   
                     planEl.addEventListener('input', updateDelta);
                     factEl.addEventListener('input', updateDelta);
                     updateDelta();
                 }
             });
+            updateOzonJobShare(type);
+        }
+        function updateOzonJobShare(type) {
+            const ozonFactEl = document.getElementById(`${currentPersonnelObj}_${type}_Ozon Job_Факт`);
+            const totalFactEl = document.getElementById(`${currentPersonnelObj}_${type}_Total_fact`);
+            const shareEl = document.getElementById(`${currentPersonnelObj}_${type}_Ozon Job_Доля`);
+            const update = () => {
+                const ozonFact = parseInt(ozonFactEl.value) || 0;
+                const totalFact = parseInt(totalFactEl.value) || 0;
+                const share = totalFact > 0 ? Math.round((ozonFact / totalFact) * 100) : 0;
+                shareEl.value = `${share}`;
+            };
+            ozonFactEl.addEventListener('input', update);
+            totalFactEl.addEventListener('input', update);
+            update();
         }
         function selectYesNo(wh, t, cat, val, e) {
             e.preventDefault();
@@ -1217,9 +1207,9 @@ th:nth-child(n+3), td:nth-child(n+3) {
             e.target.classList.add('selected');
         }
         function parseTimeToMin(timeStr) {
-            const parts = timeStr.split(':'); 
+            const parts = timeStr.split(':');
             if (parts.length !== 2) return NaN;
-            const h = parseInt(parts[0]) || 0; 
+            const h = parseInt(parts[0]) || 0;
             const m = parseInt(parts[1]) || 0;
             return h * 60 + m;
         }
@@ -1261,6 +1251,7 @@ th:nth-child(n+3), td:nth-child(n+3) {
                         data = { value };
                     }
                 } else if (cat.type === 'triple' || cat.type === 'double') {
+                    data = {};
                     cat.fields.forEach(f => {
                         const el = document.getElementById(`${currentWarehouse}_${type}_${cat.name}_${f.n}`);
                         if (el) data[f.n] = el.value.trim();
@@ -1283,7 +1274,7 @@ th:nth-child(n+3), td:nth-child(n+3) {
             localStorage.setItem('warehouseReports', JSON.stringify(reports));
             cleanOldReports();
             alert('✅ Сохранено! Данные доступны в общем своде.');
-            backToMain(); // ← ВАЖНО: возврат на главную
+            backToMain();
         }
         function savePersonnelReport() {
             if (!selectedPersonnelDate) return alert('⚠️ Выберите дату!');
@@ -1293,13 +1284,25 @@ th:nth-child(n+3), td:nth-child(n+3) {
             if (!personnelReports[selectedPersonnelDate][currentPersonnelObj]) personnelReports[selectedPersonnelDate][currentPersonnelObj] = {};
             if (!personnelReports[selectedPersonnelDate][currentPersonnelObj][type]) personnelReports[selectedPersonnelDate][currentPersonnelObj][type] = {};
             PERSONNEL_CATEGORIES.forEach(cat => {
-                const data = {};
+                let data = {};
                 if (cat.type === 'number') {
                     const planEl = document.getElementById(`${currentPersonnelObj}_${type}_${cat.name}_plan`);
                     const factEl = document.getElementById(`${currentPersonnelObj}_${type}_${cat.name}_fact`);
                     data.plan = planEl.value.trim();
                     data.fact = factEl.value.trim();
                     data.delta = (parseInt(factEl.value) || 0) - (parseInt(planEl.value) || 0);
+                } else if (cat.type === 'quadruple' || cat.type === 'triple') {
+                    data = {};
+                    cat.fields.forEach(f => {
+                        const el = document.getElementById(`${currentPersonnelObj}_${type}_${cat.name}_${f.n}`);
+                        data[f.n] = el.value.trim();
+                    });
+                } else if (cat.type === 'single') {
+                    const valueEl = document.getElementById(`${currentPersonnelObj}_${type}_${cat.name}_value`);
+                    data.value = valueEl.value.trim();
+                } else if (cat.type === 'text') {
+                    const valueEl = document.getElementById(`${currentPersonnelObj}_${type}_${cat.name}_value`);
+                    data.value = valueEl.value.trim();
                 } else if (cat.type === 'select') {
                     const valueEl = document.getElementById(`${currentPersonnelObj}_${type}_${cat.name}_value`);
                     data.value = valueEl.value.trim();
@@ -1309,10 +1312,10 @@ th:nth-child(n+3), td:nth-child(n+3) {
             localStorage.setItem('personnelReports', JSON.stringify(personnelReports));
             cleanOldPersonnelReports();
             alert('✅ Данные сохранены!');
-            backToMain(); // ← ВАЖНО: возврат на главную
+            backToMain();
         }
-        function updateSummaryTable() { 
-            if (selectedSummaryDate) showSummaryData(); 
+        function updateSummaryTable() {
+            if (selectedSummaryDate) showSummaryData();
         }
         function showSummaryData() {
             if (!selectedSummaryDate) return alert('⚠️ Кликните на дату в календаре!');
@@ -1321,8 +1324,10 @@ th:nth-child(n+3), td:nth-child(n+3) {
             if (!includeDay && !includeNight) return alert('⚠️ Выберите хотя бы один тип отчёта!');
             const selectedManager = document.getElementById('managerFilter').value;
             document.getElementById('currentSummaryDate').textContent = selectedSummaryDate;
+           
             document.getElementById('summarySection').classList.remove('active');
             document.getElementById('summaryTableSection').classList.add('active');
+           
             const tableDiv = document.getElementById('summaryTable');
             let html = '<div class="table-wrapper"><table><thead><tr><th>Дата</th><th>Склад</th><th>ХА</th>';
             html += CATEGORIES.map(cat => {
@@ -1331,6 +1336,7 @@ th:nth-child(n+3), td:nth-child(n+3) {
                 if (cat.type === 'double') return `<th colspan="2">${cat.name}</th>`;
                 return `<th colspan="3">${cat.name}</th>`;
             }).join('') + '<th>Тип</th></tr>';
+           
             html += '<tr><th>Дата</th><th>Склад</th><th>ХА</th>';
             html += CATEGORIES.map(cat => {
                 if (cat.type === 'single') return `<th>${cat.unit}</th>`;
@@ -1339,11 +1345,13 @@ th:nth-child(n+3), td:nth-child(n+3) {
                 if (cat.type === 'number') return '<th>План</th><th>Факт</th><th>Δ</th>';
                 return `<th>${cat.label}</th>`;
             }).join('') + '<th>Тип</th></tr></thead><tbody>';
+           
             let totalVolumePlan = 0;
             const warehouseData = reports[selectedSummaryDate] || {};
             WAREHOUSES.forEach(wh => {
                 const whData = warehouseData[wh] || {};
                 let rowAdded = false;
+               
                 // Дневная смена
                 if (includeDay && whData.day) {
                     const managerValue = whData.day['Руководитель']?.value || '';
@@ -1354,6 +1362,7 @@ th:nth-child(n+3), td:nth-child(n+3) {
                         rowAdded = true;
                     }
                 }
+               
                 // Ночная смена
                 if (includeNight && whData.night) {
                     const managerValue = whData.night['Руководитель']?.value || '';
@@ -1364,6 +1373,7 @@ th:nth-child(n+3), td:nth-child(n+3) {
                         rowAdded = true;
                     }
                 }
+               
                 if (!rowAdded) {
                     let cells = `<td>${selectedSummaryDate}</td><td>${wh}</td><td>ХА</td>`;
                     const numCols = CATEGORIES.reduce((acc, cat) => {
@@ -1377,6 +1387,7 @@ th:nth-child(n+3), td:nth-child(n+3) {
                     html += `<tr>${cells}</tr>`;
                 }
             });
+           
             html += '</tbody></table></div>';
             html += `<div class="summary-total">📊 Итого по Объёму (план): ${totalVolumePlan}</div>`;
             tableDiv.innerHTML = html;
@@ -1385,6 +1396,7 @@ th:nth-child(n+3), td:nth-child(n+3) {
             let cells = '';
             let volumePlan = 0;
             cells += `<td>${date}</td><td>${wh}</td><td>ХА</td>`;
+           
             CATEGORIES.forEach(cat => {
                 const data = typeData[cat.name] || {};
                 if (cat.type === 'single') {
@@ -1409,6 +1421,7 @@ th:nth-child(n+3), td:nth-child(n+3) {
                     const deltaCell = data.delta !== undefined && data.delta !== '' ? data.delta : '-';
                     const deltaClass = typeof deltaCell === 'number' ? (deltaCell >= 0 ? 'positive' : 'negative') : '';
                     cells += `<td class="${deltaClass}">${deltaCell}</td>`;
+                   
                     // Сбор плана для общего объёма (примерное использование)
                     if (cat.name === 'Обработка') {
                         const p = parseInt(data.plan) || 0;
@@ -1416,102 +1429,167 @@ th:nth-child(n+3), td:nth-child(n+3) {
                     }
                 }
             });
+           
             cells += `<td>${typeLabel}</td>`;
             return { html: `<tr>${cells}</tr>`, volumePlan };
         }
+        function updatePersonnelSummaryTable() {
+            if (selectedSummaryDate) showPersonnelSummaryData();
+        }
         function showPersonnelSummaryData() {
-            if (!selectedSummaryDate) return alert('⚠️ Выберите дату!');
+            if (!selectedSummaryDate) return alert('⚠️ Кликните на дату в календаре!');
             const includeDay = document.getElementById('personnelSummaryDay').checked;
             const includeNight = document.getElementById('personnelSummaryNight').checked;
-            if (!includeDay && !includeNight) return alert('⚠️ Выберите тип смены!');
+            if (!includeDay && !includeNight) return alert('⚠️ Выберите хотя бы один тип отчёта!');
             const selectedManager = document.getElementById('personnelManagerFilter').value;
             document.getElementById('currentPersonnelSummaryDate').textContent = selectedSummaryDate;
+           
             document.getElementById('personnelSummarySection').classList.remove('active');
             document.getElementById('personnelSummaryTableSection').classList.add('active');
+           
             const tableDiv = document.getElementById('personnelSummaryTable');
-            let html = '<div class="table-wrapper"><table><thead><tr><th>Дата</th><th>Объект</th><th>ХА</th>';
-            html += PERSONNEL_CATEGORIES.map(cat => 
-                cat.type === 'number' ? `<th colspan="2">${cat.name}</th>` : `<th>${cat.name}</th>`
-            ).join('') + '<th>Тип</th></tr>';
-            html += '<tr><th>Дата</th><th>Объект</th><th>ХА</th>';
-            html += PERSONNEL_CATEGORIES.map(cat => 
-                cat.type === 'number' ? '<th>План</th><th>Факт</th>' : `<th>${cat.label || ''}</th>`
-            ).join('') + '<th>Тип</th></tr></thead><tbody>';
-            PERSONNEL_OBJECTS.forEach(obj => {
+            let html = '<div class="table-wrapper"><table><thead><tr><th>Дата</th><th>Склад</th><th>ХА</th>';
+            html += PERSONNEL_CATEGORIES.map(cat => {
+                if (cat.type === 'number') return `<th colspan="3">${cat.name}</th>`;
+                if (cat.type === 'quadruple') return `<th colspan="4">${cat.name}</th>`;
+                if (cat.type === 'triple') return `<th colspan="3">${cat.name}</th>`;
+                return `<th>${cat.name}</th>`;
+            }).join('') + '<th>Тип</th></tr>';
+           
+            html += '<tr><th>Дата</th><th>Склад</th><th>ХА</th>';
+            html += PERSONNEL_CATEGORIES.map(cat => {
+                if (cat.type === 'number') return '<th>План</th><th>Факт</th><th>Δ</th>';
+                if (cat.type === 'quadruple') return cat.fields.map(f => `<th>${f.n}</th>`).join('');
+                if (cat.type === 'triple') return cat.fields.map(f => `<th>${f.n}</th>`).join('');
+                if (cat.type === 'single') return `<th>${cat.unit}</th>`;
+                if (cat.type === 'text') return '<th>Текст</th>';
+                return `<th></th>`;
+            }).join('') + '<th>Тип</th></tr></thead><tbody>';
+           
+            let totalStaffPlan = 0;
+            const personnelData = personnelReports[selectedSummaryDate] || {};
+            WAREHOUSES.forEach(wh => {  // Use WAREHOUSES for personnel as well
+                const objData = personnelData[wh] || {};
                 let rowAdded = false;
-                const objData = personnelReports[selectedSummaryDate]?.[obj] || {};
+               
                 // Дневная смена
                 if (includeDay && objData.day) {
-                    const manager = objData.day['Руководитель']?.value || '';
-                    if (!selectedManager || manager === selectedManager) {
-                        html += `
-                            <tr>
-                                <td>${selectedSummaryDate}</td>
-                                <td>${obj}</td>
-                                <td>ХА</td>
-                                ${PERSONNEL_CATEGORIES.map(cat => {
-                                    const data = objData.day[cat.name] || {};
-                                    if (cat.type === 'number') {
-                                        return `<td>${data.plan || '-'}</td><td>${data.fact || '-'}</td>`;
-                                    } else if (cat.type === 'select') {
-                                        return `<td>${data.value || '-'}</td>`;
-                                    }
-                                    return '<td>-</td>';
-                                }).join('')}
-                                <td>☀️ Дневная</td>
-                            </tr>
-                        `;
+                    const managerValue = objData.day['Руководитель']?.value || '';
+                    if (!selectedManager || managerValue === selectedManager) {
+                        const rowData = addPersonnelRow(selectedSummaryDate, wh, objData.day, '☀️');
+                        html += rowData.html;
+                        totalStaffPlan += rowData.staffPlan;
                         rowAdded = true;
                     }
                 }
+               
                 // Ночная смена
                 if (includeNight && objData.night) {
-                    const manager = objData.night['Руководитель']?.value || '';
-                    if (!selectedManager || manager === selectedManager) {
-                        html += `
-                            <tr>
-                                <td>${selectedSummaryDate}</td>
-                                <td>${obj}</td>
-                                <td>ХА</td>
-                                ${PERSONNEL_CATEGORIES.map(cat => {
-                                    const data = objData.night[cat.name] || {};
-                                    if (cat.type === 'number') {
-                                        return `<td>${data.plan || '-'}</td><td>${data.fact || '-'}</td>`;
-                                    } else if (cat.type === 'select') {
-                                        return `<td>${data.value || '-'}</td>`;
-                                    }
-                                    return '<td>-</td>';
-                                }).join('')}
-                                <td>🌙 Ночная</td>
-                            </tr>
-                        `;
+                    const managerValue = objData.night['Руководитель']?.value || '';
+                    if (!selectedManager || managerValue === selectedManager) {
+                        const rowData = addPersonnelRow(selectedSummaryDate, wh, objData.night, '🌙');
+                        html += rowData.html;
+                        totalStaffPlan += rowData.staffPlan;
                         rowAdded = true;
                     }
                 }
+               
                 if (!rowAdded) {
-                    html += `
-                        <tr>
-                            <td>${selectedSummaryDate}</td>
-                            <td>${obj}</td>
-                            <td>ХА</td>
-                            ${PERSONNEL_CATEGORIES.map(cat => 
-                                cat.type === 'number' ? '<td>-</td><td>-</td>' : '<td>-</td>'
-                            ).join('')}
-                            <td>-</td>
-                        </tr>
-                    `;
+                    let cells = `<td>${selectedSummaryDate}</td><td>${wh}</td><td>ХА</td>`;
+                    const numCols = PERSONNEL_CATEGORIES.reduce((acc, cat) => {
+                        if (cat.type === 'number') return acc + 3;
+                        if (cat.type === 'quadruple') return acc + 4;
+                        if (cat.type === 'triple') return acc + 3;
+                        return acc + 1;
+                    }, 0);
+                    for (let i = 0; i < numCols; i++) cells += '<td>-</td>';
+                    cells += '<td>-</td>';
+                    html += `<tr>${cells}</tr>`;
                 }
             });
+           
             html += '</tbody></table></div>';
+            html += `<div class="summary-total">📊 Итого по Штат (план): ${totalStaffPlan}</div>`;
             tableDiv.innerHTML = html;
+        }
+        function addPersonnelRow(date, wh, typeData, typeLabel) {
+            let cells = '';
+            let staffPlan = 0;
+            cells += `<td>${date}</td><td>${wh}</td><td>ХА</td>`;
+           
+            PERSONNEL_CATEGORIES.forEach(cat => {
+                const data = typeData[cat.name] || {};
+                if (cat.type === 'number') {
+                    cells += `<td>${data.plan || '-'}</td><td>${data.fact || '-'}</td>`;
+                    const deltaCell = data.delta !== undefined && data.delta !== '' ? data.delta : '-';
+                    const deltaClass = typeof deltaCell === 'number' ? (deltaCell >= 0 ? 'positive' : 'negative') : '';
+                    cells += `<td class="${deltaClass}">${deltaCell}</td>`;
+                   
+                    // Сбор плана для общего количества
+                    if (cat.name === 'Штат') {
+                        const p = parseInt(data.plan) || 0;
+                        staffPlan += p;
+                    }
+                } else if (cat.type === 'quadruple' || cat.type === 'triple') {
+                    cat.fields.forEach(f => cells += `<td>${data[f.n] || '-'}</td>`);
+                } else if (cat.type === 'single' || cat.type === 'text') {
+                    cells += `<td>${data.value || '-'}</td>`;
+                } else if (cat.type === 'select') {
+                    cells += `<td>${data.value || '-'}</td>`;
+                }
+            });
+           
+            cells += `<td>${typeLabel}</td>`;
+            return { html: `<tr>${cells}</tr>`, staffPlan };
+        }
+        function updatePersonnelSummaryTable() {
+            if (selectedSummaryDate) showPersonnelSummaryData();
         }
         function showSummarySection() {
             document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
             document.getElementById('summarySection').classList.add('active');
+            renderSummaryCalendar();
         }
         function showPersonnelSummarySection() {
             document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
             document.getElementById('personnelSummarySection').classList.add('active');
+            renderPersonnelSummaryCalendar();
+        }
+        function prevPeriodSummary() {
+            summaryCalendarView === 'week' ? summaryCurrentDate.setDate(summaryCurrentDate.getDate() - 7) : summaryCurrentDate.setMonth(summaryCurrentDate.getMonth() - 1);
+            renderSummaryCalendar();
+        }
+        function nextPeriodSummary() {
+            summaryCalendarView === 'week' ? summaryCurrentDate.setDate(summaryCurrentDate.getDate() + 7) : summaryCurrentDate.setMonth(summaryCurrentDate.getMonth() + 1);
+            renderSummaryCalendar();
+        }
+        function toggleCalendarViewSummary() {
+            summaryCalendarView = summaryCalendarView === 'week' ? 'month' : 'week';
+            document.getElementById('summaryViewToggleText').textContent = summaryCalendarView === 'week' ? '📅 Неделя' : '📆 Месяц';
+            renderSummaryCalendar();
+        }
+        function renderSummaryCalendar() {
+            renderCalendar('summaryCalendar', summaryCalendarView, (date) => {
+                selectedSummaryDate = date.toLocaleDateString('ru-RU');
+            }, summaryCurrentDate);
+        }
+        function prevPeriodPersonnelSummary() {
+            personnelSummaryCalendarView === 'week' ? personnelSummaryCurrentDate.setDate(personnelSummaryCurrentDate.getDate() - 7) : personnelSummaryCurrentDate.setMonth(personnelSummaryCurrentDate.getMonth() - 1);
+            renderPersonnelSummaryCalendar();
+        }
+        function nextPeriodPersonnelSummary() {
+            personnelSummaryCalendarView === 'week' ? personnelSummaryCurrentDate.setDate(personnelSummaryCurrentDate.getDate() + 7) : personnelSummaryCurrentDate.setMonth(personnelSummaryCurrentDate.getMonth() + 1);
+            renderPersonnelSummaryCalendar();
+        }
+        function toggleCalendarViewPersonnelSummary() {
+            personnelSummaryCalendarView = personnelSummaryCalendarView === 'week' ? 'month' : 'week';
+            document.getElementById('personnelSummaryViewToggleText').textContent = personnelSummaryCalendarView === 'week' ? '📅 Неделя' : '📆 Месяц';
+            renderPersonnelSummaryCalendar();
+        }
+        function renderPersonnelSummaryCalendar() {
+            renderCalendar('personnelSummaryCalendar', personnelSummaryCalendarView, (date) => {
+                selectedSummaryDate = date.toLocaleDateString('ru-RU');
+            }, personnelSummaryCurrentDate);
         }
         function prevSummaryDay() {
             if (!selectedSummaryDate) return;
@@ -1549,96 +1627,6 @@ th:nth-child(n+3), td:nth-child(n+3) {
             document.getElementById('currentPersonnelSummaryDate').textContent = selectedSummaryDate;
             showPersonnelSummaryData();
         }
-        function toggleCalendarViewSummary() {
-            summaryCalendarView = summaryCalendarView === 'week' ? 'month' : 'week';
-            document.getElementById('summaryViewToggleText').textContent = summaryCalendarView === 'week' ? '📅 Неделя' : '📆 Месяц';
-            renderSummaryCalendar();
-        }
-        function renderSummaryCalendar() {
-            const view = summaryCalendarView;
-            const cal = document.getElementById('summaryCalendar');
-            cal.innerHTML = '';
-            const days = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'];
-            days.forEach(d => {
-                const h = document.createElement('div');
-                h.className = 'calendar-header';
-                h.textContent = d;
-                cal.appendChild(h);
-            });
-            let dates = [];
-            if (view === 'week') {
-                const mon = new Date(currentDate);
-                mon.setDate(mon.getDate() - ((mon.getDay() || 7) - 1));
-                for (let i = 0; i < 7; i++) {
-                    const d = new Date(mon);
-                    d.setDate(mon.getDate() + i);
-                    dates.push({ date: d, day: d.getDate() });
-                }
-            } else {
-                const y = currentDate.getFullYear(), m = currentDate.getMonth();
-                const lastDay = new Date(y, m + 1, 0);
-                dates = [];
-                for (let day = 1; day <= lastDay.getDate(); day++) {
-                    dates.push({ date: new Date(y, m, day), day });
-                }
-            }
-            dates.forEach(o => {
-                const b = document.createElement('button');
-                b.className = 'date-btn';
-                b.textContent = o.day;
-                b.onclick = () => {
-                    selectedSummaryDate = o.date.toLocaleDateString('ru-RU');
-                    document.getElementById('currentSummaryDate').textContent = selectedSummaryDate;
-                    showSummaryData();
-                };
-                cal.appendChild(b);
-            });
-        }
-        function toggleCalendarViewPersonnelSummary() {
-            personnelSummaryCalendarView = personnelSummaryCalendarView === 'week' ? 'month' : 'week';
-            document.getElementById('personnelSummaryViewToggleText').textContent = personnelSummaryCalendarView === 'week' ? '📅 Неделя' : '📆 Месяц';
-            renderPersonnelSummaryCalendar();
-        }
-        function renderPersonnelSummaryCalendar() {
-            const view = personnelSummaryCalendarView;
-            const cal = document.getElementById('personnelSummaryCalendar');
-            cal.innerHTML = '';
-            const days = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'];
-            days.forEach(d => {
-                const h = document.createElement('div');
-                h.className = 'calendar-header';
-                h.textContent = d;
-                cal.appendChild(h);
-            });
-            let dates = [];
-            if (view === 'week') {
-                const mon = new Date(currentDate);
-                mon.setDate(mon.getDate() - ((mon.getDay() || 7) - 1));
-                for (let i = 0; i < 7; i++) {
-                    const d = new Date(mon);
-                    d.setDate(mon.getDate() + i);
-                    dates.push({ date: d, day: d.getDate() });
-                }
-            } else {
-                const y = currentDate.getFullYear(), m = currentDate.getMonth();
-                const lastDay = new Date(y, m + 1, 0);
-                dates = [];
-                for (let day = 1; day <= lastDay.getDate(); day++) {
-                    dates.push({ date: new Date(y, m, day), day });
-                }
-            }
-            dates.forEach(o => {
-                const b = document.createElement('button');
-                b.className = 'date-btn';
-                b.textContent = o.day;
-                b.onclick = () => {
-                    selectedSummaryDate = o.date.toLocaleDateString('ru-RU');
-                    document.getElementById('currentPersonnelSummaryDate').textContent = selectedSummaryDate;
-                    showPersonnelSummaryData();
-                };
-                cal.appendChild(b);
-            });
-        }
         function toggleFullScreen() {
             const fs = document.getElementById('fullScreenTable');
             const tbl = document.getElementById('summaryTable').innerHTML;
@@ -1652,9 +1640,16 @@ th:nth-child(n+3), td:nth-child(n+3) {
             }
         }
         function togglePersonnelFullScreen() {
-            // Аналогично полноэкранному открытию для операций, можно расширить если нужно
-            alert('Полноэкранный режим для персонала не реализован, но логика аналогична');
-            // (Для полной реализации добавьте аналогичный блок fullScreenTable для персонала)
+            const fs = document.getElementById('fullPersonnelScreenTable');
+            const tbl = document.getElementById('personnelSummaryTable').innerHTML;
+            if (fs.style.display === 'none') {
+                document.getElementById('fullPersonnelSummaryTable').innerHTML = tbl;
+                fs.style.display = 'block';
+                document.body.style.overflow = 'hidden';
+            } else {
+                fs.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
         }
         function backToMain() {
             document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
@@ -1678,8 +1673,97 @@ th:nth-child(n+3), td:nth-child(n+3) {
             renderPersonnelCalendar();
             renderSummaryCalendar();
             renderPersonnelSummaryCalendar();
-            fillTestData();
-            fillPersonnelTestData();
+            fillNewWarehouses();
+        };
+        function fillNewWarehouses() {
+            const newWarehouses = ["СПБ_ХАБ_Осиновая Роща", "СПБ_Хаб_Парголово", "СПБ_Хаб_Парголово_Блок_3", "СПБ_Хаб_Парголово_Блок_4"];
+            const today = new Date();
+            const testDates = [];
+            for (let i = 0; i < 5; i++) {
+                const date = new Date(today);
+                date.setDate(today.getDate() - i);
+                testDates.push(date.toLocaleDateString('ru-RU'));
+            }
+            testDates.forEach(dateStr => {
+                if (!reports[dateStr]) reports[dateStr] = {};
+                if (!personnelReports[dateStr]) personnelReports[dateStr] = {};
+                newWarehouses.forEach((wh, whIndex) => {
+                    if (!reports[dateStr][wh]) reports[dateStr][wh] = {};
+                    if (!personnelReports[dateStr][wh]) personnelReports[dateStr][wh] = {};
+                    // Дневная смена operations
+                    reports[dateStr][wh].day = {
+                        'Обработка': { plan: String(200 + Math.floor(Math.random() * 50)), fact: String(210 + Math.floor(Math.random() * 40)), delta: 10 },
+                        'Персонал': { plan: String(15 + Math.floor(Math.random() * 5)), fact: String(15 + Math.floor(Math.random() * 5)), delta: 0 },
+                        'Окончание выдачи': { plan: '12:30', fact: '12:25', delta: 'Норма' },
+                        'Обработка FBS': { plan: String(12 + Math.floor(Math.random() * 10)), fact: String(11 + Math.floor(Math.random() * 10)), delta: -1 },
+                        'Возвратный поток (Бэклог)': { plan: String(5), fact: String(7), delta: 2 },
+                        'Обезличка': { value: String(10 + Math.floor(Math.random() * 10)) },
+                        'Эффективность': { plan: String(95 + Math.floor(Math.random() * 5)), fact: String(98 + Math.floor(Math.random() * 5)), delta: 3 },
+                        'Кол-во паллета-мест к отгрузке': { 'FBS': String(20 + Math.floor(Math.random() * 10)), 'X-Dock': String(15 + Math.floor(Math.random() * 10)), 'Возвраты': String(5 + Math.floor(Math.random() * 5)) },
+                        'Хронь ХД': { 'Сорт': String(30 + Math.floor(Math.random() * 10)), 'Нон-Сорт': String(25 + Math.floor(Math.random() * 10)) },
+                        'Риски': { value: (Math.random() > 0.5 ? 'yes' : 'no') },
+                        'Промежуточная Выдача': { value: String(50 + Math.floor(Math.random() * 20)) },
+                        '% не профиля': { value: String(5 + Math.floor(Math.random() * 5)) },
+                        'Руководитель': { value: (Math.random() > 0.5 ? 'Территория 1 Шутин Д.М.' : 'Территория 2 Любавкская М.И.') }
+                    };
+                    // Ночная смена operations
+                    reports[dateStr][wh].night = {
+                        'Обработка': { plan: String(100 + Math.floor(Math.random() * 20)), fact: String(105 + Math.floor(Math.random() * 20)), delta: 5 },
+                        'Персонал': { plan: String(8 + Math.floor(Math.random() * 3)), fact: String(8 + Math.floor(Math.random() * 3)), delta: 0 },
+                        'Окончание выдачи': { plan: '03:00', fact: '03:15', delta: 'Отклонение' },
+                        'Обработка FBS': { plan: String(15), fact: String(14), delta: -1 },
+                        'Возвратный поток (Бэклог)': { plan: String(3), fact: String(4), delta: 1 },
+                        'Обезличка': { value: String(5 + Math.floor(Math.random() * 5)) },
+                        'Эффективность': { plan: String(90 + Math.floor(Math.random() * 5)), fact: String(92 + Math.floor(Math.random() * 5)), delta: 2 },
+                        'Кол-во паллета-мест к отгрузке': { 'FBS': String(10 + Math.floor(Math.random() * 5)), 'X-Dock': String(8 + Math.floor(Math.random() * 5)), 'Возвраты': String(3 + Math.floor(Math.random() * 3)) },
+                        'Хронь ХД': { 'Сорт': String(15 + Math.floor(Math.random() * 5)), 'Нон-Сорт': String(12 + Math.floor(Math.random() * 5)) },
+                        'Риски': { value: (Math.random() > 0.5 ? 'yes' : 'no') },
+                        'Промежуточная Выдача': { value: String(25 + Math.floor(Math.random() * 10)) },
+                        '% не профиля': { value: String(3 + Math.floor(Math.random() * 3)) },
+                        'Руководитель': { value: (Math.random() > 0.5 ? 'Территория 1 Шутин Д.М.' : 'Территория 2 Любавкская М.И.') }
+                    };
+                    // Дневная смена personnel
+                    personnelReports[dateStr][wh].day = {
+                        'Штат': { plan: 20 + Math.floor(Math.random() * 10), fact: 22 + Math.floor(Math.random() * 10), delta: 2 },
+                        'Ozon Job': { 'План': 10 + Math.floor(Math.random() * 5), 'Факт': 12 + Math.floor(Math.random() * 5), 'Капац.': 15 + Math.floor(Math.random() * 5), 'Доля': '' },
+                        'РВ': { value: 3 + Math.floor(Math.random() * 3) },
+                        'Командировка': { value: 2 + Math.floor(Math.random() * 2) },
+                        'Total': { plan: 30 + Math.floor(Math.random() * 10), fact: 34 + Math.floor(Math.random() * 10), delta: 4 },
+                        'Производительность': { value: 95 + Math.floor(Math.random() * 5) },
+                        'Причины невыхода': { 'ОТ': 1 + Math.floor(Math.random() * 2), 'БЛ': 0 + Math.floor(Math.random() * 2), 'НН': 2 + Math.floor(Math.random() * 2) },
+                        'Комментарии': { value: `Комментарий для дня ${dateStr}` },
+                        'Руководитель': { value: (Math.random() > 0.5 ? 'Территория 1 Шутин Д.М.' : 'Территория 2 Любавкская М.И.') }
+                    };
+                    // Ночная смена personnel
+                    personnelReports[dateStr][wh].night = {
+                        'Штат': { plan: 10 + Math.floor(Math.random() * 5), fact: 11 + Math.floor(Math.random() * 5), delta: 1 },
+                        'Ozon Job': { 'План': 5 + Math.floor(Math.random() * 3), 'Факт': 6 + Math.floor(Math.random() * 3), 'Капац.': 8 + Math.floor(Math.random() * 3), 'Доля': '' },
+                        'РВ': { value: 1 + Math.floor(Math.random() * 2) },
+                        'Командировка': { value: 1 + Math.floor(Math.random() * 2) },
+                        'Total': { plan: 15 + Math.floor(Math.random() * 5), fact: 17 + Math.floor(Math.random() * 5), delta: 2 },
+                        'Производительность': { value: 85 + Math.floor(Math.random() * 5) },
+                        'Причины невыхода': { 'ОТ': 0 + Math.floor(Math.random() * 2), 'БЛ': 1 + Math.floor(Math.random() * 2), 'НН': 1 + Math.floor(Math.random() * 2) },
+                        'Комментарии': { value: `Комментарий для ночи ${dateStr}` },
+                        'Руководитель': { value: (Math.random() > 0.5 ? 'Территория 1 Шутин Д.М.' : 'Территория 2 Любавкская М.И.') }
+                    };
+                });
+            });
+            localStorage.setItem('warehouseReports', JSON.stringify(reports));
+            localStorage.setItem('personnelReports', JSON.stringify(personnelReports));
+        }
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('input[name="warehouseReportType"]').forEach(r => r.addEventListener('change', loadCategoryInputs));
+            document.querySelectorAll('input[name="personnelReportType"]').forEach(r => r.addEventListener('change', loadPersonnelCategoryInputs));
+        });
+        window.onload = function () {
+            cleanOldReports();
+            cleanOldPersonnelReports();
+            generateWarehouseList();
+            generatePersonnelList();
+            renderWarehouseCalendar();
+            renderPersonnelCalendar();
+            renderSummaryCalendar();
+            renderPersonnelSummaryCalendar();
         };
     </script>
 </body>
