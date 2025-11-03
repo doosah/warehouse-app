@@ -241,7 +241,7 @@ button.date-btn.selected {
 .delta-display {
     background: linear-gradient(135deg, rgba(102, 126, 234, 0.15) 0%, rgba(240, 147, 251, 0.15) 100%);
     border: 1px solid rgba(135, 150, 200, 0.2);
-    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+    box-shadow: inset 0 1px 0 rgba(0, 0, 0, 0.1);
 }
 /* ========== ОСТАЛЬНЫЕ СТИЛИ БЕЗ ИЗМЕНЕНИЙ ========== */
 * {
@@ -603,21 +603,27 @@ th:nth-child(n+3), td:nth-child(n+3) {
                 </div>
             </div>
         </div>
-        <!-- Главная: выбор склада -->
+        <!-- Главная: выбор отчёта -->
         <div id="mainSection" class="section active">
-            <h2>Выберите склад</h2>
-            <div class="warehouse-list" id="warehouseList"></div>
-            <button class="large-button" onclick="showSummarySection()">📊 Общий свод по всем складам</button>
+            <h2>Выберите отчёт</h2>
+            <button class="large-button" onclick="selectReport('operational')">📄 Операционные показатели</button>
+            <button class="large-button" onclick="selectReport('personnel')">📊 Персонал</button>
+            <div class="action-buttons" style="margin-top: 20px;">
+                <button class="secondary" onclick="fillTestData()">⚠️ Загрузить тестовые данные (операции)</button>
+                <button class="secondary" onclick="fillPersonnelTestData()">⚠️ Загрузить тестовые данные (персонал)</button>
+            </div>
         </div>
+
         <!-- Отчёт по складу -->
         <div id="warehouseReportSection" class="section">
             <h2 id="warehouseTitle">Отчёт по складу</h2>
+            <div class="warehouse-list" id="warehouseList"></div>
             <div class="date-section">
                 <h3>📅 Выберите дату</h3>
                 <div class="calendar-controls">
                     <button class="secondary" onclick="prevPeriod()">← Предыдущий</button>
                     <button class="secondary" onclick="toggleCalendarView()">
-                        <span id="warehouseViewToggleText">📆 Месяц</span>
+                        <span id="warehouseViewToggleText">📅 Неделя</span>
                     </button>
                     <button class="secondary" onclick="nextPeriod()">Следующий →</button>
                 </div>
@@ -632,11 +638,41 @@ th:nth-child(n+3), td:nth-child(n+3) {
                 <div id="categoryInputs"></div>
                 <div class="action-buttons">
                     <button type="button" onclick="saveWarehouseReport()">💾 Сохранить отчёт</button>
-                    <button type="button" class="secondary" onclick="showMainSection()">← Назад к складам</button>
+                    <button class="secondary" onclick="backToMain()">← Назад к выбору отчёта</button>
                 </div>
             </form>
         </div>
-        <!-- Общий свод -->
+
+        <!-- Отчёт по Персоналу -->
+        <div id="personnelReportSection" class="section">
+            <h2 id="personnelTitle">Отчёт по персоналу</h2>
+            <div class="warehouse-list" id="personnelList"></div>
+            <div class="date-section">
+                <h3>📅 Выберите дату</h3>
+                <div class="calendar-controls">
+                    <button class="secondary" onclick="prevPeriodPersonnel()">← Предыдущий</button>
+                    <button class="secondary" onclick="toggleCalendarViewPersonnel()">
+                        <span id="personnelViewToggleText">📅 Неделя</span>
+                    </button>
+                    <button class="secondary" onclick="nextPeriodPersonnel()">Следующий →</button>
+                </div>
+                <div id="personnelCalendar" class="calendar"></div>
+                <div id="selectedPersonnelDate" class="selected-date-display"></div>
+            </div>
+            <div class="radio-group">
+                <label><input type="radio" name="personnelReportType" value="day" checked> ☀️ Дневная смена</label>
+                <label><input type="radio" name="personnelReportType" value="night"> 🌙 Ночная смена</label>
+            </div>
+            <form id="personnelReportForm">
+                <div id="personnelCategoryInputs"></div>
+                <div class="action-buttons">
+                    <button type="button" onclick="savePersonnelReport()">💾 Сохранить отчёт</button>
+                    <button class="secondary" onclick="backToMain()">← Назад к выбору отчёта</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Общий свод (Операции) -->
         <div id="summarySection" class="section">
             <h2>📊 Общий свод по всем складам</h2>
             <div class="checkbox-group">
@@ -664,10 +700,11 @@ th:nth-child(n+3), td:nth-child(n+3) {
             </div>
             <div class="action-buttons">
                 <button onclick="showSummaryData()">📈 Показать сводные данные</button>
-                <button class="secondary" onclick="showMainSection()">← Назад к складам</button>
+                <button class="secondary" onclick="backToMain()">← Назад к выбору отчёта</button>
             </div>
         </div>
-        <!-- Сводная таблица -->
+
+        <!-- Сводная таблица (Операции) -->
         <div id="summaryTableSection" class="section">
             <h2>📋 Сводная таблица</h2>
             <div class="date-section">
@@ -683,15 +720,67 @@ th:nth-child(n+3), td:nth-child(n+3) {
                 <button class="secondary" onclick="showSummarySection()">← Назад</button>
             </div>
         </div>
+
+        <!-- Общий свод (Персонал) -->
+        <div id="personnelSummarySection" class="section">
+            <h2>📊 Свод по персоналу</h2>
+            <div class="checkbox-group">
+                <label><input type="checkbox" id="personnelSummaryDay" checked> ☀️ Дневные смены</label>
+                <label><input type="checkbox" id="personnelSummaryNight"> 🌙 Ночные смены</label>
+            </div>
+            <div class="filter-section">
+                <h4>👤 Фильтр по руководителю</h4>
+                <select id="personnelManagerFilter" onchange="updatePersonnelSummaryTable()">
+                    <option value="">Все руководители</option>
+                    <option value="Территория 1 Шутин Д.М.">Территория 1 Шутин Д.М.</option>
+                    <option value="Территория 2 Любавкская М.И.">Территория 2 Любавкская М.И.</option>
+                </select>
+            </div>
+            <div class="date-section">
+                <h3>📅 Выберите дату для анализа</h3>
+                <div class="calendar-controls">
+                    <button class="secondary" onclick="prevPersonnelSummaryDay()">← Предыдущий день</button>
+                    <button class="secondary" onclick="toggleCalendarViewPersonnelSummary()">
+                        <span id="personnelSummaryViewToggleText">📆 Месяц</span>
+                    </button>
+                    <button class="secondary" onclick="nextPersonnelSummaryDay()">Следующий день →</button>
+                </div>
+                <div id="personnelSummaryCalendar" class="calendar"></div>
+            </div>
+            <div class="action-buttons">
+                <button onclick="showPersonnelSummaryData()">📈 Показать сводные данные</button>
+                <button class="secondary" onclick="backToMain()">← Назад к выбору отчёта</button>
+            </div>
+        </div>
+
+        <!-- Сводная таблица (Персонал) -->
+        <div id="personnelSummaryTableSection" class="section">
+            <h2>📋 Сводная таблица по персоналу</h2>
+            <div class="date-section">
+                <div style="display:flex;flex-direction:column;gap:10px">
+                    <button class="secondary" onclick="prevPersonnelSummaryDay()">← Предыдущий день</button>
+                    <div style="text-align:center;font-size:clamp(16px,4vw,18px);font-weight:600;color:#c7d2fe;padding:10px" id="currentPersonnelSummaryDate"></div>
+                    <button class="secondary" onclick="nextPersonnelSummaryDay()">Следующий день →</button>
+                </div>
+            </div>
+            <div id="personnelSummaryTable"></div>
+            <div class="action-buttons">
+                <button onclick="togglePersonnelFullScreen()">🖥️ Полный экран</button>
+                <button class="secondary" onclick="showPersonnelSummarySection()">← Назад</button>
+            </div>
+        </div>
+
+        <!-- Полноэкранная таблица (Операции) -->
+        <div id="fullScreenTable" class="full-screen-table" style="display:none">
+            <button class="close-full" onclick="toggleFullScreen()">✕ Закрыть</button>
+            <div id="fullSummaryTable"></div>
+        </div>
+        <!-- Консоль -->
+        <div id="console-output"></div>
     </div>
-    <!-- Полноэкранная таблица -->
-    <div id="fullScreenTable" class="full-screen-table" style="display:none">
-        <button class="close-full" onclick="toggleFullScreen()">✕ Закрыть</button>
-        <div id="fullSummaryTable"></div>
-    </div>
-    <!-- Консоль -->
-    <div id="console-output"></div>
+
     <script>
+        // Операционные данные
         const WAREHOUSES = [
             "АРХАНГЕЛЬСК_ХАБ_НАХИМОВА",
             "МУРМАНСК_ХАБ_ОБЪЕЗДНАЯ",
@@ -728,6 +817,21 @@ th:nth-child(n+3), td:nth-child(n+3) {
         let selectedWarehouseDate = null;
         let selectedSummaryDate = null;
         let currentWarehouse = '';
+
+        // Данные по персоналу
+        const PERSONNEL_OBJECTS = ["Отдел 1", "Отдел 2", "Отдел 3", "Отдел 4"];
+        const PERSONNEL_CATEGORIES = [
+            {name: 'Количество сотрудников', type: 'number'},
+            {name: 'Отработано часов', type: 'number'},
+            {name: 'Пропуски', type: 'number'},
+            {name: 'Руководитель', type: 'select', options: ['Территория 1 Шутин Д.М.', 'Территория 2 Любавкская М.И.']}
+        ];
+        let personnelReports = JSON.parse(localStorage.getItem('personnelReports')) || {};
+        let currentPersonnelObj = '';
+        let selectedPersonnelDate = null;
+        let personnelCalendarView = 'week';
+        let personnelSummaryCalendarView = 'week';
+
         function cleanOldReports() {
             const sixMonthsAgo = new Date();
             sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 6);
@@ -746,6 +850,26 @@ th:nth-child(n+3), td:nth-child(n+3) {
             keysToDelete.forEach(key => delete reports[key]);
             localStorage.setItem('warehouseReports', JSON.stringify(reports));
         }
+
+        function cleanOldPersonnelReports() {
+            const sixMonthsAgo = new Date();
+            sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 6);
+            const keysToDelete = [];
+            Object.keys(personnelReports).forEach(dateStr => {
+                try {
+                    const [day, month, year] = dateStr.split('.').map(Number);
+                    const reportDate = new Date(year, month - 1, day);
+                    if (reportDate < sixMonthsAgo) {
+                        keysToDelete.push(dateStr);
+                    }
+                } catch (e) {
+                    keysToDelete.push(dateStr);
+                }
+            });
+            keysToDelete.forEach(key => delete personnelReports[key]);
+            localStorage.setItem('personnelReports', JSON.stringify(personnelReports));
+        }
+
         function fillTestData() {
             const today = new Date();
             const testDates = [];
@@ -798,8 +922,45 @@ th:nth-child(n+3), td:nth-child(n+3) {
                 });
             });
             localStorage.setItem('warehouseReports', JSON.stringify(reports));
-            alert(`✅ Тестовые данные загружены!\n\n📦 Склады: ${testWarehouses.length}\n📅 Дат: ${testDates.length}\n🔢 Всего записей: ${testWarehouses.length * testDates.length * 2} (день + ночь)`);
+            alert(`✅ Тестовые данные загружены!\n\n📦 Складов: ${testWarehouses.length}\n📅 Дат: ${testDates.length}\n🔢 Записей: ${testWarehouses.length * testDates.length * 2}`);
         }
+
+        function fillPersonnelTestData() {
+            const today = new Date();
+            const testDates = [];
+            for (let i = 0; i < 5; i++) {
+                const d = new Date(today);
+                d.setDate(today.getDate() - i);
+                testDates.push(d.toLocaleDateString('ru-RU'));
+            }
+
+            PERSONNEL_OBJECTS.forEach((obj, i) => {
+                testDates.forEach((dateStr, j) => {
+                    if (!personnelReports[dateStr]) personnelReports[dateStr] = {};
+                    if (!personnelReports[dateStr][obj]) personnelReports[dateStr][obj] = {};
+
+                    // Дневная смена
+                    personnelReports[dateStr][obj].day = {
+                        'Количество сотрудников': { plan: 20 + i*5, fact: 22 + i*5, delta: 2 },
+                        'Отработано часов': { plan: 8, fact: 8, delta: 0 },
+                        'Пропуски': { plan: 0, fact: j%2 === 0 ? 1 : 0, delta: j%2 === 0 ? 1 : 0 },
+                        'Руководитель': { value: i%2 === 0 ? 'Территория 1 Шутин Д.М.' : 'Территория 2 Любавкская М.И.' }
+                    };
+
+                    // Ночная смена
+                    personnelReports[dateStr][obj].night = {
+                        'Количество сотрудников': { plan: 10 + i*3, fact: 11 + i*3, delta: 1 },
+                        'Отработано часов': { plan: 4, fact: 4, delta: 0 },
+                        'Пропуски': { plan: 0, fact: j%2 === 1 ? 1 : 0, delta: j%2 === 1 ? 1 : 0 },
+                        'Руководитель': { value: i%2 === 1 ? 'Территория 1 Шутин Д.М.' : 'Территория 2 Любавкская М.И.' }
+                    };
+                });
+            });
+
+            localStorage.setItem('personnelReports', JSON.stringify(personnelReports));
+            alert(`✅ Тестовые данные по персоналу загружены!\n📦 Объектов: ${PERSONNEL_OBJECTS.length}\n📅 Дат: ${testDates.length}`);
+        }
+
         function generateWarehouseList() {
             const list = document.getElementById('warehouseList');
             list.innerHTML = '';
@@ -811,6 +972,34 @@ th:nth-child(n+3), td:nth-child(n+3) {
                 list.appendChild(btn);
             });
         }
+
+        function generatePersonnelList() {
+            const list = document.getElementById('personnelList');
+            list.innerHTML = '';
+            PERSONNEL_OBJECTS.forEach(obj => {
+                const btn = document.createElement('button');
+                btn.className = 'warehouse-btn';
+                btn.textContent = obj;
+                btn.onclick = () => showPersonnelReport(obj);
+                list.appendChild(btn);
+            });
+        }
+
+        function selectReport(reportType) {
+            document.getElementById('mainSection').classList.remove('active');
+            currentDate = new Date();
+            switch (reportType) {
+                case 'operational':
+                    document.getElementById('warehouseReportSection').classList.remove('active');
+                    showWarehouseReport(WAREHOUSES[0]);
+                    break;
+                case 'personnel':
+                    document.getElementById('personnelReportSection').classList.remove('active');
+                    showPersonnelReport(PERSONNEL_OBJECTS[0]);
+                    break;
+            }
+        }
+
         function showWarehouseReport(wh) {
             currentWarehouse = wh;
             document.getElementById('warehouseTitle').textContent = `📍 ${wh}`;
@@ -821,17 +1010,19 @@ th:nth-child(n+3), td:nth-child(n+3) {
             renderWarehouseCalendar();
             loadCategoryInputs();
         }
-        function showMainSection() {
+
+        function showPersonnelReport(obj) {
+            currentPersonnelObj = obj;
+            document.getElementById('personnelTitle').textContent = `📍 ${obj}`;
             document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-            document.getElementById('mainSection').classList.add('active');
+            document.getElementById('personnelReportSection').classList.add('active');
+            selectedPersonnelDate = currentDate.toLocaleDateString('ru-RU');
+            document.getElementById('selectedPersonnelDate').innerHTML = `<strong>Выбрано:</strong> ${selectedPersonnelDate}`;
+            renderPersonnelCalendar();
+            loadPersonnelCategoryInputs();
         }
-        function showSummarySection() {
-            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-            document.getElementById('summarySection').classList.add('active');
-            selectedSummaryDate = currentDate.toLocaleDateString('ru-RU');
-            renderSummaryCalendar();
-        }
-        function renderCalendar(calendarId, view, onSelect, selectedStr) {
+
+        function renderCalendar(calendarId, view, onSelect) {
             const cal = document.getElementById(calendarId);
             cal.innerHTML = '';
             const days = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'];
@@ -866,51 +1057,66 @@ th:nth-child(n+3), td:nth-child(n+3) {
             }
             dates.forEach(o => {
                 const b = document.createElement('button');
-                b.className = 'date-btn';
+                b.className = `date-btn ${o.empty ? 'empty' : ''}`;
                 b.textContent = o.day;
-                if (o.date.toLocaleDateString('ru-RU') === selectedStr) b.classList.add('selected');
+                if (o.empty) b.disabled = true;
                 b.onclick = () => onSelect(o.date);
                 cal.appendChild(b);
             });
         }
-        function renderWarehouseCalendar() { renderCalendar('warehouseCalendar', warehouseCalendarView, selectWarehouseDate, selectedWarehouseDate); }
-        function renderSummaryCalendar() { renderCalendar('summaryCalendar', summaryCalendarView, selectSummaryDate, selectedSummaryDate || currentDate.toLocaleDateString('ru-RU')); }
-        function selectWarehouseDate(d) { 
-            selectedWarehouseDate = d.toLocaleDateString('ru-RU'); 
-            document.getElementById('selectedWarehouseDate').innerHTML = `<strong>Выбрано:</strong> ${selectedWarehouseDate}`; 
-            renderWarehouseCalendar(); 
-            loadCategoryInputs(); 
+
+        function renderWarehouseCalendar() {
+            renderCalendar('warehouseCalendar', warehouseCalendarView, (date) => {
+                currentDate = date;
+                selectedWarehouseDate = currentDate.toLocaleDateString('ru-RU');
+                document.getElementById('selectedWarehouseDate').innerHTML = `<strong>Выбрано:</strong> ${selectedWarehouseDate}`;
+                renderWarehouseCalendar();
+                loadCategoryInputs();
+            });
         }
-        function selectSummaryDate(d) { 
-            selectedSummaryDate = d.toLocaleDateString('ru-RU'); 
-            renderSummaryCalendar(); 
+
+        function renderPersonnelCalendar() {
+            renderCalendar('personnelCalendar', personnelCalendarView, (date) => {
+                currentDate = date;
+                selectedPersonnelDate = currentDate.toLocaleDateString('ru-RU');
+                document.getElementById('selectedPersonnelDate').innerHTML = `<strong>Выбрано:</strong> ${selectedPersonnelDate}`;
+                renderPersonnelCalendar();
+                loadPersonnelCategoryInputs();
+            });
         }
-        function prevPeriod() { 
-            warehouseCalendarView === 'week' ? currentDate.setDate(currentDate.getDate() - 7) : currentDate.setMonth(currentDate.getMonth() - 1); 
-            renderWarehouseCalendar(); 
+
+        function prevPeriod() {
+            warehouseCalendarView === 'week' ? currentDate.setDate(currentDate.getDate() - 7) : currentDate.setMonth(currentDate.getMonth() - 1);
+            renderWarehouseCalendar();
         }
-        function nextPeriod() { 
-            warehouseCalendarView === 'week' ? currentDate.setDate(currentDate.getDate() + 7) : currentDate.setMonth(currentDate.getMonth() + 1); 
-            renderWarehouseCalendar(); 
+
+        function nextPeriod() {
+            warehouseCalendarView === 'week' ? currentDate.setDate(currentDate.getDate() + 7) : currentDate.setMonth(currentDate.getMonth() + 1);
+            renderWarehouseCalendar();
         }
-        function toggleCalendarView() { 
-            warehouseCalendarView = warehouseCalendarView === 'week' ? 'month' : 'week'; 
-            document.getElementById('warehouseViewToggleText').textContent = warehouseCalendarView === 'week' ? '📅 Неделя' : '📆 Месяц'; 
-            renderWarehouseCalendar(); 
+
+        function toggleCalendarView() {
+            warehouseCalendarView = warehouseCalendarView === 'week' ? 'month' : 'week';
+            document.getElementById('warehouseViewToggleText').textContent = warehouseCalendarView === 'week' ? '📅 Неделя' : '📆 Месяц';
+            renderWarehouseCalendar();
         }
-        function prevPeriodSummary() { 
-            summaryCalendarView === 'week' ? currentDate.setDate(currentDate.getDate() - 7) : currentDate.setMonth(currentDate.getMonth() - 1); 
-            renderSummaryCalendar(); 
+
+        function prevPeriodPersonnel() {
+            personnelCalendarView === 'week' ? currentDate.setDate(currentDate.getDate() - 7) : currentDate.setMonth(currentDate.getMonth() - 1);
+            renderPersonnelCalendar();
         }
-        function nextPeriodSummary() { 
-            summaryCalendarView === 'week' ? currentDate.setDate(currentDate.getDate() + 7) : currentDate.setMonth(currentDate.getMonth() + 1); 
-            renderSummaryCalendar(); 
+
+        function nextPeriodPersonnel() {
+            personnelCalendarView === 'week' ? currentDate.setDate(currentDate.getDate() + 7) : currentDate.setMonth(currentDate.getMonth() + 1);
+            renderPersonnelCalendar();
         }
-        function toggleCalendarViewSummary() { 
-            summaryCalendarView = summaryCalendarView === 'week' ? 'month' : 'week'; 
-            document.getElementById('summaryViewToggleText').textContent = summaryCalendarView === 'week' ? '📅 Неделя' : '📆 Месяц'; 
-            renderSummaryCalendar(); 
+
+        function toggleCalendarViewPersonnel() {
+            personnelCalendarView = personnelCalendarView === 'week' ? 'month' : 'week';
+            document.getElementById('personnelViewToggleText').textContent = personnelCalendarView === 'week' ? '📅 Неделя' : '📆 Месяц';
+            renderPersonnelCalendar();
         }
+
         function loadCategoryInputs() {
             if (!selectedWarehouseDate) return;
             const type = document.querySelector('input[name="warehouseReportType"]:checked').value;
@@ -979,12 +1185,67 @@ th:nth-child(n+3), td:nth-child(n+3) {
                 }
             });
         }
+
+        function loadPersonnelCategoryInputs() {
+            if (!selectedPersonnelDate || !currentPersonnelObj) return;
+            const type = document.querySelector('input[name="personnelReportType"]:checked').value;
+            const div = document.getElementById('personnelCategoryInputs');
+            div.innerHTML = '';
+            PERSONNEL_CATEGORIES.forEach(cat => {
+                const data = personnelReports[selectedPersonnelDate]?.[currentPersonnelObj]?.[type]?.[cat.name] || {};
+                const cd = document.createElement('div');
+                cd.className = 'category-input';
+                let html = `<h4>${cat.name}</h4>`;
+                
+                if (cat.type === 'number') {
+                    html += `
+                        <div class="input-row">
+                            <div><label>План:</label><input type="number" id="${currentPersonnelObj}_${type}_${cat.name}_plan" placeholder="План" value="${data.plan || ''}"></div>
+                            <div><label>Факт:</label><input type="number" id="${currentPersonnelObj}_${type}_${cat.name}_fact" placeholder="Факт" value="${data.fact || ''}"></div>
+                        </div>
+                        <div class="delta-display">Дельта: <span id="${currentPersonnelObj}_${type}_${cat.name}_delta"></span></div>
+                    `;
+                } else if (cat.type === 'select') {
+                    html += `
+                        <div>
+                            <label>Выберите:</label>
+                            <select id="${currentPersonnelObj}_${type}_${cat.name}_value">
+                                <option value="">-- Не выбрано --</option>
+                                ${cat.options.map(opt => `<option value="${opt}" ${data.value === opt ? 'selected' : ''}>${opt}</option>`).join('')}
+                            </select>
+                        </div>
+                    `;
+                }
+                
+                cd.innerHTML = html;
+                div.appendChild(cd);
+                
+                if (cat.type === 'number') {
+                    const planEl = document.getElementById(`${currentPersonnelObj}_${type}_${cat.name}_plan`);
+                    const factEl = document.getElementById(`${currentPersonnelObj}_${type}_${cat.name}_fact`);
+                    const deltaEl = document.getElementById(`${currentPersonnelObj}_${type}_${cat.name}_delta`);
+                    
+                    const updateDelta = () => {
+                        const plan = parseInt(planEl.value) || 0;
+                        const fact = parseInt(factEl.value) || 0;
+                        deltaEl.textContent = fact - plan;
+                        deltaEl.className = (fact - plan) >= 0 ? 'positive' : 'negative';
+                    };
+                    
+                    planEl.addEventListener('input', updateDelta);
+                    factEl.addEventListener('input', updateDelta);
+                    updateDelta();
+                }
+            });
+        }
+
         function selectYesNo(wh, t, cat, val, e) {
             e.preventDefault();
             document.getElementById(`${wh}_${t}_${cat}_value`).value = val;
             e.target.parentElement.querySelectorAll('.yesno-btn').forEach(b => b.classList.remove('selected'));
             e.target.classList.add('selected');
         }
+
         function parseTimeToMin(timeStr) {
             const parts = timeStr.split(':'); 
             if (parts.length !== 2) return NaN;
@@ -992,8 +1253,10 @@ th:nth-child(n+3), td:nth-child(n+3) {
             const m = parseInt(parts[1]) || 0;
             return h * 60 + m;
         }
+
         function saveWarehouseReport() {
-            if (!selectedWarehouseDate) return alert('Выберите дату!');
+            if (!selectedWarehouseDate) return alert('⚠️ Выберите дату!');
+            if (!currentWarehouse) return alert('⚠️ Выберите склад!');
             const type = document.querySelector('input[name="warehouseReportType"]:checked').value;
             if (!reports[selectedWarehouseDate]) reports[selectedWarehouseDate] = {};
             if (!reports[selectedWarehouseDate][currentWarehouse]) reports[selectedWarehouseDate][currentWarehouse] = {};
@@ -1022,58 +1285,107 @@ th:nth-child(n+3), td:nth-child(n+3) {
                         }
                         data = { plan, fact, delta };
                     }
-                } else if (cat.type === 'single' || cat.type === 'yesno' || cat.type === 'select') {
+                } else if (cat.type === 'single') {
                     const valueEl = document.getElementById(`${currentWarehouse}_${type}_${cat.name}_value`);
                     if (valueEl) {
-                        data = { value: valueEl.value.trim() };
+                        const value = valueEl.value.trim();
+                        data = { value };
                     }
                 } else if (cat.type === 'triple' || cat.type === 'double') {
                     cat.fields.forEach(f => {
                         const el = document.getElementById(`${currentWarehouse}_${type}_${cat.name}_${f.n}`);
                         if (el) data[f.n] = el.value.trim();
                     });
+                } else if (cat.type === 'yesno') {
+                    const valueEl = document.getElementById(`${currentWarehouse}_${type}_${cat.name}_value`);
+                    if (valueEl) {
+                        const value = valueEl.value.trim();
+                        data = { value };
+                    }
+                } else if (cat.type === 'select') {
+                    const valueEl = document.getElementById(`${currentWarehouse}_${type}_${cat.name}_value`);
+                    if (valueEl) {
+                        const value = valueEl.value.trim();
+                        data = { value };
+                    }
                 }
                 reports[selectedWarehouseDate][currentWarehouse][type][cat.name] = data;
             });
             localStorage.setItem('warehouseReports', JSON.stringify(reports));
             cleanOldReports();
             alert('✅ Сохранено! Данные доступны в общем своде.');
-            showMainSection();
+            showSummarySection();
         }
+
+        function savePersonnelReport() {
+            if (!selectedPersonnelDate) return alert('⚠️ Выберите дату!');
+            if (!currentPersonnelObj) return alert('⚠️ Выберите объект!');
+            const type = document.querySelector('input[name="personnelReportType"]:checked').value;
+            if (!personnelReports[selectedPersonnelDate]) personnelReports[selectedPersonnelDate] = {};
+            if (!personnelReports[selectedPersonnelDate][currentPersonnelObj]) personnelReports[selectedPersonnelDate][currentPersonnelObj] = {};
+            if (!personnelReports[selectedPersonnelDate][currentPersonnelObj][type]) personnelReports[selectedPersonnelDate][currentPersonnelObj][type] = {};
+
+            PERSONNEL_CATEGORIES.forEach(cat => {
+                const data = {};
+                if (cat.type === 'number') {
+                    const planEl = document.getElementById(`${currentPersonnelObj}_${type}_${cat.name}_plan`);
+                    const factEl = document.getElementById(`${currentPersonnelObj}_${type}_${cat.name}_fact`);
+                    data.plan = planEl.value.trim();
+                    data.fact = factEl.value.trim();
+                    data.delta = (parseInt(factEl.value) || 0) - (parseInt(planEl.value) || 0);
+                } else if (cat.type === 'select') {
+                    const valueEl = document.getElementById(`${currentPersonnelObj}_${type}_${cat.name}_value`);
+                    data.value = valueEl.value.trim();
+                }
+                personnelReports[selectedPersonnelDate][currentPersonnelObj][type][cat.name] = data;
+            });
+
+            localStorage.setItem('personnelReports', JSON.stringify(personnelReports));
+            cleanOldPersonnelReports();
+            alert('✅ Данные сохранены!');
+            showPersonnelSummarySection();
+        }
+
         function updateSummaryTable() { 
             if (selectedSummaryDate) showSummaryData(); 
         }
+
         function showSummaryData() {
             if (!selectedSummaryDate) return alert('⚠️ Кликните на дату в календаре!');
             const includeDay = document.getElementById('summaryDay').checked;
             const includeNight = document.getElementById('summaryNight').checked;
             if (!includeDay && !includeNight) return alert('⚠️ Выберите хотя бы один тип отчёта!');
             const selectedManager = document.getElementById('managerFilter').value;
-            const dateDisplay = document.getElementById('currentSummaryDate');
-            if (dateDisplay) dateDisplay.textContent = selectedSummaryDate;
+            document.getElementById('currentSummaryDate').textContent = selectedSummaryDate;
+            
             document.getElementById('summarySection').classList.remove('active');
             document.getElementById('summaryTableSection').classList.add('active');
+            
             const tableDiv = document.getElementById('summaryTable');
             let html = '<div class="table-wrapper"><table><thead><tr><th>Дата</th><th>Склад</th><th>ХА</th>';
-            CATEGORIES.forEach(cat => {
-                if (cat.type === 'single' || cat.type === 'yesno' || cat.type === 'select') html += `<th>${cat.name}</th>`;
-                else if (cat.type === 'triple') html += `<th colspan="3">${cat.name}</th>`;
-                else if (cat.type === 'double') html += `<th colspan="2">${cat.name}</th>`;
-                else html += `<th colspan="3">${cat.name}</th>`;
-            });
-            html += '<th>Тип</th></tr><tr><th>Дата</th><th>Склад</th><th>ХА</th>';
-            CATEGORIES.forEach(cat => {
-                if (cat.type === 'single' || cat.type === 'yesno' || cat.type === 'select') html += `<th>${cat.label || cat.unit || ''}</th>`;
-                else if (cat.type === 'triple') cat.fields.forEach(f => html += `<th>${f.u}</th>`);
-                else if (cat.type === 'double') cat.fields.forEach(f => html += `<th>${f.u}</th>`);
-                else html += '<th>П</th><th>Ф</th><th>Δ</th>';
-            });
-            html += '<th>Тип</th></tr></thead><tbody>';
+            html += CATEGORIES.map(cat => {
+                if (cat.type === 'single' || cat.type === 'yesno' || cat.type === 'select') return `<th>${cat.name}</th>`;
+                if (cat.type === 'triple') return `<th colspan="3">${cat.name}</th>`;
+                if (cat.type === 'double') return `<th colspan="2">${cat.name}</th>`;
+                return `<th colspan="3">${cat.name}</th>`;
+            }).join('') + '<th>Тип</th></tr>';
+            
+            html += '<tr><th>Дата</th><th>Склад</th><th>ХА</th>';
+            html += CATEGORIES.map(cat => {
+                if (cat.type === 'single') return `<th>${cat.unit}</th>`;
+                if (cat.type === 'triple' || cat.type === 'double') return cat.fields.map(f => `<th>${f.u}</th>`).join('');
+                if (cat.type === 'time') return '<th>План</th><th>Факт</th><th>Δ</th>';
+                if (cat.type === 'number') return '<th>План</th><th>Факт</th><th>Δ</th>';
+                return `<th>${cat.label}</th>`;
+            }).join('') + '<th>Тип</th></tr></thead><tbody>';
+            
             let totalVolumePlan = 0;
             const warehouseData = reports[selectedSummaryDate] || {};
             WAREHOUSES.forEach(wh => {
                 const whData = warehouseData[wh] || {};
                 let rowAdded = false;
+                
+                // Дневная смена
                 if (includeDay && whData.day) {
                     const managerValue = whData.day['Руководитель']?.value || '';
                     if (!selectedManager || managerValue === selectedManager) {
@@ -1083,6 +1395,8 @@ th:nth-child(n+3), td:nth-child(n+3) {
                         rowAdded = true;
                     }
                 }
+                
+                // Ночная смена
                 if (includeNight && whData.night) {
                     const managerValue = whData.night['Руководитель']?.value || '';
                     if (!selectedManager || managerValue === selectedManager) {
@@ -1092,10 +1406,11 @@ th:nth-child(n+3), td:nth-child(n+3) {
                         rowAdded = true;
                     }
                 }
+                
                 if (!rowAdded) {
                     let cells = `<td>${selectedSummaryDate}</td><td>${wh}</td><td>ХА</td>`;
                     const numCols = CATEGORIES.reduce((acc, cat) => {
-                        if (cat.type === 'single' || cat.type === 'yesno' || cat.type === 'select') return acc + 1;
+                        if (cat.type === 'single' || cat.type === 'yesno' || cat.type === 'select' || cat.type === 'time') return acc + 1;
                         if (cat.type === 'triple') return acc + 3;
                         if (cat.type === 'double') return acc + 2;
                         return acc + 3;
@@ -1105,51 +1420,297 @@ th:nth-child(n+3), td:nth-child(n+3) {
                     html += `<tr>${cells}</tr>`;
                 }
             });
-            html += '</tbody></table></div><div class="summary-total">📊 Итого по Объёму (план): ' + totalVolumePlan + '</div>';
+            
+            html += '</tbody></table></div>';
+            html += `<div class="summary-total">📊 Итого по Объёму (план): ${totalVolumePlan}</div>`;
             tableDiv.innerHTML = html;
         }
+
         function addRow(date, wh, typeData, typeLabel) {
-            let html = `<tr><td>${date}</td><td>${wh}</td><td>ХА</td>`;
+            let cells = '';
             let volumePlan = 0;
+            cells += `<td>${date}</td><td>${wh}</td><td>ХА</td>`;
+            
             CATEGORIES.forEach(cat => {
                 const data = typeData[cat.name] || {};
                 if (cat.type === 'single') {
-                    html += `<td>${data.value || '-'}</td>`;
+                    cells += `<td>${data.value || '-'}</td>`;
                 } else if (cat.type === 'yesno') {
                     const val = data.value || '';
                     const isBad = val === 'yes';
-                    html += `<td class="${isBad ? 'bad' : (val ? 'good' : '')}">${val ? (isBad ? '❌' : '✅') : '-'}</td>`;
+                    cells += `<td class="${isBad ? 'bad' : (val ? 'good' : '')}">${val ? (isBad ? '❌' : '✅') : '-'}</td>`;
                 } else if (cat.type === 'select') {
-                    html += `<td>${data.value || '-'}</td>`;
+                    cells += `<td>${data.value || '-'}</td>`;
                 } else if (cat.type === 'triple') {
-                    cat.fields.forEach(f => html += `<td>${data[f.n] || '-'}</td>`);
+                    cat.fields.forEach(f => cells += `<td>${data[f.n] || '-'}</td>`);
                 } else if (cat.type === 'double') {
-                    cat.fields.forEach(f => html += `<td>${data[f.n] || '-'}</td>`);
+                    cat.fields.forEach(f => cells += `<td>${data[f.n] || '-'}</td>`);
                 } else if (cat.type === 'time') {
-                    html += `<td>${data.plan || '-'}</td><td>${data.fact || '-'}</td>`;
+                    cells += `<td>${data.plan || '-'}</td><td>${data.fact || '-'}</td>`;
                     const deltaText = data.delta || '';
                     const isGood = deltaText === 'Норма';
-                    html += `<td class="${isGood ? 'good' : (deltaText ? 'bad' : '')}">${deltaText ? (isGood ? '✅' : '❌') : '-'}</td>`;
-                } else {
-                    html += `<td>${data.plan || '-'}</td><td>${data.fact || '-'}</td>`;
+                    cells += `<td class="${isGood ? 'good' : (deltaText ? 'bad' : '')}">${deltaText ? (isGood ? '✅' : '❌') : '-'}</td>`;
+                } else if (cat.type === 'number') {
+                    cells += `<td>${data.plan || '-'}</td><td>${data.fact || '-'}</td>`;
                     const deltaCell = data.delta !== undefined && data.delta !== '' ? data.delta : '-';
                     const deltaClass = typeof deltaCell === 'number' ? (deltaCell >= 0 ? 'positive' : 'negative') : '';
-                    html += `<td class="${deltaClass}">${deltaCell}</td>`;
-                    // Поиск плана для объёма (предположим, что 'Обработка' - это объём)
+                    cells += `<td class="${deltaClass}">${deltaCell}</td>`;
+                    
+                    // Сбор плана для общего объёма (примерное использование)
                     if (cat.name === 'Обработка') {
                         const p = parseInt(data.plan) || 0;
                         volumePlan += p;
                     }
                 }
             });
-            html += `<td>${typeLabel}</td></tr>`;
-            return { html, volumePlan };
+            
+            cells += `<td>${typeLabel}</td>`;
+            return { html: `<tr>${cells}</tr>`, volumePlan };
         }
+
+        function showPersonnelSummaryData() {
+            if (!selectedSummaryDate) return alert('⚠️ Выберите дату!');
+            const includeDay = document.getElementById('personnelSummaryDay').checked;
+            const includeNight = document.getElementById('personnelSummaryNight').checked;
+            if (!includeDay && !includeNight) return alert('⚠️ Выберите тип смены!');
+            const selectedManager = document.getElementById('personnelManagerFilter').value;
+            document.getElementById('currentPersonnelSummaryDate').textContent = selectedSummaryDate;
+            
+            document.getElementById('personnelSummarySection').classList.remove('active');
+            document.getElementById('personnelSummaryTableSection').classList.add('active');
+            
+            const tableDiv = document.getElementById('personnelSummaryTable');
+            let html = '<div class="table-wrapper"><table><thead><tr><th>Дата</th><th>Объект</th><th>ХА</th>';
+            html += PERSONNEL_CATEGORIES.map(cat => 
+                cat.type === 'number' ? `<th colspan="2">${cat.name}</th>` : `<th>${cat.name}</th>`
+            ).join('') + '<th>Тип</th></tr>';
+            html += '<tr><th>Дата</th><th>Объект</th><th>ХА</th>';
+            html += PERSONNEL_CATEGORIES.map(cat => 
+                cat.type === 'number' ? '<th>План</th><th>Факт</th>' : `<th>${cat.label || ''}</th>`
+            ).join('') + '<th>Тип</th></tr></thead><tbody>';
+
+            PERSONNEL_OBJECTS.forEach(obj => {
+                let rowAdded = false;
+                const objData = personnelReports[selectedSummaryDate]?.[obj] || {};
+
+                // Дневная смена
+                if (includeDay && objData.day) {
+                    const manager = objData.day['Руководитель']?.value || '';
+                    if (!selectedManager || manager === selectedManager) {
+                        html += `
+                            <tr>
+                                <td>${selectedSummaryDate}</td>
+                                <td>${obj}</td>
+                                <td>ХА</td>
+                                ${PERSONNEL_CATEGORIES.map(cat => {
+                                    const data = objData.day[cat.name] || {};
+                                    if (cat.type === 'number') {
+                                        return `<td>${data.plan || '-'}</td><td>${data.fact || '-'}</td>`;
+                                    } else if (cat.type === 'select') {
+                                        return `<td>${data.value || '-'}</td>`;
+                                    }
+                                    return '<td>-</td>';
+                                }).join('')}
+                                <td>☀️ Дневная</td>
+                            </tr>
+                        `;
+                        rowAdded = true;
+                    }
+                }
+
+                // Ночная смена
+                if (includeNight && objData.night) {
+                    const manager = objData.night['Руководитель']?.value || '';
+                    if (!selectedManager || manager === selectedManager) {
+                        html += `
+                            <tr>
+                                <td>${selectedSummaryDate}</td>
+                                <td>${obj}</td>
+                                <td>ХА</td>
+                                ${PERSONNEL_CATEGORIES.map(cat => {
+                                    const data = objData.night[cat.name] || {};
+                                    if (cat.type === 'number') {
+                                        return `<td>${data.plan || '-'}</td><td>${data.fact || '-'}</td>`;
+                                    } else if (cat.type === 'select') {
+                                        return `<td>${data.value || '-'}</td>`;
+                                    }
+                                    return '<td>-</td>';
+                                }).join('')}
+                                <td>🌙 Ночная</td>
+                            </tr>
+                        `;
+                        rowAdded = true;
+                    }
+                }
+
+                if (!rowAdded) {
+                    html += `
+                        <tr>
+                            <td>${selectedSummaryDate}</td>
+                            <td>${obj}</td>
+                            <td>ХА</td>
+                            ${PERSONNEL_CATEGORIES.map(cat => 
+                                cat.type === 'number' ? '<td>-</td><td>-</td>' : '<td>-</td>'
+                            ).join('')}
+                            <td>-</td>
+                        </tr>
+                    `;
+                }
+            });
+
+            html += '</tbody></table></div>';
+            tableDiv.innerHTML = html;
+        }
+
+        function showSummarySection() {
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            document.getElementById('summarySection').classList.add('active');
+        }
+
+        function showPersonnelSummarySection() {
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            document.getElementById('personnelSummarySection').classList.add('active');
+        }
+
+        function prevSummaryDay() {
+            if (!selectedSummaryDate) return;
+            const [day, month, year] = selectedSummaryDate.split('.').map(Number);
+            const date = new Date(year, month - 1, day);
+            date.setDate(date.getDate() - 1);
+            selectedSummaryDate = date.toLocaleDateString('ru-RU');
+            document.getElementById('currentSummaryDate').textContent = selectedSummaryDate;
+            showSummaryData();
+        }
+
+        function nextSummaryDay() {
+            if (!selectedSummaryDate) return;
+            const [day, month, year] = selectedSummaryDate.split('.').map(Number);
+            const date = new Date(year, month - 1, day);
+            date.setDate(date.getDate() + 1);
+            selectedSummaryDate = date.toLocaleDateString('ru-RU');
+            document.getElementById('currentSummaryDate').textContent = selectedSummaryDate;
+            showSummaryData();
+        }
+
+        function prevPersonnelSummaryDay() {
+            if (!selectedSummaryDate) return;
+            const [day, month, year] = selectedSummaryDate.split('.').map(Number);
+            const date = new Date(year, month - 1, day);
+            date.setDate(date.getDate() - 1);
+            selectedSummaryDate = date.toLocaleDateString('ru-RU');
+            document.getElementById('currentPersonnelSummaryDate').textContent = selectedSummaryDate;
+            showPersonnelSummaryData();
+        }
+
+        function nextPersonnelSummaryDay() {
+            if (!selectedSummaryDate) return;
+            const [day, month, year] = selectedSummaryDate.split('.').map(Number);
+            const date = new Date(year, month - 1, day);
+            date.setDate(date.getDate() + 1);
+            selectedSummaryDate = date.toLocaleDateString('ru-RU');
+            document.getElementById('currentPersonnelSummaryDate').textContent = selectedSummaryDate;
+            showPersonnelSummaryData();
+        }
+
+        function toggleCalendarViewSummary() {
+            summaryCalendarView = summaryCalendarView === 'week' ? 'month' : 'week';
+            document.getElementById('summaryViewToggleText').textContent = summaryCalendarView === 'week' ? '📅 Неделя' : '📆 Месяц';
+            renderSummaryCalendar();
+        }
+
+        function renderSummaryCalendar() {
+            const view = summaryCalendarView;
+            const cal = document.getElementById('summaryCalendar');
+            cal.innerHTML = '';
+            const days = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'];
+            days.forEach(d => {
+                const h = document.createElement('div');
+                h.className = 'calendar-header';
+                h.textContent = d;
+                cal.appendChild(h);
+            });
+            let dates = [];
+            if (view === 'week') {
+                const mon = new Date(currentDate);
+                mon.setDate(mon.getDate() - ((mon.getDay() || 7) - 1));
+                for (let i = 0; i < 7; i++) {
+                    const d = new Date(mon);
+                    d.setDate(mon.getDate() + i);
+                    dates.push({ date: d, day: d.getDate() });
+                }
+            } else {
+                const y = currentDate.getFullYear(), m = currentDate.getMonth();
+                const lastDay = new Date(y, m + 1, 0);
+                dates = [];
+                for (let day = 1; day <= lastDay.getDate(); day++) {
+                    dates.push({ date: new Date(y, m, day), day });
+                }
+            }
+            dates.forEach(o => {
+                const b = document.createElement('button');
+                b.className = 'date-btn';
+                b.textContent = o.day;
+                b.onclick = () => {
+                    selectedSummaryDate = o.date.toLocaleDateString('ru-RU');
+                    document.getElementById('currentSummaryDate').textContent = selectedSummaryDate;
+                    showSummaryData();
+                };
+                cal.appendChild(b);
+            });
+        }
+
+        function toggleCalendarViewPersonnelSummary() {
+            personnelSummaryCalendarView = personnelSummaryCalendarView === 'week' ? 'month' : 'week';
+            document.getElementById('personnelSummaryViewToggleText').textContent = personnelSummaryCalendarView === 'week' ? '📅 Неделя' : '📆 Месяц';
+            renderPersonnelSummaryCalendar();
+        }
+
+        function renderPersonnelSummaryCalendar() {
+            const view = personnelSummaryCalendarView;
+            const cal = document.getElementById('personnelSummaryCalendar');
+            cal.innerHTML = '';
+            const days = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'];
+            days.forEach(d => {
+                const h = document.createElement('div');
+                h.className = 'calendar-header';
+                h.textContent = d;
+                cal.appendChild(h);
+            });
+            let dates = [];
+            if (view === 'week') {
+                const mon = new Date(currentDate);
+                mon.setDate(mon.getDate() - ((mon.getDay() || 7) - 1));
+                for (let i = 0; i < 7; i++) {
+                    const d = new Date(mon);
+                    d.setDate(mon.getDate() + i);
+                    dates.push({ date: d, day: d.getDate() });
+                }
+            } else {
+                const y = currentDate.getFullYear(), m = currentDate.getMonth();
+                const lastDay = new Date(y, m + 1, 0);
+                dates = [];
+                for (let day = 1; day <= lastDay.getDate(); day++) {
+                    dates.push({ date: new Date(y, m, day), day });
+                }
+            }
+            dates.forEach(o => {
+                const b = document.createElement('button');
+                b.className = 'date-btn';
+                b.textContent = o.day;
+                b.onclick = () => {
+                    selectedSummaryDate = o.date.toLocaleDateString('ru-RU');
+                    document.getElementById('currentPersonnelSummaryDate').textContent = selectedSummaryDate;
+                    showPersonnelSummaryData();
+                };
+                cal.appendChild(b);
+            });
+        }
+
         function toggleFullScreen() {
             const fs = document.getElementById('fullScreenTable');
-            const tbl = document.getElementById('summaryTable');
+            const tbl = document.getElementById('summaryTable').innerHTML;
             if (fs.style.display === 'none') {
-                document.getElementById('fullSummaryTable').innerHTML = tbl.innerHTML;
+                document.getElementById('fullSummaryTable').innerHTML = tbl;
                 fs.style.display = 'block';
                 document.body.style.overflow = 'hidden';
             } else {
@@ -1157,35 +1718,39 @@ th:nth-child(n+3), td:nth-child(n+3) {
                 document.body.style.overflow = 'auto';
             }
         }
-        function prevSummaryDay() {
-            if (!selectedSummaryDate) return;
-            const [day, month, year] = selectedSummaryDate.split('.').map(Number);
-            const date = new Date(year, month - 1, day);
-            date.setDate(date.getDate() - 1);
-            selectedSummaryDate = date.toLocaleDateString('ru-RU');
-            const dateDisplay = document.getElementById('currentSummaryDate');
-            if (dateDisplay) dateDisplay.textContent = selectedSummaryDate;
-            showSummaryData();
+
+        function togglePersonnelFullScreen() {
+            // Аналогично полноэкранному открытию для операций, можно расширить если нужно
+            alert('Полноэкранный режим для персонала не реализован, но логика аналогична');
+            // (Для полной реализации добавьте аналогичный блок fullScreenTable для персонала)
         }
-        function nextSummaryDay() {
-            if (!selectedSummaryDate) return;
-            const [day, month, year] = selectedSummaryDate.split('.').map(Number);
-            const date = new Date(year, month - 1, day);
-            date.setDate(date.getDate() + 1);
-            selectedSummaryDate = date.toLocaleDateString('ru-RU');
-            const dateDisplay = document.getElementById('currentSummaryDate');
-            if (dateDisplay) dateDisplay.textContent = selectedSummaryDate;
-            showSummaryData();
+
+        function backToMain() {
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            document.getElementById('mainSection').classList.add('active');
+            currentWarehouse = '';
+            currentPersonnelObj = '';
+            selectedWarehouseDate = null;
+            selectedPersonnelDate = null;
+            selectedSummaryDate = null;
         }
+
         document.addEventListener('DOMContentLoaded', () => {
             document.querySelectorAll('input[name="warehouseReportType"]').forEach(r => r.addEventListener('change', loadCategoryInputs));
+            document.querySelectorAll('input[name="personnelReportType"]').forEach(r => r.addEventListener('change', loadPersonnelCategoryInputs));
         });
+
         window.onload = function () {
             cleanOldReports();
+            cleanOldPersonnelReports();
             generateWarehouseList();
+            generatePersonnelList();
             renderWarehouseCalendar();
+            renderPersonnelCalendar();
             renderSummaryCalendar();
+            renderPersonnelSummaryCalendar();
             fillTestData();
+            fillPersonnelTestData();
         };
     </script>
 </body>
