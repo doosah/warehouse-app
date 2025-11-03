@@ -56,26 +56,11 @@ body {
     align-items: center;
     gap: 12px;
 }
-/* крупный логотип */
-.logo.big {
-    height: 56px;        /* базовый размер */
-    width: auto;
-    filter: drop-shadow(0 2px 8px rgba(102,126,234,.45));
-    transition: transform .3s ease;
-}
-.logo.big:hover {
-    transform: scale(1.05);
-}
-/* уменьшенный заголовок */
-.header-text h1 {
-    font-size: clamp(18px, 4vw, 24px);   /* был clamp(20px, 5vw, 32px) */
-    margin: 0;
-}
 .logo {
     height: 40px;          /* base size */
     width: auto;
     filter: drop-shadow(0 2px 8px rgba(102, 126, 234, .45));
-    transition: transform .3s ease;
+    transition: transform 0.3s ease;
 }
 .logo:hover {
     transform: scale(1.05);
@@ -83,7 +68,6 @@ body {
 /*  mobile  */
 @media (max-width: 480px) {
     .logo { height: 32px; }
-    .logo.big { height: 40px; } /* Дополнительно: адаптивный размер для крупного логотипа на мобильных */
 }
 @keyframes gradientFlow {
     0% { background-position: 0% 50%; }
@@ -610,11 +594,11 @@ th:nth-child(n+3), td:nth-child(n+3) {
         <!-- ==========  NEW HEADER WITH LOGO  ========== -->
         <div class="header">
             <div class="header-inner">
-                <!--  ЛОГОТИП  -->
-                <img src="image.png" alt="V3LS3N" class="logo big">
-                <!--  ТЕКСТ  -->
+                <!--  LOGO  -->
+                <img src="image.png" alt="W V3LS3N" class="logo">
+                <!--  TEXT  -->
                 <div class="header-text">
-                    <h1>Сводные данные</h1>
+                    <h1>📊 Сводные данные</h1>
                     <div class="subtitle">Система учёта и аналитики складских операций</div>
                 </div>
             </div>
@@ -1174,4 +1158,35 @@ th:nth-child(n+3), td:nth-child(n+3) {
             }
         }
         function prevSummaryDay() {
-            if (!selectedSummaryDate) return
+            if (!selectedSummaryDate) return;
+            const [day, month, year] = selectedSummaryDate.split('.').map(Number);
+            const date = new Date(year, month - 1, day);
+            date.setDate(date.getDate() - 1);
+            selectedSummaryDate = date.toLocaleDateString('ru-RU');
+            const dateDisplay = document.getElementById('currentSummaryDate');
+            if (dateDisplay) dateDisplay.textContent = selectedSummaryDate;
+            showSummaryData();
+        }
+        function nextSummaryDay() {
+            if (!selectedSummaryDate) return;
+            const [day, month, year] = selectedSummaryDate.split('.').map(Number);
+            const date = new Date(year, month - 1, day);
+            date.setDate(date.getDate() + 1);
+            selectedSummaryDate = date.toLocaleDateString('ru-RU');
+            const dateDisplay = document.getElementById('currentSummaryDate');
+            if (dateDisplay) dateDisplay.textContent = selectedSummaryDate;
+            showSummaryData();
+        }
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('input[name="warehouseReportType"]').forEach(r => r.addEventListener('change', loadCategoryInputs));
+        });
+        window.onload = function () {
+            cleanOldReports();
+            generateWarehouseList();
+            renderWarehouseCalendar();
+            renderSummaryCalendar();
+            fillTestData();
+        };
+    </script>
+</body>
+</html>
