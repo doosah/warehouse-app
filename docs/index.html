@@ -6,8 +6,6 @@
     <meta name="mobile-web-app-capable" content="yes">
     <title>Сводные данные | Система учёта</title>
     <style>
-/* ========== СОВРЕМЕННЫЙ ДИЗАЙН: Только цвета, градиенты и эффекты ========== */
-/* НЕ МЕНЯЮТСЯ: размеры, padding, margin, структура */
 :root {
     --primary-color: #667eea;
     --primary-dark: #764ba2;
@@ -42,14 +40,13 @@ body {
                 0 0 0 1px rgba(102, 126, 234, 0.1),
                 inset 0 1px 0 rgba(255, 255, 255, 0.05);
 }
-/* ========== НОВЫЙ ХЕДЕР С ЛОГОТИПОМ ========== */
 .header {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
     background-size: 200% 200%;
     animation: gradientFlow 8s ease infinite;
     border-bottom: 1px solid rgba(135, 150, 200, 0.2);
     box-shadow: 0 4px 20px rgba(102, 126, 234, 0.3);
-    padding: 16px 20px; /* Добавлен padding для контейнера с лого */
+    padding: 16px 20px;
 }
 .header-inner {
     display: flex;
@@ -57,7 +54,7 @@ body {
     gap: 12px;
 }
 .logo {
-    height: 40px; /* base size */
+    height: 40px;
     width: auto;
     filter: drop-shadow(rgba(102, 126, 234, 0.45) 0px 2px 8px);
     transition: transform 0.3s ease;
@@ -65,7 +62,6 @@ body {
 .logo:hover {
     transform: scale(1.05);
 }
-/* mobile */
 @media (max-width: 480px) {
     .logo { height: 32px; }
 }
@@ -138,8 +134,7 @@ button {
     color: #ffffff;
     border: none;
     box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4),
-                0 2px 5px rgba(0, 0, 0, 0.3),
-                inset 0 1px 0 rgba(255, 255, 255, 0.3);
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
     transition: all 0.3s ease;
     position: relative;
     overflow: hidden;
@@ -161,7 +156,7 @@ button:hover {
     background-position: 100% 50%;
     box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5),
                 0 3px 8px rgba(0, 0, 0, 0.3),
-                inset 0 1px 0 rgba(255, 255, 255, 0.3);
+                inset 0 1px 0 rgba(255, 255, 255, 0.15);
     transform: translateY(-1px);
 }
 button:hover::before {
@@ -243,7 +238,6 @@ button.date-btn.selected {
     border: 1px solid rgba(135, 150, 200, 0.2);
     box-shadow: inset 0 1px 0 rgba(0, 0, 0, 0.1);
 }
-/* ========== ОСТАЛЬНЫЕ СТИЛИ БЕЗ ИЗМЕНЕНИЙ ========== */
 * {
     margin: 0;
     padding: 0;
@@ -418,7 +412,7 @@ table {
     table-layout: fixed;
     transform: scale(0.95);
     transform-origin: top left;
-    width: calc(100% / 0.95);
+    width: calc(100% - (100% - 600px) * 0.05); /* Коррекция ширины для масштабирования */
 }
 th, td {
     border: 1px solid rgba(71, 85, 105, 0.3);
@@ -524,7 +518,7 @@ th:nth-child(n+3), td:nth-child(n+3) {
     color: #ffffff;
     box-shadow: 0 10px 30px rgba(250, 112, 154, 0.5),
                 0 5px 15px rgba(0, 0, 0, 0.3),
-                inset 0 1px 0 rgba(255, 255, 255, 0.3);
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
     border: none;
     padding: 14px 24px;
     cursor: pointer;
@@ -542,7 +536,6 @@ th:nth-child(n+3), td:nth-child(n+3) {
                 inset 0 2px 5px rgba(0, 0, 0, 0.3);
     transform: scale(0.95);
 }
-/* МОБИЛЬНАЯ АДАПТАЦИЯ */
 @media (max-width: 768px) {
     body { padding: 8px; }
     .container { border-radius: 16px; }
@@ -601,25 +594,20 @@ th:nth-child(n+3), td:nth-child(n+3) {
 </head>
 <body>
     <div class="container">
-        <!-- ========== NEW HEADER WITH LOGO ========== -->
         <div class="header">
             <div class="header-inner">
-                <!-- LOGO -->
-               <img src="img/logo.png" alt="V3LS3N Logo" class="logo">
-                <!-- TEXT -->
+                <img src="img/logo.png" alt="V3LS3N Logo" class="logo">
                 <div class="header-text">
                     <h1>📊 Сводные данные</h1>
                     <div class="subtitle">Система учёта и аналитики складских операций</div>
                 </div>
             </div>
         </div>
-        <!-- Главная: выбор отчёта -->
         <div id="mainSection" class="section active">
             <h2>Выберите отчёт</h2>
             <button class="large-button" onclick="selectReport('operational')">📄 Операционные показатели</button>
             <button class="large-button" onclick="selectReport('personnel')">📊 Персонал</button>
         </div>
-        <!-- Отчёт по складу -->
         <div id="warehouseReportSection" class="section">
             <h2 id="warehouseTitle">Отчёт по складу</h2>
             <div class="warehouse-list" id="warehouseList"></div>
@@ -651,7 +639,6 @@ th:nth-child(n+3), td:nth-child(n+3) {
                 </div>
             </form>
         </div>
-        <!-- Отчёт по Персоналу -->
         <div id="personnelReportSection" class="section">
             <h2 id="personnelTitle">Отчёт по персоналу</h2>
             <div class="warehouse-list" id="personnelList"></div>
@@ -683,7 +670,6 @@ th:nth-child(n+3), td:nth-child(n+3) {
                 </div>
             </form>
         </div>
-        <!-- Общий свод (Операции) -->
         <div id="summarySection" class="section">
             <h2>📊 Общий свод по всем складам</h2>
             <div class="checkbox-group">
@@ -714,7 +700,6 @@ th:nth-child(n+3), td:nth-child(n+3) {
                 <button class="secondary" onclick="backToMain()">← Назад к выбору отчёта</button>
             </div>
         </div>
-        <!-- Сводная таблица (Операции) -->
         <div id="summaryTableSection" class="section">
             <h2>📋 Сводная таблица</h2>
             <div class="date-section">
@@ -730,7 +715,6 @@ th:nth-child(n+3), td:nth-child(n+3) {
                 <button class="secondary" onclick="showSummarySection()">← Назад</button>
             </div>
         </div>
-        <!-- Общий свод (Персонал) -->
         <div id="personnelSummarySection" class="section">
             <h2>📊 Общий свод по персоналу</h2>
             <div class="checkbox-group">
@@ -761,7 +745,6 @@ th:nth-child(n+3), td:nth-child(n+3) {
                 <button class="secondary" onclick="backToMain()">← Назад к выбору отчёта</button>
             </div>
         </div>
-        <!-- Сводная таблица (Персонал) -->
         <div id="personnelSummaryTableSection" class="section">
             <h2>📋 Сводная таблица по персоналу</h2>
             <div class="date-section">
@@ -777,20 +760,27 @@ th:nth-child(n+3), td:nth-child(n+3) {
                 <button class="secondary" onclick="showPersonnelSummarySection()">← Назад</button>
             </div>
         </div>
-        <!-- Полноэкранная таблица (Операции) -->
         <div id="fullScreenTable" class="full-screen-table" style="display:none">
             <button class="close-full" onclick="toggleFullScreen()">✕ Закрыть</button>
             <div id="fullSummaryTable"></div>
         </div>
-        <!-- Полноэкранная таблица (Персонал) -->
         <div id="fullPersonnelScreenTable" class="full-screen-table" style="display:none">
             <button class="close-full" onclick="togglePersonnelFullScreen()">✕ Закрыть</button>
             <div id="fullPersonnelSummaryTable"></div>
         </div>
-        <!-- Консоль -->
         <div id="console-output"></div>
     </div>
+
+    <!-- ========== SUPABASE CLIENT ========== -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
+        // ========== SUPABASE INTEGRATION ==========
+
+        // Инициализация Supabase
+        const SUPABASE_URL = 'https://hpjrjpxctmlttdwqrpvc.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhwanJqcHhjdG1sdHRkd3FycHZjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjIwNzAxMzIsImV4cCI6MjA3NzY0NjEzMn0.jgJD4uKiLoW6MPw5yMrsoYlguowcnn5tl9pKeib7tcs';
+        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
         // Операционные данные
         const WAREHOUSES = [
             "АРХАНГЕЛЬСК_ХАБ_НАХИМОВА",
@@ -852,6 +842,8 @@ th:nth-child(n+3), td:nth-child(n+3) {
         let personnelCalendarView = 'week';
         let personnelSummaryCalendarView = 'week';
         let personnelSummaryCurrentDate = new Date();
+
+        // Функции чистки
         function cleanOldReports() {
             const sixMonthsAgo = new Date();
             sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 6);
@@ -888,6 +880,8 @@ th:nth-child(n+3), td:nth-child(n+3) {
             keysToDelete.forEach(key => delete personnelReports[key]);
             localStorage.setItem('personnelReports', JSON.stringify(personnelReports));
         }
+
+        // Генерация списков
         function generateWarehouseList() {
             const list = document.getElementById('warehouseList');
             list.innerHTML = '';
@@ -910,6 +904,8 @@ th:nth-child(n+3), td:nth-child(n+3) {
                 list.appendChild(btn);
             });
         }
+
+        // Выбор отчёта
         function selectReport(reportType) {
             document.getElementById('mainSection').classList.remove('active');
             currentDate = new Date();
@@ -930,6 +926,8 @@ th:nth-child(n+3), td:nth-child(n+3) {
                     break;
             }
         }
+
+        // Показ отчёта по складу
         function showWarehouseReport(wh) {
             currentWarehouse = wh;
             document.getElementById('warehouseTitle').textContent = `📍 ${wh}`;
@@ -941,6 +939,8 @@ th:nth-child(n+3), td:nth-child(n+3) {
             renderWarehouseCalendar();
             loadCategoryInputs();
         }
+
+        // Показ отчёта по персоналу
         function showPersonnelReport(obj) {
             currentPersonnelObj = obj;
             document.getElementById('personnelTitle').textContent = `📍 ${obj}`;
@@ -952,6 +952,8 @@ th:nth-child(n+3), td:nth-child(n+3) {
             renderPersonnelCalendar();
             loadPersonnelCategoryInputs();
         }
+
+        // Рендеринг календаря
         function renderCalendar(calendarId, view, onSelect, current) {
             const cal = document.getElementById(calendarId);
             cal.innerHTML = '';
@@ -990,6 +992,8 @@ th:nth-child(n+3), td:nth-child(n+3) {
                 cal.appendChild(b);
             });
         }
+
+        // Календарь склада
         function renderWarehouseCalendar() {
             renderCalendar('warehouseCalendar', warehouseCalendarView, (date) => {
                 currentDate = date;
@@ -1000,6 +1004,8 @@ th:nth-child(n+3), td:nth-child(n+3) {
             }, currentDate);
             document.getElementById('warehouseViewToggleText').textContent = warehouseCalendarView === 'week' ? '📅 Неделя' : '📆 Месяц';
         }
+
+        // Календарь персонала
         function renderPersonnelCalendar() {
             renderCalendar('personnelCalendar', personnelCalendarView, (date) => {
                 currentDate = date;
@@ -1010,6 +1016,8 @@ th:nth-child(n+3), td:nth-child(n+3) {
             }, currentDate);
             document.getElementById('personnelViewToggleText').textContent = personnelCalendarView === 'week' ? '📅 Неделя' : '📆 Месяц';
         }
+
+        // Навигация по календарю
         function prevPeriod() {
             warehouseCalendarView === 'week' ? currentDate.setDate(currentDate.getDate() - 7) : currentDate.setMonth(currentDate.getMonth() - 1);
             renderWarehouseCalendar();
@@ -1034,6 +1042,8 @@ th:nth-child(n+3), td:nth-child(n+3) {
             personnelCalendarView = personnelCalendarView === 'week' ? 'month' : 'week';
             renderPersonnelCalendar();
         }
+
+        // Загрузка полей для операционного отчёта
         function loadCategoryInputs() {
             if (!selectedWarehouseDate) return;
             const type = document.querySelector('input[name="warehouseReportType"]:checked').value;
@@ -1044,10 +1054,8 @@ th:nth-child(n+3), td:nth-child(n+3) {
                 const cd = document.createElement('div');
                 cd.className = 'category-input';
                 let html = `<h4>${cat.name}</h4>`;
-                if (cat.type === 'number') {
+                if (cat.type === 'number' || cat.type === 'time') {
                     html += `<div class="input-row"><div><label>План:</label><input type="number" id="${currentWarehouse}_${type}_${cat.name}_plan" placeholder="План" inputmode="numeric" value="${data.plan || ''}"></div><div><label>Факт:</label><input type="number" id="${currentWarehouse}_${type}_${cat.name}_fact" placeholder="Факт" inputmode="numeric" value="${data.fact || ''}"></div></div><div class="delta-display">Дельта: <span id="${currentWarehouse}_${type}_${cat.name}_delta"></span></div>`;
-                } else if (cat.type === 'time') {
-                    html += `<div class="input-row"><div><label>План (ЧЧ:ММ):</label><input type="text" id="${currentWarehouse}_${type}_${cat.name}_plan" placeholder="12:30" value="${data.plan || ''}"></div><div><label>Факт (ЧЧ:ММ):</label><input type="text" id="${currentWarehouse}_${type}_${cat.name}_fact" placeholder="12:25" value="${data.fact || ''}"></div></div><div class="delta-display"><span id="${currentWarehouse}_${type}_${cat.name}_delta"></span></div>`;
                 } else if (cat.type === 'single') {
                     html += `<div><label>${cat.label} (${cat.unit}):</label><input type="number" id="${currentWarehouse}_${type}_${cat.name}_value" placeholder="${cat.label}" inputmode="numeric" value="${data.value || ''}"></div>`;
                 } else if (cat.type === 'triple') {
@@ -1077,16 +1085,17 @@ th:nth-child(n+3), td:nth-child(n+3) {
                         const span = document.getElementById(`${currentWarehouse}_${type}_${cat.name}_delta`);
                         if (!span) return;
                         if (cat.type === 'number') {
-                            const p = parseInt(plan) || 0, f = parseInt(fact) || 0, delta = f - p;
-                            span.textContent = delta;
-                            span.className = delta >= 0 ? 'positive' : 'negative';
+                            const p = parseInt(plan) || 0;
+                            const f = parseInt(fact) || 0;
+                            span.textContent = f - p;
+                            span.className = (f - p) >= 0 ? 'positive' : 'negative';
                         } else if (cat.type === 'time') {
                             if (plan && fact) {
-                                const pMin = parseTimeToMin(plan), fMin = parseTimeToMin(fact);
+                                const pMin = parseTimeToMin(plan);
+                                const fMin = parseTimeToMin(fact);
                                 if (!isNaN(pMin) && !isNaN(fMin)) {
-                                    const ok = fMin <= pMin;
-                                    span.textContent = ok ? 'Норма' : 'Отклонение';
-                                    span.className = ok ? 'good' : 'bad';
+                                    span.textContent = fMin <= pMin ? 'Норма' : 'Отклонение';
+                                    span.className = fMin <= pMin ? 'good' : 'bad';
                                 } else {
                                     span.textContent = 'Неверный формат (ЧЧ:ММ)';
                                     span.className = 'bad';
@@ -1102,6 +1111,8 @@ th:nth-child(n+3), td:nth-child(n+3) {
                 }
             });
         }
+
+        // Загрузка полей для персонала
         function loadPersonnelCategoryInputs() {
             if (!selectedPersonnelDate || !currentPersonnelObj) return;
             const type = document.querySelector('input[name="personnelReportType"]:checked').value;
@@ -1186,6 +1197,8 @@ th:nth-child(n+3), td:nth-child(n+3) {
             });
             updateOzonJobShare(type);
         }
+
+        // Обновление доли Ozon Job
         function updateOzonJobShare(type) {
             const ozonFactEl = document.getElementById(`${currentPersonnelObj}_${type}_Ozon Job_Факт`);
             const totalFactEl = document.getElementById(`${currentPersonnelObj}_${type}_Total_fact`);
@@ -1194,18 +1207,22 @@ th:nth-child(n+3), td:nth-child(n+3) {
                 const ozonFact = parseInt(ozonFactEl.value) || 0;
                 const totalFact = parseInt(totalFactEl.value) || 0;
                 const share = totalFact > 0 ? Math.round((ozonFact / totalFact) * 100) : 0;
-                shareEl.value = `${share}`;
+                shareEl.value = share.toString();
             };
             ozonFactEl.addEventListener('input', update);
             totalFactEl.addEventListener('input', update);
             update();
         }
+
+        // Выбор "да"/"нет"
         function selectYesNo(wh, t, cat, val, e) {
             e.preventDefault();
             document.getElementById(`${wh}_${t}_${cat}_value`).value = val;
             e.target.parentElement.querySelectorAll('.yesno-btn').forEach(b => b.classList.remove('selected'));
             e.target.classList.add('selected');
         }
+
+        // Парсер времени
         function parseTimeToMin(timeStr) {
             const parts = timeStr.split(':');
             if (parts.length !== 2) return NaN;
@@ -1213,6 +1230,8 @@ th:nth-child(n+3), td:nth-child(n+3) {
             const m = parseInt(parts[1]) || 0;
             return h * 60 + m;
         }
+
+        // Сохранение операционного отчёта (модифицировано)
         function saveWarehouseReport() {
             if (!selectedWarehouseDate) return alert('⚠️ Выберите дату!');
             if (!currentWarehouse) return alert('⚠️ Выберите склад!');
@@ -1234,13 +1253,7 @@ th:nth-child(n+3), td:nth-child(n+3) {
                             const f = parseInt(fact) || 0;
                             delta = f - p;
                         } else if (cat.type === 'time') {
-                            if (plan && fact) {
-                                const pMin = parseTimeToMin(plan);
-                                const fMin = parseTimeToMin(fact);
-                                if (!isNaN(pMin) && !isNaN(fMin)) {
-                                    delta = fMin <= pMin ? 'Норма' : 'Отклонение';
-                                }
-                            }
+                            delta = plan && fact ? (parseTimeToMin(plan) && parseTimeToMin(fact) ? (parseTimeToMin(fact) <= parseTimeToMin(plan) ? 'Норма' : 'Отклонение') : 'Неверный формат (ЧЧ:ММ)') : '';
                         }
                         data = { plan, fact, delta };
                     }
@@ -1273,9 +1286,15 @@ th:nth-child(n+3), td:nth-child(n+3) {
             });
             localStorage.setItem('warehouseReports', JSON.stringify(reports));
             cleanOldReports();
+            
+            // Синхронизация с Supabase
+            syncToSupabase('operational', selectedWarehouseDate, currentWarehouse, type, reports[selectedWarehouseDate][currentWarehouse][type]);
+            
             alert('✅ Сохранено! Данные доступны в общем своде.');
             backToMain();
         }
+
+        // Сохранение отчёта по персоналу (модифицировано)
         function savePersonnelReport() {
             if (!selectedPersonnelDate) return alert('⚠️ Выберите дату!');
             if (!currentPersonnelObj) return alert('⚠️ Выберите объект!');
@@ -1311,9 +1330,15 @@ th:nth-child(n+3), td:nth-child(n+3) {
             });
             localStorage.setItem('personnelReports', JSON.stringify(personnelReports));
             cleanOldPersonnelReports();
+            
+            // Синхронизация с Supabase
+            syncToSupabase('personnel', selectedPersonnelDate, currentPersonnelObj, type, personnelReports[selectedPersonnelDate][currentPersonnelObj][type]);
+            
             alert('✅ Данные сохранены!');
             backToMain();
         }
+
+        // Остальные функции...
         function updateSummaryTable() {
             if (selectedSummaryDate) showSummaryData();
         }
@@ -1343,7 +1368,7 @@ th:nth-child(n+3), td:nth-child(n+3) {
                 if (cat.type === 'triple' || cat.type === 'double') return cat.fields.map(f => `<th>${f.u}</th>`).join('');
                 if (cat.type === 'time') return '<th>План</th><th>Факт</th><th>Δ</th>';
                 if (cat.type === 'number') return '<th>План</th><th>Факт</th><th>Δ</th>';
-                return `<th>${cat.label}</th>`;
+                return `<th></th>`;
             }).join('') + '<th>Тип</th></tr></thead><tbody>';
            
             let totalVolumePlan = 0;
@@ -1422,7 +1447,7 @@ th:nth-child(n+3), td:nth-child(n+3) {
                     const deltaClass = typeof deltaCell === 'number' ? (deltaCell >= 0 ? 'positive' : 'negative') : '';
                     cells += `<td class="${deltaClass}">${deltaCell}</td>`;
                    
-                    // Сбор плана для общего объёма (примерное использование)
+                    // Сбор плана для общего объёма
                     if (cat.name === 'Обработка') {
                         const p = parseInt(data.plan) || 0;
                         volumePlan += p;
@@ -1433,6 +1458,8 @@ th:nth-child(n+3), td:nth-child(n+3) {
             cells += `<td>${typeLabel}</td>`;
             return { html: `<tr>${cells}</tr>`, volumePlan };
         }
+
+        // Функции сводной таблицы по персоналу (неизменены)
         function updatePersonnelSummaryTable() {
             if (selectedSummaryDate) showPersonnelSummaryData();
         }
@@ -1460,7 +1487,7 @@ th:nth-child(n+3), td:nth-child(n+3) {
             html += PERSONNEL_CATEGORIES.map(cat => {
                 if (cat.type === 'number') return '<th>План</th><th>Факт</th><th>Δ</th>';
                 if (cat.type === 'quadruple') return cat.fields.map(f => `<th>${f.n}</th>`).join('');
-                if (cat.type === 'triple') return cat.fields.map(f => `<th>${f.n}</th>`).join('');
+                if (cat.type === 'triple') return cat.fields.map(f => `<th>${f.u}</th>`).join('');
                 if (cat.type === 'single') return `<th>${cat.unit}</th>`;
                 if (cat.type === 'text') return '<th>Текст</th>';
                 return `<th></th>`;
@@ -1468,7 +1495,7 @@ th:nth-child(n+3), td:nth-child(n+3) {
            
             let totalStaffPlan = 0;
             const personnelData = personnelReports[selectedSummaryDate] || {};
-            WAREHOUSES.forEach(wh => {  // Use WAREHOUSES for personnel as well
+            WAREHOUSES.forEach(wh => {  // Используем WAREHOUSES для персонала
                 const objData = personnelData[wh] || {};
                 let rowAdded = false;
                
@@ -1525,7 +1552,7 @@ th:nth-child(n+3), td:nth-child(n+3) {
                     const deltaClass = typeof deltaCell === 'number' ? (deltaCell >= 0 ? 'positive' : 'negative') : '';
                     cells += `<td class="${deltaClass}">${deltaCell}</td>`;
                    
-                    // Сбор плана для общего количества
+                    // Сбор плана для общего штата
                     if (cat.name === 'Штат') {
                         const p = parseInt(data.plan) || 0;
                         staffPlan += p;
@@ -1542,9 +1569,28 @@ th:nth-child(n+3), td:nth-child(n+3) {
             cells += `<td>${typeLabel}</td>`;
             return { html: `<tr>${cells}</tr>`, staffPlan };
         }
-        function updatePersonnelSummaryTable() {
-            if (selectedSummaryDate) showPersonnelSummaryData();
+
+        // Навигация по сводным датам
+        function prevSummaryDay() {
+            if (!selectedSummaryDate) return;
+            const [day, month, year] = selectedSummaryDate.split('.').map(Number);
+            const date = new Date(year, month - 1, day);
+            date.setDate(date.getDate() - 1);
+            selectedSummaryDate = date.toLocaleDateString('ru-RU');
+            document.getElementById('currentSummaryDate').textContent = selectedSummaryDate;
+            showSummaryData();
         }
+        function nextSummaryDay() {
+            if (!selectedSummaryDate) return;
+            const [day, month, year] = selectedSummaryDate.split('.').map(Number);
+            const date = new Date(year, month - 1, day);
+            date.setDate(date.getDate() + 1);
+            selectedSummaryDate = date.toLocaleDateString('ru-RU');
+            document.getElementById('currentSummaryDate').textContent = selectedSummaryDate;
+            showSummaryData();
+        }
+
+        // Навигация по сводным календарям
         function showSummarySection() {
             document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
             document.getElementById('summarySection').classList.add('active');
@@ -1591,24 +1637,8 @@ th:nth-child(n+3), td:nth-child(n+3) {
                 selectedSummaryDate = date.toLocaleDateString('ru-RU');
             }, personnelSummaryCurrentDate);
         }
-        function prevSummaryDay() {
-            if (!selectedSummaryDate) return;
-            const [day, month, year] = selectedSummaryDate.split('.').map(Number);
-            const date = new Date(year, month - 1, day);
-            date.setDate(date.getDate() - 1);
-            selectedSummaryDate = date.toLocaleDateString('ru-RU');
-            document.getElementById('currentSummaryDate').textContent = selectedSummaryDate;
-            showSummaryData();
-        }
-        function nextSummaryDay() {
-            if (!selectedSummaryDate) return;
-            const [day, month, year] = selectedSummaryDate.split('.').map(Number);
-            const date = new Date(year, month - 1, day);
-            date.setDate(date.getDate() + 1);
-            selectedSummaryDate = date.toLocaleDateString('ru-RU');
-            document.getElementById('currentSummaryDate').textContent = selectedSummaryDate;
-            showSummaryData();
-        }
+
+        // Полнэкранная таблица
         function prevPersonnelSummaryDay() {
             if (!selectedSummaryDate) return;
             const [day, month, year] = selectedSummaryDate.split('.').map(Number);
@@ -1651,6 +1681,8 @@ th:nth-child(n+3), td:nth-child(n+3) {
                 document.body.style.overflow = 'auto';
             }
         }
+
+        // Возврат в главное меню
         function backToMain() {
             document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
             document.getElementById('mainSection').classList.add('active');
@@ -1660,21 +1692,8 @@ th:nth-child(n+3), td:nth-child(n+3) {
             selectedPersonnelDate = null;
             selectedSummaryDate = null;
         }
-        document.addEventListener('DOMContentLoaded', () => {
-            document.querySelectorAll('input[name="warehouseReportType"]').forEach(r => r.addEventListener('change', loadCategoryInputs));
-            document.querySelectorAll('input[name="personnelReportType"]').forEach(r => r.addEventListener('change', loadPersonnelCategoryInputs));
-        });
-        window.onload = function () {
-            cleanOldReports();
-            cleanOldPersonnelReports();
-            generateWarehouseList();
-            generatePersonnelList();
-            renderWarehouseCalendar();
-            renderPersonnelCalendar();
-            renderSummaryCalendar();
-            renderPersonnelSummaryCalendar();
-            fillNewWarehouses();
-        };
+
+        // Дополнительная функция для тестовых данных
         function fillNewWarehouses() {
             const newWarehouses = ["СПБ_ХАБ_Осиновая Роща", "СПБ_Хаб_Парголово", "СПБ_Хаб_Парголово_Блок_3", "СПБ_Хаб_Парголово_Блок_4"];
             const today = new Date();
@@ -1690,39 +1709,42 @@ th:nth-child(n+3), td:nth-child(n+3) {
                 newWarehouses.forEach((wh, whIndex) => {
                     if (!reports[dateStr][wh]) reports[dateStr][wh] = {};
                     if (!personnelReports[dateStr][wh]) personnelReports[dateStr][wh] = {};
-                    // Дневная смена operations
+
+                    // Дневная смена операций
                     reports[dateStr][wh].day = {
                         'Обработка': { plan: String(200 + Math.floor(Math.random() * 50)), fact: String(210 + Math.floor(Math.random() * 40)), delta: 10 },
                         'Персонал': { plan: String(15 + Math.floor(Math.random() * 5)), fact: String(15 + Math.floor(Math.random() * 5)), delta: 0 },
                         'Окончание выдачи': { plan: '12:30', fact: '12:25', delta: 'Норма' },
                         'Обработка FBS': { plan: String(12 + Math.floor(Math.random() * 10)), fact: String(11 + Math.floor(Math.random() * 10)), delta: -1 },
-                        'Возвратный поток (Бэклог)': { plan: String(5), fact: String(7), delta: 2 },
+                        'Возвратный поток (Бэклог)': { plan: '5', fact: '7', delta: 2 },
                         'Обезличка': { value: String(10 + Math.floor(Math.random() * 10)) },
                         'Эффективность': { plan: String(95 + Math.floor(Math.random() * 5)), fact: String(98 + Math.floor(Math.random() * 5)), delta: 3 },
                         'Кол-во паллета-мест к отгрузке': { 'FBS': String(20 + Math.floor(Math.random() * 10)), 'X-Dock': String(15 + Math.floor(Math.random() * 10)), 'Возвраты': String(5 + Math.floor(Math.random() * 5)) },
                         'Хронь ХД': { 'Сорт': String(30 + Math.floor(Math.random() * 10)), 'Нон-Сорт': String(25 + Math.floor(Math.random() * 10)) },
-                        'Риски': { value: (Math.random() > 0.5 ? 'yes' : 'no') },
+                        'Риски': { value: Math.random() > 0.5 ? 'yes' : 'no' },
                         'Промежуточная Выдача': { value: String(50 + Math.floor(Math.random() * 20)) },
                         '% не профиля': { value: String(5 + Math.floor(Math.random() * 5)) },
-                        'Руководитель': { value: (Math.random() > 0.5 ? 'Территория 1 Шутин Д.М.' : 'Территория 2 Любавкская М.И.') }
+                        'Руководитель': { value: Math.random() > 0.5 ? 'Территория 1 Шутин Д.М.' : 'Территория 2 Любавкская М.И.' }
                     };
-                    // Ночная смена operations
+
+                    // Ночная смена операций
                     reports[dateStr][wh].night = {
                         'Обработка': { plan: String(100 + Math.floor(Math.random() * 20)), fact: String(105 + Math.floor(Math.random() * 20)), delta: 5 },
                         'Персонал': { plan: String(8 + Math.floor(Math.random() * 3)), fact: String(8 + Math.floor(Math.random() * 3)), delta: 0 },
                         'Окончание выдачи': { plan: '03:00', fact: '03:15', delta: 'Отклонение' },
-                        'Обработка FBS': { plan: String(15), fact: String(14), delta: -1 },
-                        'Возвратный поток (Бэклог)': { plan: String(3), fact: String(4), delta: 1 },
+                        'Обработка FBS': { plan: '15', fact: '14', delta: -1 },
+                        'Возвратный поток (Бэклог)': { plan: '3', fact: '4', delta: 1 },
                         'Обезличка': { value: String(5 + Math.floor(Math.random() * 5)) },
                         'Эффективность': { plan: String(90 + Math.floor(Math.random() * 5)), fact: String(92 + Math.floor(Math.random() * 5)), delta: 2 },
                         'Кол-во паллета-мест к отгрузке': { 'FBS': String(10 + Math.floor(Math.random() * 5)), 'X-Dock': String(8 + Math.floor(Math.random() * 5)), 'Возвраты': String(3 + Math.floor(Math.random() * 3)) },
                         'Хронь ХД': { 'Сорт': String(15 + Math.floor(Math.random() * 5)), 'Нон-Сорт': String(12 + Math.floor(Math.random() * 5)) },
-                        'Риски': { value: (Math.random() > 0.5 ? 'yes' : 'no') },
+                        'Риски': { value: Math.random() > 0.5 ? 'yes' : 'no' },
                         'Промежуточная Выдача': { value: String(25 + Math.floor(Math.random() * 10)) },
                         '% не профиля': { value: String(3 + Math.floor(Math.random() * 3)) },
-                        'Руководитель': { value: (Math.random() > 0.5 ? 'Территория 1 Шутин Д.М.' : 'Территория 2 Любавкская М.И.') }
+                        'Руководитель': { value: Math.random() > 0.5 ? 'Территория 1 Шутин Д.М.' : 'Территория 2 Любавкская М.И.' }
                     };
-                    // Дневная смена personnel
+
+                    // Дневная смена персонала
                     personnelReports[dateStr][wh].day = {
                         'Штат': { plan: 20 + Math.floor(Math.random() * 10), fact: 22 + Math.floor(Math.random() * 10), delta: 2 },
                         'Ozon Job': { 'План': 10 + Math.floor(Math.random() * 5), 'Факт': 12 + Math.floor(Math.random() * 5), 'Капац.': 15 + Math.floor(Math.random() * 5), 'Доля': '' },
@@ -1732,9 +1754,10 @@ th:nth-child(n+3), td:nth-child(n+3) {
                         'Производительность': { value: 95 + Math.floor(Math.random() * 5) },
                         'Причины невыхода': { 'ОТ': 1 + Math.floor(Math.random() * 2), 'БЛ': 0 + Math.floor(Math.random() * 2), 'НН': 2 + Math.floor(Math.random() * 2) },
                         'Комментарии': { value: `Комментарий для дня ${dateStr}` },
-                        'Руководитель': { value: (Math.random() > 0.5 ? 'Территория 1 Шутин Д.М.' : 'Территория 2 Любавкская М.И.') }
+                        'Руководитель': { value: Math.random() > 0.5 ? 'Территория 1 Шутин Д.М.' : 'Территория 2 Любавкская М.И.' }
                     };
-                    // Ночная смена personnel
+
+                    // Ночная смена персонала
                     personnelReports[dateStr][wh].night = {
                         'Штат': { plan: 10 + Math.floor(Math.random() * 5), fact: 11 + Math.floor(Math.random() * 5), delta: 1 },
                         'Ozon Job': { 'План': 5 + Math.floor(Math.random() * 3), 'Факт': 6 + Math.floor(Math.random() * 3), 'Капац.': 8 + Math.floor(Math.random() * 3), 'Доля': '' },
@@ -1744,18 +1767,83 @@ th:nth-child(n+3), td:nth-child(n+3) {
                         'Производительность': { value: 85 + Math.floor(Math.random() * 5) },
                         'Причины невыхода': { 'ОТ': 0 + Math.floor(Math.random() * 2), 'БЛ': 1 + Math.floor(Math.random() * 2), 'НН': 1 + Math.floor(Math.random() * 2) },
                         'Комментарии': { value: `Комментарий для ночи ${dateStr}` },
-                        'Руководитель': { value: (Math.random() > 0.5 ? 'Территория 1 Шутин Д.М.' : 'Территория 2 Любавкская М.И.') }
+                        'Руководитель': { value: Math.random() > 0.5 ? 'Территория 1 Шутин Д.М.' : 'Территория 2 Любавкская М.И.' }
                     };
                 });
             });
             localStorage.setItem('warehouseReports', JSON.stringify(reports));
             localStorage.setItem('personnelReports', JSON.stringify(personnelReports));
         }
+
+        // Событие загрузки DOM
         document.addEventListener('DOMContentLoaded', () => {
             document.querySelectorAll('input[name="warehouseReportType"]').forEach(r => r.addEventListener('change', loadCategoryInputs));
             document.querySelectorAll('input[name="personnelReportType"]').forEach(r => r.addEventListener('change', loadPersonnelCategoryInputs));
         });
-        window.onload = function () {
+
+        // ========== SUPABASE FUNCTIONS ==========
+        // Синхронизация с Supabase
+        async function syncToSupabase(type, date, warehouse, shiftType, data) {
+            try {
+                const tableName = type === 'operational' ? 'operational_reports' : 'personnel_reports';
+                await supabase.from(tableName).upsert({
+                    report_date: date,
+                    warehouse: warehouse,
+                    shift_type: shiftType,
+                    data: data,
+                    updated_at: new Date().toISOString()
+                }, { onConflict: 'report_date,warehouse,shift_type' });
+                console.log('✓ Синхронизировано с Supabase');
+            } catch (error) {
+                console.error('Ошибка синхронизации:', error);
+            }
+        }
+
+        // Загрузка из Supabase
+        async function loadFromSupabase() {
+            try {
+                const { data: ops } = await supabase.from('operational_reports').select('*');
+                if (ops) {
+                    ops.forEach(row => {
+                        if (!reports[row.report_date]) reports[row.report_date] = {};
+                        if (!reports[row.report_date][row.warehouse]) reports[row.report_date][row.warehouse] = {};
+                        reports[row.report_date][row.warehouse][row.shift_type] = row.data;
+                    });
+                    localStorage.setItem('warehouseReports', JSON.stringify(reports));
+                    console.log('Operational reports loaded');
+                }
+                
+                const { data: pers } = await supabase.from('personnel_reports').select('*');
+                if (pers) {
+                    pers.forEach(row => {
+                        if (!personnelReports[row.report_date]) personnelReports[row.report_date] = {};
+                        if (!personnelReports[row.report_date][row.warehouse]) personnelReports[row.report_date][row.warehouse] = {};
+                        personnelReports[row.report_date][row.warehouse][row.shift_type] = row.data;
+                    });
+                    localStorage.setItem('personnelReports', JSON.stringify(personnelReports));
+                    console.log('Personnel reports loaded');
+                }
+                console.log('✓ Данные загружены из Supabase');
+            } catch (error) {
+                console.error('Ошибка загрузки:', error);
+            }
+        }
+
+        // Real-time подписки
+        supabase.channel('ops')
+            .on('postgres_changes', { event: '*', schema: 'public', table: 'operational_reports' }, () => {
+                loadFromSupabase();
+            })
+            .subscribe();
+        supabase.channel('pers')
+            .on('postgres_changes', { event: '*', schema: 'public', table: 'personnel_reports' }, () => {
+                loadFromSupabase();
+            })
+            .subscribe();
+
+        // Модифицированное window.onload
+        window.onload = async function () {
+            await loadFromSupabase();
             cleanOldReports();
             cleanOldPersonnelReports();
             generateWarehouseList();
@@ -1764,8 +1852,8 @@ th:nth-child(n+3), td:nth-child(n+3) {
             renderPersonnelCalendar();
             renderSummaryCalendar();
             renderPersonnelSummaryCalendar();
+            fillNewWarehouses();
         };
     </script>
 </body>
-
 </html>
