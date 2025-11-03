@@ -6,8 +6,6 @@
     <meta name="mobile-web-app-capable" content="yes">
     <title>Сводные данные | Система учёта</title>
     <style>
-/* ========== СОВРЕМЕННЫЙ ДИЗАЙН: Только цвета, градиенты и эффекты ========== */
-/* НЕ МЕНЯЮТСЯ: размеры, padding, margin, структура */
 :root {
     --primary-color: #667eea;
     --primary-dark: #764ba2;
@@ -28,6 +26,11 @@ body {
     background-size: 400% 400%;
     animation: gradientShift 15s ease infinite;
     color: var(--text-primary);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    min-height: 100vh;
+    padding: 10px;
+    -webkit-font-smoothing: antialiased;
+    touch-action: manipulation;
 }
 @keyframes gradientShift {
     0% { background-position: 0% 50%; }
@@ -38,18 +41,25 @@ body {
     background: rgba(10, 14, 39, 0.75);
     backdrop-filter: blur(20px);
     border: 1px solid rgba(135, 150, 200, 0.2);
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6), 
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6),
                 0 0 0 1px rgba(102, 126, 234, 0.1),
                 inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    border-radius: 16px;
+    padding: 20px;
 }
-/* ==========  НОВЫЙ ХЕДЕР С ЛОГОТИПОМ ========== */
 .header {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
     background-size: 200% 200%;
     animation: gradientFlow 8s ease infinite;
     border-bottom: 1px solid rgba(135, 150, 200, 0.2);
     box-shadow: 0 4px 20px rgba(102, 126, 234, 0.3);
-    padding: 16px 20px;  /* Добавлен padding для контейнера с лого */
+    padding: 16px 20px;
+    margin-bottom: 20px;
+}
+@keyframes gradientFlow {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
 }
 .header-inner {
     display: flex;
@@ -57,7 +67,7 @@ body {
     gap: 12px;
 }
 .logo {
-    height: 40px;          /* base size */
+    height: 40px;
     width: auto;
     filter: drop-shadow(0 2px 8px rgba(102, 126, 234, .45));
     transition: transform 0.3s ease;
@@ -65,25 +75,28 @@ body {
 .logo:hover {
     transform: scale(1.05);
 }
-/*  mobile  */
-@media (max-width: 480px) {
-    .logo { height: 32px; }
-}
-@keyframes gradientFlow {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-}
 h1 {
     color: #ffffff;
     text-shadow: 0 2px 10px rgba(255, 255, 255, 0.3);
+    margin: 0;
+    font-size: clamp(18px, 4vw, 24px);
 }
 .subtitle {
     color: rgba(255, 255, 255, 0.85);
+    margin: 0;
+    font-size: clamp(12px, 3vw, 14px);
 }
-h2 {
-    color: #f0f4ff;
-    text-shadow: 0 1px 5px rgba(102, 126, 234, 0.2);
+.section {
+    padding: 20px;
+    display: none;
+    animation: fadeIn 0.3s ease-in;
+}
+.section.active {
+    display: block;
+}
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 .warehouse-btn {
     background: linear-gradient(135deg, rgba(102, 126, 234, 0.3) 0%, rgba(240, 147, 251, 0.3) 100%);
@@ -91,6 +104,16 @@ h2 {
     color: #f0f4ff;
     box-shadow: 0 4px 15px rgba(102, 126, 234, 0.15),
                 inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    padding: 16px;
+    border-radius: 12px;
+    cursor: pointer;
+    text-align: center;
+    font-size: clamp(12px, 2.5vw, 13px);
+    font-weight: 500;
+    min-height: var(--touch-target);
+    word-break: break-word;
+    margin: 8px 0;
+    transition: all 0.3s ease;
     position: relative;
     overflow: hidden;
 }
@@ -101,9 +124,9 @@ h2 {
     left: -100%;
     width: 100%;
     height: 100%;
-    background: linear-gradient(90deg, 
-        transparent, 
-        rgba(102, 126, 234, 0.4), 
+    background: linear-gradient(90deg,
+        transparent,
+        rgba(102, 126, 234, 0.4),
         rgba(240, 147, 251, 0.4),
         transparent);
     transition: left 0.6s ease;
@@ -116,22 +139,6 @@ h2 {
     box-shadow: 0 2px 10px rgba(102, 126, 234, 0.3),
                 inset 0 1px 0 rgba(255, 255, 255, 0.15);
 }
-input[type="text"],
-input[type="number"],
-select {
-    border: 1px solid rgba(135, 150, 200, 0.25);
-    background: rgba(30, 35, 60, 0.6);
-    color: #f0f4ff;
-    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2),
-                0 1px 0 rgba(255, 255, 255, 0.05);
-}
-input:focus,
-select:focus {
-    border-color: #667eea;
-    background: rgba(30, 35, 60, 0.8);
-    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2),
-                inset 0 2px 4px rgba(0, 0, 0, 0.2);
-}
 button {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
     background-size: 200% 200%;
@@ -143,6 +150,13 @@ button {
     transition: all 0.3s ease;
     position: relative;
     overflow: hidden;
+    padding: 14px 24px;
+    border-radius: 8px;
+    cursor: pointer;
+    margin: 5px;
+    font-size: clamp(14px, 3vw, 16px);
+    font-weight: 500;
+    min-height: var(--touch-target);
 }
 button::before {
     content: '';
@@ -151,8 +165,8 @@ button::before {
     left: -100%;
     width: 100%;
     height: 100%;
-    background: linear-gradient(90deg, 
-        transparent, 
+    background: linear-gradient(90deg,
+        transparent,
         rgba(255, 255, 255, 0.3),
         transparent);
     transition: left 0.5s ease;
@@ -183,19 +197,45 @@ button.secondary:hover {
     box-shadow: 0 6px 20px rgba(79, 172, 254, 0.3),
                 inset 0 1px 0 rgba(255, 255, 255, 0.15);
 }
+.large-button {
+    width: 100%;
+    padding: 18px 40px;
+    font-size: clamp(16px, 4vw, 18px);
+    font-weight: 600;
+    min-height: 52px;
+}
 .calendar {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 3px;
+    margin: 15px 0;
+    padding: 10px;
+    border-radius: 12px;
     background: rgba(30, 35, 60, 0.4);
     border: 1px solid rgba(135, 150, 200, 0.15);
     box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.2),
                 0 1px 0 rgba(255, 255, 255, 0.05);
 }
 .calendar-header {
+    text-align: center;
+    font-weight: 600;
+    padding: 6px 2px;
+    border-radius: 6px;
+    font-size: clamp(9px, 2vw, 11px);
     background: linear-gradient(135deg, rgba(102, 126, 234, 0.2) 0%, rgba(240, 147, 251, 0.2) 100%);
     color: #d0dcff;
     border: 1px solid rgba(135, 150, 200, 0.1);
     box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.1);
 }
 button.date-btn {
+    padding: 8px 4px;
+    font-size: clamp(11px, 2.2vw, 13px);
+    min-height: 36px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
     background: rgba(51, 65, 85, 0.4);
     border: 1px solid rgba(135, 150, 200, 0.2);
     color: #c8d2e8;
@@ -215,131 +255,41 @@ button.date-btn.selected {
     box-shadow: 0 0 15px rgba(102, 126, 234, 0.6),
                 inset 0 1px 2px rgba(255, 255, 255, 0.2);
 }
-.filter-section {
-    background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(240, 147, 251, 0.1) 100%);
-    border: 1px solid rgba(135, 150, 200, 0.2);
-    box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.15),
-                0 1px 0 rgba(255, 255, 255, 0.05);
-}
-.filter-section h4 {
-    color: #a8b8ff;
-    text-shadow: 0 1px 3px rgba(102, 126, 234, 0.3);
-}
-.date-section {
-    background: linear-gradient(135deg, rgba(30, 35, 60, 0.4) 0%, rgba(45, 27, 61, 0.4) 100%);
-    border: 1px solid rgba(135, 150, 200, 0.15);
-    box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.2),
-                0 1px 0 rgba(255, 255, 255, 0.05);
-}
 .selected-date-display {
     background: linear-gradient(135deg, rgba(102, 126, 234, 0.2) 0%, rgba(240, 147, 251, 0.2) 100%);
     border: 1px solid rgba(102, 126, 234, 0.3);
     color: #d0dcff;
     box-shadow: 0 0 15px rgba(102, 126, 234, 0.2),
                 inset 0 1px 2px rgba(255, 255, 255, 0.1);
+    padding: 12px 20px;
+    border-radius: 8px;
+    margin: 15px 0;
+    text-align: center;
+    font-weight: 500;
+    font-size: clamp(14px, 3vw, 16px);
 }
-.delta-display {
-    background: linear-gradient(135deg, rgba(102, 126, 234, 0.15) 0%, rgba(240, 147, 251, 0.15) 100%);
+.filter-section {
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(240, 147, 251, 0.1) 100%);
     border: 1px solid rgba(135, 150, 200, 0.2);
-    box-shadow: inset 0 1px 0 rgba(0, 0, 0, 0.1);
-}
-/* ========== ОСТАЛЬНЫЕ СТИЛИ БЕЗ ИЗМЕНЕНИЙ ========== */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-body {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    min-height: 100vh;
-    padding: 10px;
-    -webkit-font-smoothing: antialiased;
-    touch-action: manipulation;
-}
-.section {
-    padding: 20px;
-    display: none;
-    animation: fadeIn 0.3s ease-in;
-}
-.section.active {
-    display: block;
-}
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-.warehouse-list {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 12px;
-    margin-bottom: 20px;
-}
-.warehouse-btn {
+    box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.15),
+                0 1px 0 rgba(255, 255, 255, 0.05);
     padding: 16px;
     border-radius: 12px;
-    cursor: pointer;
-    text-align: center;
-    font-size: clamp(12px, 2.5vw, 13px);
-    font-weight: 500;
-    min-height: var(--touch-target);
-    word-break: break-word;
-    -webkit-tap-highlight-color: transparent;
+    margin-bottom: 20px;
 }
-label {
-    display: block;
-    margin: 15px 0 8px;
-    font-weight: 500;
-    color: var(--text-secondary);
-    font-size: clamp(12px, 3vw, 13px);
+.filter-section h4 {
+    color: #a8b8ff;
+    text-shadow: 0 1px 3px rgba(102, 126, 234, 0.3);
+    margin-bottom: 10px;
 }
-input[type="text"],
-input[type="number"],
-select {
-    width: 100%;
-    padding: 14px 16px;
-    border-radius: 8px;
-    font-size: 16px;
-    -webkit-appearance: none;
-    appearance: none;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23cbd5e1' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 12px center;
-    padding-right: 40px;
-}
-button {
-    padding: 14px 24px;
-    border-radius: 8px;
-    cursor: pointer;
-    margin: 5px;
-    font-size: clamp(14px, 3vw, 16px);
-    font-weight: 500;
-    min-height: var(--touch-target);
-    -webkit-tap-highlight-color: transparent;
-}
-.calendar {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    gap: 3px;
-    margin: 15px 0;
-    padding: 10px;
+.date-section {
+    background: linear-gradient(135deg, rgba(30, 35, 60, 0.4) 0%, rgba(45, 27, 61, 0.4) 100%);
+    border: 1px solid rgba(135, 150, 200, 0.15);
+    box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.2),
+                0 1px 0 rgba(255, 255, 255, 0.05);
+    padding: 20px;
     border-radius: 12px;
-}
-.calendar-header {
-    text-align: center;
-    font-weight: 600;
-    padding: 6px 2px;
-    border-radius: 6px;
-    font-size: clamp(9px, 2vw, 11px);
-}
-button.date-btn {
-    padding: 8px 4px;
-    font-size: clamp(11px, 2.2vw, 13px);
-    min-height: 36px;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 6px;
+    margin-bottom: 20px;
 }
 .calendar-controls {
     display: flex;
@@ -355,36 +305,61 @@ button.date-btn {
     padding: 12px 16px;
     font-size: clamp(12px, 2.5vw, 14px);
 }
-.filter-section {
-    padding: 16px;
-    border-radius: 12px;
-    margin-bottom: 20px;
-}
-.date-section {
-    padding: 20px;
-    border-radius: 12px;
-    margin-bottom: 20px;
-}
-.selected-date-display {
-    padding: 12px 20px;
-    border-radius: 8px;
-    margin: 15px 0;
-    text-align: center;
-    font-weight: 500;
-    font-size: clamp(14px, 3vw, 16px);
-}
 .action-buttons {
     display: flex;
     flex-direction: column;
     gap: 10px;
     margin-top: 20px;
 }
-.large-button {
+label {
+    display: block;
+    margin: 15px 0 8px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    font-size: clamp(12px, 3vw, 13px);
+}
+input[type="text"],
+input[type="number"],
+select {
     width: 100%;
-    padding: 18px 40px;
-    font-size: clamp(16px, 4vw, 18px);
-    font-weight: 600;
-    min-height: 52px;
+    padding: 14px 16px;
+    border-radius: 8px;
+    font-size: 16px;
+    border: 1px solid rgba(135, 150, 200, 0.25);
+    background: rgba(30, 35, 60, 0.6);
+    color: #f0f4ff;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2),
+                0 1px 0 rgba(255, 255, 255, 0.05);
+    -webkit-appearance: none;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg ' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23cbd5e1' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    padding-right: 40px;
+}
+input:focus,
+select:focus {
+    border-color: #667eea;
+    background: rgba(30, 35, 60, 0.8);
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2),
+                inset 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+.warehouse-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 12px;
+    margin-bottom: 20px;
+}
+.radio-group {
+    display: flex;
+    gap: 20px;
+    margin: 15px 0;
+}
+.radio-group label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0;
 }
 #console-output {
     position: fixed;
@@ -401,6 +376,9 @@ button.date-btn {
     pointer-events: none;
     max-height: 40px;
     overflow: hidden;
+    background: rgba(30, 35, 60, 0.9);
+    color: #f0f4ff;
+    border: 1px solid rgba(135, 150, 200, 0.3);
 }
 table {
     width: 100%;
@@ -412,6 +390,7 @@ table {
     transform: scale(0.95);
     transform-origin: top left;
     width: calc(100% / 0.95);
+    border: 1px solid rgba(71, 85, 105, 0.3);
 }
 th, td {
     border: 1px solid rgba(71, 85, 105, 0.3);
@@ -430,6 +409,7 @@ th {
     top: 0;
     font-weight: 600;
     z-index: 10;
+    background: rgba(30, 35, 60, 0.7);
 }
 td:first-child, th:first-child {
     width: 70px;
@@ -439,6 +419,7 @@ td:first-child, th:first-child {
     left: 0;
     z-index: 5;
     font-size: clamp(7px, 1.8vw, 9px);
+    background: rgba(30, 35, 60, 0.7);
 }
 th:first-child {
     z-index: 15;
@@ -453,6 +434,7 @@ td:nth-child(2), th:nth-child(2) {
     text-align: left;
     padding-left: 6px;
     font-size: clamp(7px, 1.8vw, 9px);
+    background: rgba(30, 35, 60, 0.7);
 }
 th:nth-child(n+3), td:nth-child(n+3) {
     min-width: 35px;
@@ -497,6 +479,8 @@ th:nth-child(n+3), td:nth-child(n+3) {
     border: 1px solid rgba(135, 150, 200, 0.2);
     box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.2),
                 0 1px 0 rgba(255, 255, 255, 0.05);
+    overflow: auto;
+    max-width: 100%;
 }
 .full-screen-table {
     background: rgba(10, 14, 39, 0.98);
@@ -524,6 +508,9 @@ th:nth-child(n+3), td:nth-child(n+3) {
     border-radius: 8px;
     min-height: var(--touch-target);
     font-size: clamp(14px, 3vw, 16px);
+    position: fixed;
+    top: 20px;
+    right: 20px;
 }
 .close-full:hover {
     box-shadow: 0 15px 40px rgba(250, 112, 154, 0.6),
@@ -535,7 +522,6 @@ th:nth-child(n+3), td:nth-child(n+3) {
                 inset 0 2px 5px rgba(0, 0, 0, 0.3);
     transform: scale(0.95);
 }
-/* МОБИЛЬНАЯ АДАПТАЦИЯ */
 @media (max-width: 768px) {
     body { padding: 8px; }
     .container { border-radius: 16px; }
@@ -560,17 +546,6 @@ th:nth-child(n+3), td:nth-child(n+3) {
     td:first-child, th:first-child { width: 55px; min-width: 55px; max-width: 55px; }
     td:nth-child(2), th:nth-child(2) { width: 110px; min-width: 110px; max-width: 110px; left: 55px; }
 }
-@media (orientation: portrait) {
-    .table-wrapper {
-        max-width: 100%;
-    }
-}
-@media (orientation: landscape) and (max-height: 500px) {
-    .header { padding: 12px 16px; }
-    .section { padding: 12px; }
-    h1 { font-size: 20px; margin-bottom: 4px; }
-    h2 { font-size: 18px; margin-bottom: 12px; }
-}
 @media (prefers-reduced-motion: reduce) {
     * {
         animation: none !important;
@@ -578,32 +553,22 @@ th:nth-child(n+3), td:nth-child(n+3) {
     }
 }
 @media (min-width: 1400px) {
-    .warehouse-list {
-        grid-template-columns: repeat(3, 1fr);
-    }
-    table {
-        font-size: 10px;
-        transform: scale(1);
-        width: 100%;
-    }
+    .warehouse-list { grid-template-columns: repeat(3, 1fr); }
+    table { font-size: 10px; transform: scale(1); width: 100%; }
 }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- ==========  NEW HEADER WITH LOGO  ========== -->
         <div class="header">
             <div class="header-inner">
-                <!--  LOGO  -->
                 <img src="image.png" alt="W V3LS3N" class="logo">
-                <!--  TEXT  -->
                 <div class="header-text">
                     <h1>📊 Сводные данные</h1>
                     <div class="subtitle">Система учёта и аналитики складских операций</div>
                 </div>
             </div>
         </div>
-        <!-- Главная: выбор отчёта -->
         <div id="mainSection" class="section active">
             <h2>Выберите отчёт</h2>
             <button class="large-button" onclick="selectReport('operational')">📄 Операционные показатели</button>
@@ -613,8 +578,6 @@ th:nth-child(n+3), td:nth-child(n+3) {
                 <button class="secondary" onclick="fillPersonnelTestData()">⚠️ Загрузить тестовые данные (персонал)</button>
             </div>
         </div>
-
-        <!-- Отчёт по складу -->
         <div id="warehouseReportSection" class="section">
             <h2 id="warehouseTitle">Отчёт по складу</h2>
             <div class="warehouse-list" id="warehouseList"></div>
@@ -642,8 +605,6 @@ th:nth-child(n+3), td:nth-child(n+3) {
                 </div>
             </form>
         </div>
-
-        <!-- Отчёт по Персоналу -->
         <div id="personnelReportSection" class="section">
             <h2 id="personnelTitle">Отчёт по персоналу</h2>
             <div class="warehouse-list" id="personnelList"></div>
@@ -671,8 +632,6 @@ th:nth-child(n+3), td:nth-child(n+3) {
                 </div>
             </form>
         </div>
-
-        <!-- Общий свод (Операции) -->
         <div id="summarySection" class="section">
             <h2>📊 Общий свод по всем складам</h2>
             <div class="checkbox-group">
@@ -703,8 +662,6 @@ th:nth-child(n+3), td:nth-child(n+3) {
                 <button class="secondary" onclick="backToMain()">← Назад к выбору отчёта</button>
             </div>
         </div>
-
-        <!-- Сводная таблица (Операции) -->
         <div id="summaryTableSection" class="section">
             <h2>📋 Сводная таблица</h2>
             <div class="date-section">
@@ -720,8 +677,6 @@ th:nth-child(n+3), td:nth-child(n+3) {
                 <button class="secondary" onclick="showSummarySection()">← Назад</button>
             </div>
         </div>
-
-        <!-- Общий свод (Персонал) -->
         <div id="personnelSummarySection" class="section">
             <h2>📊 Свод по персоналу</h2>
             <div class="checkbox-group">
@@ -752,8 +707,6 @@ th:nth-child(n+3), td:nth-child(n+3) {
                 <button class="secondary" onclick="backToMain()">← Назад к выбору отчёта</button>
             </div>
         </div>
-
-        <!-- Сводная таблица (Персонал) -->
         <div id="personnelSummaryTableSection" class="section">
             <h2>📋 Сводная таблица по персоналу</h2>
             <div class="date-section">
@@ -769,18 +722,17 @@ th:nth-child(n+3), td:nth-child(n+3) {
                 <button class="secondary" onclick="showPersonnelSummarySection()">← Назад</button>
             </div>
         </div>
-
-        <!-- Полноэкранная таблица (Операции) -->
         <div id="fullScreenTable" class="full-screen-table" style="display:none">
             <button class="close-full" onclick="toggleFullScreen()">✕ Закрыть</button>
             <div id="fullSummaryTable"></div>
         </div>
-        <!-- Консоль -->
+        <div id="personnelFullScreenTable" class="full-screen-table" style="display:none">
+            <button class="close-full" onclick="togglePersonnelFullScreen()">✕ Закрыть</button>
+            <div id="fullPersonnelSummaryTable"></div>
+        </div>
         <div id="console-output"></div>
     </div>
-
     <script>
-        // Операционные данные
         const WAREHOUSES = [
             "АРХАНГЕЛЬСК_ХАБ_НАХИМОВА",
             "МУРМАНСК_ХАБ_ОБЪЕЗДНАЯ",
@@ -810,28 +762,31 @@ th:nth-child(n+3), td:nth-child(n+3) {
             {name: '% не профиля', type: 'single', label: 'Процент', unit: '%'},
             {name: 'Руководитель', type: 'select', options: ['Территория 1 Шутин Д.М.', 'Территория 2 Любавкская М.И.']}
         ];
+        const PERSONNEL_OBJECTS = WAREHOUSES;
+        const PERSONNEL_CATEGORIES = [
+            { name: 'Штат', type: 'triple', fields: [{ n: 'План', u: '' }, { n: 'Факт', u: '' }, { n: 'Дельта', u: '' }] },
+            { name: 'Ozon Job', type: 'quadruple', fields: [{ n: 'План', u: '' }, { n: 'Факт', u: '' }, { n: 'Капаситет', u: '' }, { n: 'Доля OJ%', u: '%' }] },
+            { name: 'РВ', type: 'single', label: 'РВ', unit: '' },
+            { name: 'Командировка', type: 'single', label: 'Командировка', unit: '' },
+            { name: 'Total', type: 'triple', fields: [{ n: 'План', u: '' }, { n: 'Факт', u: '' }, { n: 'Дельта', u: '' }] },
+            { name: 'Производительность', type: 'single', label: 'Производительность', unit: '' },
+            { name: 'Причины невыхода', type: 'triple', fields: [{ n: 'ОТ', u: '' }, { n: 'БЛ', u: '' }, { n: 'НН', u: '' }] },
+            { name: 'Комментарии', type: 'single', label: 'Комментарии', unit: '' },
+            { name: 'Руководитель', type: 'select', options: ['Территория 1 Шутин Д.М.', 'Территория 2 Любавкская М.И.'] }
+        ];
         let reports = JSON.parse(localStorage.getItem('warehouseReports')) || {};
+        let personnelReports = JSON.parse(localStorage.getItem('personnelReports')) || {};
         let currentDate = new Date();
         let warehouseCalendarView = 'week';
-        let summaryCalendarView = 'week';
-        let selectedWarehouseDate = null;
-        let selectedSummaryDate = null;
-        let currentWarehouse = '';
-
-        // Данные по персоналу
-        const PERSONNEL_OBJECTS = ["Отдел 1", "Отдел 2", "Отдел 3", "Отдел 4"];
-        const PERSONNEL_CATEGORIES = [
-            {name: 'Количество сотрудников', type: 'number'},
-            {name: 'Отработано часов', type: 'number'},
-            {name: 'Пропуски', type: 'number'},
-            {name: 'Руководитель', type: 'select', options: ['Территория 1 Шутин Д.М.', 'Территория 2 Любавкская М.И.']}
-        ];
-        let personnelReports = JSON.parse(localStorage.getItem('personnelReports')) || {};
-        let currentPersonnelObj = '';
-        let selectedPersonnelDate = null;
         let personnelCalendarView = 'week';
-        let personnelSummaryCalendarView = 'week';
-
+        let summaryCalendarView = 'month';
+        let personnelSummaryCalendarView = 'month';
+        let selectedWarehouseDate = null;
+        let selectedPersonnelDate = null;
+        let selectedSummaryDate = null;
+        let selectedPersonnelSummaryDate = null;
+        let currentWarehouse = '';
+        let currentPersonnelObj = '';
         function cleanOldReports() {
             const sixMonthsAgo = new Date();
             sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 6);
@@ -840,17 +795,12 @@ th:nth-child(n+3), td:nth-child(n+3) {
                 try {
                     const [day, month, year] = dateStr.split('.').map(Number);
                     const reportDate = new Date(year, month - 1, day);
-                    if (reportDate < sixMonthsAgo) {
-                        keysToDelete.push(dateStr);
-                    }
-                } catch (e) {
-                    keysToDelete.push(dateStr);
-                }
+                    if (reportDate < sixMonthsAgo) keysToDelete.push(dateStr);
+                } catch (e) { keysToDelete.push(dateStr); }
             });
             keysToDelete.forEach(key => delete reports[key]);
             localStorage.setItem('warehouseReports', JSON.stringify(reports));
         }
-
         function cleanOldPersonnelReports() {
             const sixMonthsAgo = new Date();
             sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 6);
@@ -859,17 +809,12 @@ th:nth-child(n+3), td:nth-child(n+3) {
                 try {
                     const [day, month, year] = dateStr.split('.').map(Number);
                     const reportDate = new Date(year, month - 1, day);
-                    if (reportDate < sixMonthsAgo) {
-                        keysToDelete.push(dateStr);
-                    }
-                } catch (e) {
-                    keysToDelete.push(dateStr);
-                }
+                    if (reportDate < sixMonthsAgo) keysToDelete.push(dateStr);
+                } catch (e) { keysToDelete.push(dateStr); }
             });
             keysToDelete.forEach(key => delete personnelReports[key]);
             localStorage.setItem('personnelReports', JSON.stringify(personnelReports));
         }
-
         function fillTestData() {
             const today = new Date();
             const testDates = [];
@@ -887,12 +832,11 @@ th:nth-child(n+3), td:nth-child(n+3) {
                 if (!reports[dateStr]) reports[dateStr] = {};
                 testWarehouses.forEach((wh, whIndex) => {
                     if (!reports[dateStr][wh]) reports[dateStr][wh] = {};
-                    // Дневная смена
                     reports[dateStr][wh].day = {
                         'Обработка': { plan: String(200 + whIndex * 30), fact: String(210 + whIndex * 30), delta: 10 },
                         'Персонал': { plan: String(15 + whIndex), fact: String(15 + whIndex), delta: 0 },
                         'Окончание выдачи': { plan: '12:30', fact: '12:25', delta: 'Норма' },
-                        'Обработка FBS': { plan: String(12 + whIndex), fact: String(11 + whIndex), delta: (11 + whIndex) - (12 + whIndex) },
+                        'Обработка FBS': { plan: String(12 + whIndex), fact: String(11 + whIndex), delta: -1 },
                         'Возвратный поток (Бэклог)': { plan: String(5), fact: String(7), delta: 2 },
                         'Обезличка': { value: String(10 + whIndex) },
                         'Эффективность': { plan: String(95 + whIndex), fact: String(98 + whIndex), delta: 3 },
@@ -903,7 +847,6 @@ th:nth-child(n+3), td:nth-child(n+3) {
                         '% не профиля': { value: String(5 + whIndex) },
                         'Руководитель': { value: (whIndex % 2 === 0 ? 'Территория 1 Шутин Д.М.' : 'Территория 2 Любавкская М.И.') }
                     };
-                    // Ночная смена
                     reports[dateStr][wh].night = {
                         'Обработка': { plan: String(100 + whIndex * 15), fact: String(105 + whIndex * 15), delta: 5 },
                         'Персонал': { plan: String(8 + whIndex), fact: String(8 + whIndex), delta: 0 },
@@ -922,9 +865,8 @@ th:nth-child(n+3), td:nth-child(n+3) {
                 });
             });
             localStorage.setItem('warehouseReports', JSON.stringify(reports));
-            alert(`✅ Тестовые данные загружены!\n\n📦 Складов: ${testWarehouses.length}\n📅 Дат: ${testDates.length}\n🔢 Записей: ${testWarehouses.length * testDates.length * 2}`);
+            alert(`✅ Тестовые данные загружены!\n📦 Склады: ${testWarehouses.length}\n📅 Дат: ${testDates.length}\n🔢 Записей: ${testWarehouses.length * testDates.length * 2}`);
         }
-
         function fillPersonnelTestData() {
             const today = new Date();
             const testDates = [];
@@ -933,34 +875,42 @@ th:nth-child(n+3), td:nth-child(n+3) {
                 d.setDate(today.getDate() - i);
                 testDates.push(d.toLocaleDateString('ru-RU'));
             }
-
-            PERSONNEL_OBJECTS.forEach((obj, i) => {
-                testDates.forEach((dateStr, j) => {
-                    if (!personnelReports[dateStr]) personnelReports[dateStr] = {};
+            const testObjects = [
+                "ВЕЛИКИЙ_НОВГОРОД_ХАБ_НЕХИНСКАЯ",
+                "ПСКОВ_ХАБ_НОВЫЙ",
+                "ВОЛОГДА_ХАБ_БЕЛОЗЕРСКОЕ"
+            ];
+            testDates.forEach(dateStr => {
+                if (!personnelReports[dateStr]) personnelReports[dateStr] = {};
+                testObjects.forEach((obj, objIndex) => {
                     if (!personnelReports[dateStr][obj]) personnelReports[dateStr][obj] = {};
-
-                    // Дневная смена
                     personnelReports[dateStr][obj].day = {
-                        'Количество сотрудников': { plan: 20 + i*5, fact: 22 + i*5, delta: 2 },
-                        'Отработано часов': { plan: 8, fact: 8, delta: 0 },
-                        'Пропуски': { plan: 0, fact: j%2 === 0 ? 1 : 0, delta: j%2 === 0 ? 1 : 0 },
-                        'Руководитель': { value: i%2 === 0 ? 'Территория 1 Шутин Д.М.' : 'Территория 2 Любавкская М.И.' }
+                        'Штат': { План: 20 + objIndex * 5, Факт: 22 + objIndex * 5, Дельта: 2 },
+                        'Ozon Job': { План: 10 + objIndex * 2, Факт: 12 + objIndex * 2, Капаситет: 15 + objIndex * 2, 'Доля OJ%': '50%' },
+                        'РВ': { value: '2' },
+                        'Командировка': { value: '1' },
+                        'Total': { План: 30 + objIndex * 5, Факт: 32 + objIndex * 5, Дельта: 2 },
+                        'Производительность': { value: '95%' },
+                        'Причины невыхода': { ОТ: '1', БЛ: '0', НН: '0' },
+                        'Комментарии': { value: 'Тестовые данные' },
+                        'Руководитель': { value: objIndex % 2 === 0 ? 'Территория 1 Шутин Д.М.' : 'Территория 2 Любавкская М.И.' }
                     };
-
-                    // Ночная смена
                     personnelReports[dateStr][obj].night = {
-                        'Количество сотрудников': { plan: 10 + i*3, fact: 11 + i*3, delta: 1 },
-                        'Отработано часов': { plan: 4, fact: 4, delta: 0 },
-                        'Пропуски': { plan: 0, fact: j%2 === 1 ? 1 : 0, delta: j%2 === 1 ? 1 : 0 },
-                        'Руководитель': { value: i%2 === 1 ? 'Территория 1 Шутин Д.М.' : 'Территория 2 Любавкская М.И.' }
+                        'Штат': { План: 10 + objIndex * 3, Факт: 11 + objIndex * 3, Дельта: 1 },
+                        'Ozon Job': { План: 5 + objIndex, Факт: 6 + objIndex, Капаситет: 8 + objIndex, 'Доля OJ%': '55%' },
+                        'РВ': { value: '1' },
+                        'Командировка': { value: '0' },
+                        'Total': { План: 15 + objIndex * 3, Факт: 16 + objIndex * 3, Дельта: 1 },
+                        'Производительность': { value: '90%' },
+                        'Причины невыхода': { ОТ: '0', БЛ: '1', НН: '0' },
+                        'Комментарии': { value: 'Тестовые данные (ночь)' },
+                        'Руководитель': { value: objIndex % 2 === 1 ? 'Территория 1 Шутин Д.М.' : 'Территория 2 Любавкская М.И.' }
                     };
                 });
             });
-
             localStorage.setItem('personnelReports', JSON.stringify(personnelReports));
-            alert(`✅ Тестовые данные по персоналу загружены!\n📦 Объектов: ${PERSONNEL_OBJECTS.length}\n📅 Дат: ${testDates.length}`);
+            alert(`✅ Тестовые данные по персоналу загружены!\n📦 Объектов: ${testObjects.length}\n📅 Дат: ${testDates.length}`);
         }
-
         function generateWarehouseList() {
             const list = document.getElementById('warehouseList');
             list.innerHTML = '';
@@ -972,7 +922,6 @@ th:nth-child(n+3), td:nth-child(n+3) {
                 list.appendChild(btn);
             });
         }
-
         function generatePersonnelList() {
             const list = document.getElementById('personnelList');
             list.innerHTML = '';
@@ -984,22 +933,17 @@ th:nth-child(n+3), td:nth-child(n+3) {
                 list.appendChild(btn);
             });
         }
-
         function selectReport(reportType) {
             document.getElementById('mainSection').classList.remove('active');
             currentDate = new Date();
-            switch (reportType) {
-                case 'operational':
-                    document.getElementById('warehouseReportSection').classList.remove('active');
-                    showWarehouseReport(WAREHOUSES[0]);
-                    break;
-                case 'personnel':
-                    document.getElementById('personnelReportSection').classList.remove('active');
-                    showPersonnelReport(PERSONNEL_OBJECTS[0]);
-                    break;
+            if (reportType === 'operational') {
+                document.getElementById('warehouseReportSection').classList.add('active');
+                showWarehouseReport(WAREHOUSES[0]);
+            } else {
+                document.getElementById('personnelReportSection').classList.add('active');
+                showPersonnelReport(PERSONNEL_OBJECTS[0]);
             }
         }
-
         function showWarehouseReport(wh) {
             currentWarehouse = wh;
             document.getElementById('warehouseTitle').textContent = `📍 ${wh}`;
@@ -1010,7 +954,6 @@ th:nth-child(n+3), td:nth-child(n+3) {
             renderWarehouseCalendar();
             loadCategoryInputs();
         }
-
         function showPersonnelReport(obj) {
             currentPersonnelObj = obj;
             document.getElementById('personnelTitle').textContent = `📍 ${obj}`;
@@ -1021,8 +964,7 @@ th:nth-child(n+3), td:nth-child(n+3) {
             renderPersonnelCalendar();
             loadPersonnelCategoryInputs();
         }
-
-        function renderCalendar(calendarId, view, onSelect) {
+        function renderCalendar(calendarId, view, onSelect, selectedDateStr = null) {
             const cal = document.getElementById(calendarId);
             cal.innerHTML = '';
             const days = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'];
@@ -1059,12 +1001,11 @@ th:nth-child(n+3), td:nth-child(n+3) {
                 const b = document.createElement('button');
                 b.className = `date-btn ${o.empty ? 'empty' : ''}`;
                 b.textContent = o.day;
-                if (o.empty) b.disabled = true;
-                b.onclick = () => onSelect(o.date);
+                if (!o.empty && selectedDateStr === o.date.toLocaleDateString('ru-RU')) b.classList.add('selected');
+                if (!o.empty) b.onclick = () => onSelect(o.date);
                 cal.appendChild(b);
             });
         }
-
         function renderWarehouseCalendar() {
             renderCalendar('warehouseCalendar', warehouseCalendarView, (date) => {
                 currentDate = date;
@@ -1072,9 +1013,8 @@ th:nth-child(n+3), td:nth-child(n+3) {
                 document.getElementById('selectedWarehouseDate').innerHTML = `<strong>Выбрано:</strong> ${selectedWarehouseDate}`;
                 renderWarehouseCalendar();
                 loadCategoryInputs();
-            });
+            }, selectedWarehouseDate);
         }
-
         function renderPersonnelCalendar() {
             renderCalendar('personnelCalendar', personnelCalendarView, (date) => {
                 currentDate = date;
@@ -1082,41 +1022,80 @@ th:nth-child(n+3), td:nth-child(n+3) {
                 document.getElementById('selectedPersonnelDate').innerHTML = `<strong>Выбрано:</strong> ${selectedPersonnelDate}`;
                 renderPersonnelCalendar();
                 loadPersonnelCategoryInputs();
-            });
+            }, selectedPersonnelDate);
         }
-
+        function renderSummaryCalendar() {
+            renderCalendar('summaryCalendar', summaryCalendarView, (date) => {
+                selectedSummaryDate = date.toLocaleDateString('ru-RU');
+                document.getElementById('currentSummaryDate').textContent = selectedSummaryDate;
+            }, selectedSummaryDate);
+        }
+        function renderPersonnelSummaryCalendar() {
+            renderCalendar('personnelSummaryCalendar', personnelSummaryCalendarView, (date) => {
+                selectedPersonnelSummaryDate = date.toLocaleDateString('ru-RU');
+                document.getElementById('currentPersonnelSummaryDate').textContent = selectedPersonnelSummaryDate;
+            }, selectedPersonnelSummaryDate);
+        }
         function prevPeriod() {
             warehouseCalendarView === 'week' ? currentDate.setDate(currentDate.getDate() - 7) : currentDate.setMonth(currentDate.getMonth() - 1);
             renderWarehouseCalendar();
         }
-
         function nextPeriod() {
             warehouseCalendarView === 'week' ? currentDate.setDate(currentDate.getDate() + 7) : currentDate.setMonth(currentDate.getMonth() + 1);
             renderWarehouseCalendar();
         }
-
         function toggleCalendarView() {
             warehouseCalendarView = warehouseCalendarView === 'week' ? 'month' : 'week';
             document.getElementById('warehouseViewToggleText').textContent = warehouseCalendarView === 'week' ? '📅 Неделя' : '📆 Месяц';
             renderWarehouseCalendar();
         }
-
         function prevPeriodPersonnel() {
             personnelCalendarView === 'week' ? currentDate.setDate(currentDate.getDate() - 7) : currentDate.setMonth(currentDate.getMonth() - 1);
             renderPersonnelCalendar();
         }
-
         function nextPeriodPersonnel() {
             personnelCalendarView === 'week' ? currentDate.setDate(currentDate.getDate() + 7) : currentDate.setMonth(currentDate.getMonth() + 1);
             renderPersonnelCalendar();
         }
-
         function toggleCalendarViewPersonnel() {
             personnelCalendarView = personnelCalendarView === 'week' ? 'month' : 'week';
             document.getElementById('personnelViewToggleText').textContent = personnelCalendarView === 'week' ? '📅 Неделя' : '📆 Месяц';
             renderPersonnelCalendar();
         }
-
+        function prevPeriodSummary() {
+            summaryCalendarView === 'week' ? currentDate.setDate(currentDate.getDate() - 7) : currentDate.setMonth(currentDate.getMonth() - 1);
+            renderSummaryCalendar();
+        }
+        function nextPeriodSummary() {
+            summaryCalendarView === 'week' ? currentDate.setDate(currentDate.getDate() + 7) : currentDate.setMonth(currentDate.getMonth() + 1);
+            renderSummaryCalendar();
+        }
+        function toggleCalendarViewSummary() {
+            summaryCalendarView = summaryCalendarView === 'week' ? 'month' : 'week';
+            document.getElementById('summaryViewToggleText').textContent = summaryCalendarView === 'week' ? '📅 Неделя' : '📆 Месяц';
+            renderSummaryCalendar();
+        }
+        function prevPersonnelSummaryDay() {
+            if (!selectedPersonnelSummaryDate) return;
+            const [day, month, year] = selectedPersonnelSummaryDate.split('.').map(Number);
+            const date = new Date(year, month - 1, day);
+            date.setDate(date.getDate() - 1);
+            selectedPersonnelSummaryDate = date.toLocaleDateString('ru-RU');
+            document.getElementById('currentPersonnelSummaryDate').textContent = selectedPersonnelSummaryDate;
+        }
+        function nextPersonnelSummaryDay() {
+            if (!selectedPersonnelSummaryDate) return;
+            const [day, month, year] = selectedPersonnelSummaryDate.split('.').map(Number);
+            const date = new Date(year, month - 1, day);
+            date.setDate(date.getDate() + 1);
+            selectedPersonnelSummaryDate = date.toLocaleDateString('ru-RU');
+            document.getElementById('currentPersonnelSummaryDate').textContent = selectedPersonnelSummaryDate;
+        }
+        function toggleCalendarViewPersonnelSummary() {
+            personnelSummaryCalendarView = personnelSummaryCalendarView === 'week' ? 'month' : 'week';
+            document.getElementById('personnelSummaryViewToggleText').textContent = personnelSummaryCalendarView === 'week' ? '📅 Неделя' : '📆 Месяц';
+            renderPersonnelSummaryCalendar();
+        }
         function loadCategoryInputs() {
             if (!selectedWarehouseDate) return;
             const type = document.querySelector('input[name="warehouseReportType"]:checked').value;
@@ -1128,26 +1107,50 @@ th:nth-child(n+3), td:nth-child(n+3) {
                 cd.className = 'category-input';
                 let html = `<h4>${cat.name}</h4>`;
                 if (cat.type === 'number') {
-                    html += `<div class="input-row"><div><label>План:</label><input type="number" id="${currentWarehouse}_${type}_${cat.name}_plan" placeholder="План" inputmode="numeric" value="${data.plan || ''}"></div><div><label>Факт:</label><input type="number" id="${currentWarehouse}_${type}_${cat.name}_fact" placeholder="Факт" inputmode="numeric" value="${data.fact || ''}"></div></div><div class="delta-display">Дельта: <span id="${currentWarehouse}_${type}_${cat.name}_delta"></span></div>`;
+                    html += `
+                        <div class="input-row">
+                            <div><label>План:</label><input type="number" id="${currentWarehouse}_${type}_${cat.name}_plan" placeholder="План" value="${data.plan || ''}"></div>
+                            <div><label>Факт:</label><input type="number" id="${currentWarehouse}_${type}_${cat.name}_fact" placeholder="Факт" value="${data.fact || ''}"></div>
+                        </div>
+                        <div class="delta-display">Дельта: <span id="${currentWarehouse}_${type}_${cat.name}_delta"></span></div>
+                    `;
                 } else if (cat.type === 'time') {
-                    html += `<div class="input-row"><div><label>План (ЧЧ:ММ):</label><input type="text" id="${currentWarehouse}_${type}_${cat.name}_plan" placeholder="12:30" value="${data.plan || ''}"></div><div><label>Факт (ЧЧ:ММ):</label><input type="text" id="${currentWarehouse}_${type}_${cat.name}_fact" placeholder="12:25" value="${data.fact || ''}"></div></div><div class="delta-display"><span id="${currentWarehouse}_${type}_${cat.name}_delta"></span></div>`;
+                    html += `
+                        <div class="input-row">
+                            <div><label>План (ЧЧ:ММ):</label><input type="text" id="${currentWarehouse}_${type}_${cat.name}_plan" placeholder="12:30" value="${data.plan || ''}"></div>
+                            <div><label>Факт (ЧЧ:ММ):</label><input type="text" id="${currentWarehouse}_${type}_${cat.name}_fact" placeholder="12:25" value="${data.fact || ''}"></div>
+                        </div>
+                        <div class="delta-display"><span id="${currentWarehouse}_${type}_${cat.name}_delta"></span></div>
+                    `;
                 } else if (cat.type === 'single') {
-                    html += `<div><label>${cat.label} (${cat.unit}):</label><input type="number" id="${currentWarehouse}_${type}_${cat.name}_value" placeholder="${cat.label}" inputmode="numeric" value="${data.value || ''}"></div>`;
+                    html += `<div><label>${cat.label} (${cat.unit}):</label><input type="number" id="${currentWarehouse}_${type}_${cat.name}_value" placeholder="${cat.label}" value="${data.value || ''}"></div>`;
                 } else if (cat.type === 'triple') {
-                    html += `<div class="input-triple">`; 
-                    cat.fields.forEach(f => html += `<div><label>${f.n} (${f.u}):</label><input type="number" id="${currentWarehouse}_${type}_${cat.name}_${f.n}" placeholder="${f.n}" inputmode="numeric" value="${data[f.n] || ''}"></div>`); 
+                    html += `<div class="input-triple">`;
+                    cat.fields.forEach(f => html += `<div><label>${f.n} (${f.u}):</label><input type="number" id="${currentWarehouse}_${type}_${cat.name}_${f.n}" placeholder="${f.n}" value="${data[f.n] || ''}"></div>`);
                     html += `</div>`;
                 } else if (cat.type === 'double') {
-                    html += `<div class="input-double">`; 
-                    cat.fields.forEach(f => html += `<div><label>${f.n} (${f.u}):</label><input type="number" id="${currentWarehouse}_${type}_${cat.name}_${f.n}" placeholder="${f.n}" inputmode="numeric" value="${data[f.n] || ''}"></div>`); 
+                    html += `<div class="input-double">`;
+                    cat.fields.forEach(f => html += `<div><label>${f.n} (${f.u}):</label><input type="number" id="${currentWarehouse}_${type}_${cat.name}_${f.n}" placeholder="${f.n}" value="${data[f.n] || ''}"></div>`);
                     html += `</div>`;
                 } else if (cat.type === 'yesno') {
                     const val = data.value || '';
-                    html += `<div class="yesno-buttons"><button type="button" class="yesno-btn yes ${val === 'yes' ? 'selected' : ''}" onclick="selectYesNo('${currentWarehouse}','${type}','${cat.name}','yes',event)">ДА</button><button type="button" class="yesno-btn no ${val === 'no' ? 'selected' : ''}" onclick="selectYesNo('${currentWarehouse}','${type}','${cat.name}','no',event)">НЕТ</button></div><input type="hidden" id="${currentWarehouse}_${type}_${cat.name}_value" value="${val}">`;
+                    html += `
+                        <div class="yesno-buttons">
+                            <button type="button" class="yesno-btn yes ${val === 'yes' ? 'selected' : ''}" onclick="selectYesNo('${currentWarehouse}','${type}','${cat.name}','yes',event)">ДА</button>
+                            <button type="button" class="yesno-btn no ${val === 'no' ? 'selected' : ''}" onclick="selectYesNo('${currentWarehouse}','${type}','${cat.name}','no',event)">НЕТ</button>
+                        </div>
+                        <input type="hidden" id="${currentWarehouse}_${type}_${cat.name}_value" value="${val}">
+                    `;
                 } else if (cat.type === 'select') {
-                    html += `<div><label>Выберите:</label><select id="${currentWarehouse}_${type}_${cat.name}_value"><option value="">-- Не выбрано --</option>`; 
-                    cat.options.forEach(opt => html += `<option value="${opt}" ${data.value === opt ? 'selected' : ''}>${opt}</option>`); 
-                    html += `</select></div>`;
+                    html += `
+                        <div>
+                            <label>Выберите:</label>
+                            <select id="${currentWarehouse}_${type}_${cat.name}_value">
+                                <option value="">-- Не выбрано --</option>
+                                ${cat.options.map(opt => `<option value="${opt}" ${data.value === opt ? 'selected' : ''}>${opt}</option>`).join('')}
+                            </select>
+                        </div>
+                    `;
                 }
                 cd.innerHTML = html;
                 div.appendChild(cd);
@@ -1161,7 +1164,7 @@ th:nth-child(n+3), td:nth-child(n+3) {
                         if (!span) return;
                         if (cat.type === 'number') {
                             const p = parseInt(plan) || 0, f = parseInt(fact) || 0, delta = f - p;
-                            span.textContent = delta; 
+                            span.textContent = delta;
                             span.className = delta >= 0 ? 'positive' : 'negative';
                         } else if (cat.type === 'time') {
                             if (plan && fact) {
@@ -1171,7 +1174,7 @@ th:nth-child(n+3), td:nth-child(n+3) {
                                     span.textContent = ok ? 'Норма' : 'Отклонение';
                                     span.className = ok ? 'good' : 'bad';
                                 } else {
-                                    span.textContent = 'Неверный формат (ЧЧ:ММ)'; 
+                                    span.textContent = 'Неверный формат (ЧЧ:ММ)';
                                     span.className = 'bad';
                                 }
                             } else {
@@ -1185,7 +1188,6 @@ th:nth-child(n+3), td:nth-child(n+3) {
                 }
             });
         }
-
         function loadPersonnelCategoryInputs() {
             if (!selectedPersonnelDate || !currentPersonnelObj) return;
             const type = document.querySelector('input[name="personnelReportType"]:checked').value;
@@ -1196,15 +1198,28 @@ th:nth-child(n+3), td:nth-child(n+3) {
                 const cd = document.createElement('div');
                 cd.className = 'category-input';
                 let html = `<h4>${cat.name}</h4>`;
-                
-                if (cat.type === 'number') {
-                    html += `
-                        <div class="input-row">
-                            <div><label>План:</label><input type="number" id="${currentPersonnelObj}_${type}_${cat.name}_plan" placeholder="План" value="${data.plan || ''}"></div>
-                            <div><label>Факт:</label><input type="number" id="${currentPersonnelObj}_${type}_${cat.name}_fact" placeholder="Факт" value="${data.fact || ''}"></div>
-                        </div>
-                        <div class="delta-display">Дельта: <span id="${currentPersonnelObj}_${type}_${cat.name}_delta"></span></div>
-                    `;
+                if (cat.type === 'triple') {
+                    html += `<div class="input-triple">`;
+                    cat.fields.forEach(f => {
+                        if (f.n === 'Дельта') {
+                            html += `<div><label>${f.n}:</label><span id="${currentPersonnelObj}_${type}_${cat.name}_${f.n}">${data[f.n] || '-'}</span></div>`;
+                        } else {
+                            html += `<div><label>${f.n}:</label><input type="number" id="${currentPersonnelObj}_${type}_${cat.name}_${f.n}" placeholder="${f.n}" value="${data[f.n] || ''}"></div>`;
+                        }
+                    });
+                    html += `</div>`;
+                } else if (cat.type === 'quadruple') {
+                    html += `<div class="input-quadruple">`;
+                    cat.fields.forEach(f => {
+                        if (f.n === 'Доля OJ%') {
+                            html += `<div><label>${f.n}:</label><span id="${currentPersonnelObj}_${type}_${cat.name}_${f.n}">${data[f.n] || '-'}</span></div>`;
+                        } else {
+                            html += `<div><label>${f.n}:</label><input type="number" id="${currentPersonnelObj}_${type}_${cat.name}_${f.n}" placeholder="${f.n}" value="${data[f.n] || ''}"></div>`;
+                        }
+                    });
+                    html += `</div>`;
+                } else if (cat.type === 'single') {
+                    html += `<div><label>${cat.label}:</label><input type="text" id="${currentPersonnelObj}_${type}_${cat.name}_value" placeholder="${cat.label}" value="${data.value || ''}"></div>`;
                 } else if (cat.type === 'select') {
                     html += `
                         <div>
@@ -1216,44 +1231,63 @@ th:nth-child(n+3), td:nth-child(n+3) {
                         </div>
                     `;
                 }
-                
                 cd.innerHTML = html;
                 div.appendChild(cd);
-                
-                if (cat.type === 'number') {
-                    const planEl = document.getElementById(`${currentPersonnelObj}_${type}_${cat.name}_plan`);
-                    const factEl = document.getElementById(`${currentPersonnelObj}_${type}_${cat.name}_fact`);
-                    const deltaEl = document.getElementById(`${currentPersonnelObj}_${type}_${cat.name}_delta`);
-                    
+                if (cat.name === 'Штат') {
+                    const planEl = document.getElementById(`${currentPersonnelObj}_${type}_${cat.name}_План`);
+                    const factEl = document.getElementById(`${currentPersonnelObj}_${type}_${cat.name}_Факт`);
+                    const deltaEl = document.getElementById(`${currentPersonnelObj}_${type}_${cat.name}_Дельта`);
                     const updateDelta = () => {
                         const plan = parseInt(planEl.value) || 0;
                         const fact = parseInt(factEl.value) || 0;
                         deltaEl.textContent = fact - plan;
                         deltaEl.className = (fact - plan) >= 0 ? 'positive' : 'negative';
                     };
-                    
+                    planEl.addEventListener('input', updateDelta);
+                    factEl.addEventListener('input', updateDelta);
+                    updateDelta();
+                } else if (cat.name === 'Ozon Job') {
+                    const factOJEl = document.getElementById(`${currentPersonnelObj}_${type}_${cat.name}_Факт`);
+                    const totalFactEl = document.getElementById(`${currentPersonnelObj}_${type}_Total_Факт`);
+                    const ojPercentEl = document.getElementById(`${currentPersonnelObj}_${type}_${cat.name}_Доля OJ%`);
+                    const updateOJPercent = () => {
+                        const factOJ = parseInt(factOJEl.value) || 0;
+                        const totalFact = parseInt(totalFactEl.value) || 1;
+                        const percent = Math.round((factOJ / totalFact) * 100);
+                        ojPercentEl.textContent = percent + '%';
+                    };
+                    factOJEl.addEventListener('input', updateOJPercent);
+                    totalFactEl.addEventListener('input', updateOJPercent);
+                    updateOJPercent();
+                } else if (cat.name === 'Total') {
+                    const planEl = document.getElementById(`${currentPersonnelObj}_${type}_${cat.name}_План`);
+                    const factEl = document.getElementById(`${currentPersonnelObj}_${type}_${cat.name}_Факт`);
+                    const deltaEl = document.getElementById(`${currentPersonnelObj}_${type}_${cat.name}_Дельта`);
+                    const updateDelta = () => {
+                        const plan = parseInt(planEl.value) || 0;
+                        const fact = parseInt(factEl.value) || 0;
+                        deltaEl.textContent = fact - plan;
+                        deltaEl.className = (fact - plan) >= 0 ? 'positive' : 'negative';
+                    };
                     planEl.addEventListener('input', updateDelta);
                     factEl.addEventListener('input', updateDelta);
                     updateDelta();
                 }
             });
         }
-
         function selectYesNo(wh, t, cat, val, e) {
             e.preventDefault();
             document.getElementById(`${wh}_${t}_${cat}_value`).value = val;
             e.target.parentElement.querySelectorAll('.yesno-btn').forEach(b => b.classList.remove('selected'));
             e.target.classList.add('selected');
         }
-
         function parseTimeToMin(timeStr) {
-            const parts = timeStr.split(':'); 
+            const parts = timeStr.split(':');
             if (parts.length !== 2) return NaN;
-            const h = parseInt(parts[0]) || 0; 
+            const h = parseInt(parts[0]) || 0;
             const m = parseInt(parts[1]) || 0;
             return h * 60 + m;
         }
-
         function saveWarehouseReport() {
             if (!selectedWarehouseDate) return alert('⚠️ Выберите дату!');
             if (!currentWarehouse) return alert('⚠️ Выберите склад!');
@@ -1287,10 +1321,7 @@ th:nth-child(n+3), td:nth-child(n+3) {
                     }
                 } else if (cat.type === 'single') {
                     const valueEl = document.getElementById(`${currentWarehouse}_${type}_${cat.name}_value`);
-                    if (valueEl) {
-                        const value = valueEl.value.trim();
-                        data = { value };
-                    }
+                    if (valueEl) data = { value: valueEl.value.trim() };
                 } else if (cat.type === 'triple' || cat.type === 'double') {
                     cat.fields.forEach(f => {
                         const el = document.getElementById(`${currentWarehouse}_${type}_${cat.name}_${f.n}`);
@@ -1298,16 +1329,10 @@ th:nth-child(n+3), td:nth-child(n+3) {
                     });
                 } else if (cat.type === 'yesno') {
                     const valueEl = document.getElementById(`${currentWarehouse}_${type}_${cat.name}_value`);
-                    if (valueEl) {
-                        const value = valueEl.value.trim();
-                        data = { value };
-                    }
+                    if (valueEl) data = { value: valueEl.value.trim() };
                 } else if (cat.type === 'select') {
                     const valueEl = document.getElementById(`${currentWarehouse}_${type}_${cat.name}_value`);
-                    if (valueEl) {
-                        const value = valueEl.value.trim();
-                        data = { value };
-                    }
+                    if (valueEl) data = { value: valueEl.value.trim() };
                 }
                 reports[selectedWarehouseDate][currentWarehouse][type][cat.name] = data;
             });
@@ -1316,7 +1341,6 @@ th:nth-child(n+3), td:nth-child(n+3) {
             alert('✅ Сохранено! Данные доступны в общем своде.');
             showSummarySection();
         }
-
         function savePersonnelReport() {
             if (!selectedPersonnelDate) return alert('⚠️ Выберите дату!');
             if (!currentPersonnelObj) return alert('⚠️ Выберите объект!');
@@ -1324,43 +1348,49 @@ th:nth-child(n+3), td:nth-child(n+3) {
             if (!personnelReports[selectedPersonnelDate]) personnelReports[selectedPersonnelDate] = {};
             if (!personnelReports[selectedPersonnelDate][currentPersonnelObj]) personnelReports[selectedPersonnelDate][currentPersonnelObj] = {};
             if (!personnelReports[selectedPersonnelDate][currentPersonnelObj][type]) personnelReports[selectedPersonnelDate][currentPersonnelObj][type] = {};
-
             PERSONNEL_CATEGORIES.forEach(cat => {
                 const data = {};
-                if (cat.type === 'number') {
-                    const planEl = document.getElementById(`${currentPersonnelObj}_${type}_${cat.name}_plan`);
-                    const factEl = document.getElementById(`${currentPersonnelObj}_${type}_${cat.name}_fact`);
-                    data.plan = planEl.value.trim();
-                    data.fact = factEl.value.trim();
-                    data.delta = (parseInt(factEl.value) || 0) - (parseInt(planEl.value) || 0);
+                if (cat.type === 'triple' || cat.type === 'quadruple') {
+                    cat.fields.forEach(f => {
+                        const el = document.getElementById(`${currentPersonnelObj}_${type}_${cat.name}_${f.n}`);
+                        if (el) data[f.n] = el.value.trim();
+                    });
+                } else if (cat.type === 'single') {
+                    const valueEl = document.getElementById(`${currentPersonnelObj}_${type}_${cat.name}_value`);
+                    if (valueEl) data.value = valueEl.value.trim();
                 } else if (cat.type === 'select') {
                     const valueEl = document.getElementById(`${currentPersonnelObj}_${type}_${cat.name}_value`);
-                    data.value = valueEl.value.trim();
+                    if (valueEl) data.value = valueEl.value.trim();
                 }
                 personnelReports[selectedPersonnelDate][currentPersonnelObj][type][cat.name] = data;
             });
-
             localStorage.setItem('personnelReports', JSON.stringify(personnelReports));
             cleanOldPersonnelReports();
             alert('✅ Данные сохранены!');
             showPersonnelSummarySection();
         }
-
-        function updateSummaryTable() { 
-            if (selectedSummaryDate) showSummaryData(); 
+        function showSummarySection() {
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            document.getElementById('summarySection').classList.add('active');
+            selectedSummaryDate = currentDate.toLocaleDateString('ru-RU');
+            document.getElementById('currentSummaryDate').textContent = selectedSummaryDate;
+            renderSummaryCalendar();
         }
-
+        function showPersonnelSummarySection() {
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            document.getElementById('personnelSummarySection').classList.add('active');
+            selectedPersonnelSummaryDate = currentDate.toLocaleDateString('ru-RU');
+            document.getElementById('currentPersonnelSummaryDate').textContent = selectedPersonnelSummaryDate;
+            renderPersonnelSummaryCalendar();
+        }
         function showSummaryData() {
             if (!selectedSummaryDate) return alert('⚠️ Кликните на дату в календаре!');
             const includeDay = document.getElementById('summaryDay').checked;
             const includeNight = document.getElementById('summaryNight').checked;
             if (!includeDay && !includeNight) return alert('⚠️ Выберите хотя бы один тип отчёта!');
             const selectedManager = document.getElementById('managerFilter').value;
-            document.getElementById('currentSummaryDate').textContent = selectedSummaryDate;
-            
             document.getElementById('summarySection').classList.remove('active');
             document.getElementById('summaryTableSection').classList.add('active');
-            
             const tableDiv = document.getElementById('summaryTable');
             let html = '<div class="table-wrapper"><table><thead><tr><th>Дата</th><th>Склад</th><th>ХА</th>';
             html += CATEGORIES.map(cat => {
@@ -1369,7 +1399,6 @@ th:nth-child(n+3), td:nth-child(n+3) {
                 if (cat.type === 'double') return `<th colspan="2">${cat.name}</th>`;
                 return `<th colspan="3">${cat.name}</th>`;
             }).join('') + '<th>Тип</th></tr>';
-            
             html += '<tr><th>Дата</th><th>Склад</th><th>ХА</th>';
             html += CATEGORIES.map(cat => {
                 if (cat.type === 'single') return `<th>${cat.unit}</th>`;
@@ -1378,14 +1407,11 @@ th:nth-child(n+3), td:nth-child(n+3) {
                 if (cat.type === 'number') return '<th>План</th><th>Факт</th><th>Δ</th>';
                 return `<th>${cat.label}</th>`;
             }).join('') + '<th>Тип</th></tr></thead><tbody>';
-            
             let totalVolumePlan = 0;
             const warehouseData = reports[selectedSummaryDate] || {};
             WAREHOUSES.forEach(wh => {
                 const whData = warehouseData[wh] || {};
                 let rowAdded = false;
-                
-                // Дневная смена
                 if (includeDay && whData.day) {
                     const managerValue = whData.day['Руководитель']?.value || '';
                     if (!selectedManager || managerValue === selectedManager) {
@@ -1395,8 +1421,6 @@ th:nth-child(n+3), td:nth-child(n+3) {
                         rowAdded = true;
                     }
                 }
-                
-                // Ночная смена
                 if (includeNight && whData.night) {
                     const managerValue = whData.night['Руководитель']?.value || '';
                     if (!selectedManager || managerValue === selectedManager) {
@@ -1406,7 +1430,6 @@ th:nth-child(n+3), td:nth-child(n+3) {
                         rowAdded = true;
                     }
                 }
-                
                 if (!rowAdded) {
                     let cells = `<td>${selectedSummaryDate}</td><td>${wh}</td><td>ХА</td>`;
                     const numCols = CATEGORIES.reduce((acc, cat) => {
@@ -1420,17 +1443,14 @@ th:nth-child(n+3), td:nth-child(n+3) {
                     html += `<tr>${cells}</tr>`;
                 }
             });
-            
             html += '</tbody></table></div>';
             html += `<div class="summary-total">📊 Итого по Объёму (план): ${totalVolumePlan}</div>`;
             tableDiv.innerHTML = html;
         }
-
         function addRow(date, wh, typeData, typeLabel) {
             let cells = '';
             let volumePlan = 0;
             cells += `<td>${date}</td><td>${wh}</td><td>ХА</td>`;
-            
             CATEGORIES.forEach(cat => {
                 const data = typeData[cat.name] || {};
                 if (cat.type === 'single') {
@@ -1455,123 +1475,129 @@ th:nth-child(n+3), td:nth-child(n+3) {
                     const deltaCell = data.delta !== undefined && data.delta !== '' ? data.delta : '-';
                     const deltaClass = typeof deltaCell === 'number' ? (deltaCell >= 0 ? 'positive' : 'negative') : '';
                     cells += `<td class="${deltaClass}">${deltaCell}</td>`;
-                    
-                    // Сбор плана для общего объёма (примерное использование)
                     if (cat.name === 'Обработка') {
                         const p = parseInt(data.plan) || 0;
                         volumePlan += p;
                     }
                 }
             });
-            
             cells += `<td>${typeLabel}</td>`;
             return { html: `<tr>${cells}</tr>`, volumePlan };
         }
-
         function showPersonnelSummaryData() {
-            if (!selectedSummaryDate) return alert('⚠️ Выберите дату!');
+            if (!selectedPersonnelSummaryDate) return alert('⚠️ Выберите дату!');
             const includeDay = document.getElementById('personnelSummaryDay').checked;
             const includeNight = document.getElementById('personnelSummaryNight').checked;
             if (!includeDay && !includeNight) return alert('⚠️ Выберите тип смены!');
             const selectedManager = document.getElementById('personnelManagerFilter').value;
-            document.getElementById('currentPersonnelSummaryDate').textContent = selectedSummaryDate;
-            
             document.getElementById('personnelSummarySection').classList.remove('active');
             document.getElementById('personnelSummaryTableSection').classList.add('active');
-            
             const tableDiv = document.getElementById('personnelSummaryTable');
-            let html = '<div class="table-wrapper"><table><thead><tr><th>Дата</th><th>Объект</th><th>ХА</th>';
-            html += PERSONNEL_CATEGORIES.map(cat => 
-                cat.type === 'number' ? `<th colspan="2">${cat.name}</th>` : `<th>${cat.name}</th>`
-            ).join('') + '<th>Тип</th></tr>';
-            html += '<tr><th>Дата</th><th>Объект</th><th>ХА</th>';
-            html += PERSONNEL_CATEGORIES.map(cat => 
-                cat.type === 'number' ? '<th>План</th><th>Факт</th>' : `<th>${cat.label || ''}</th>`
-            ).join('') + '<th>Тип</th></tr></thead><tbody>';
-
+            let html = `
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th rowspan="2">Территория</th>
+                                <th colspan="3">Штат</th>
+                                <th colspan="4">Ozon Job</th>
+                                <th rowspan="2">РВ</th>
+                                <th rowspan="2">Командировка</th>
+                                <th colspan="3">Total</th>
+                                <th rowspan="2">Производительность</th>
+                                <th colspan="3">Причины невыхода</th>
+                                <th rowspan="2">Комментарии</th>
+                                <th rowspan="2">Тип</th>
+                            </tr>
+                            <tr>
+                                <th>План</th><th>Факт</th><th>Дельта</th>
+                                <th>План</th><th>Факт</th><th>Капаситет</th><th>Доля OJ%</th>
+                                <th>План</th><th>Факт</th><th>Дельта</th>
+                                <th>ОТ</th><th>БЛ</th><th>НН</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+            `;
             PERSONNEL_OBJECTS.forEach(obj => {
                 let rowAdded = false;
-                const objData = personnelReports[selectedSummaryDate]?.[obj] || {};
-
-                // Дневная смена
+                const objData = personnelReports[selectedPersonnelSummaryDate]?.[obj] || {};
                 if (includeDay && objData.day) {
                     const manager = objData.day['Руководитель']?.value || '';
                     if (!selectedManager || manager === selectedManager) {
                         html += `
                             <tr>
-                                <td>${selectedSummaryDate}</td>
                                 <td>${obj}</td>
-                                <td>ХА</td>
-                                ${PERSONNEL_CATEGORIES.map(cat => {
-                                    const data = objData.day[cat.name] || {};
-                                    if (cat.type === 'number') {
-                                        return `<td>${data.plan || '-'}</td><td>${data.fact || '-'}</td>`;
-                                    } else if (cat.type === 'select') {
-                                        return `<td>${data.value || '-'}</td>`;
-                                    }
-                                    return '<td>-</td>';
-                                }).join('')}
+                                <td>${objData.day['Штат']?.План || '-'}</td>
+                                <td>${objData.day['Штат']?.Факт || '-'}</td>
+                                <td>${objData.day['Штат']?.Дельта || '-'}</td>
+                                <td>${objData.day['Ozon Job']?.План || '-'}</td>
+                                <td>${objData.day['Ozon Job']?.Факт || '-'}</td>
+                                <td>${objData.day['Ozon Job']?.Капаситет || '-'}</td>
+                                <td>${objData.day['Ozon Job']?.['Доля OJ%'] || '-'}</td>
+                                <td>${objData.day['РВ']?.value || '-'}</td>
+                                <td>${objData.day['Командировка']?.value || '-'}</td>
+                                <td>${objData.day['Total']?.План || '-'}</td>
+                                <td>${objData.day['Total']?.Факт || '-'}</td>
+                                <td>${objData.day['Total']?.Дельта || '-'}</td>
+                                <td>${objData.day['Производительность']?.value || '-'}</td>
+                                <td>${objData.day['Причины невыхода']?.ОТ || '-'}</td>
+                                <td>${objData.day['Причины невыхода']?.БЛ || '-'}</td>
+                                <td>${objData.day['Причины невыхода']?.НН || '-'}</td>
+                                <td>${objData.day['Комментарии']?.value || '-'}</td>
                                 <td>☀️ Дневная</td>
                             </tr>
                         `;
                         rowAdded = true;
                     }
                 }
-
-                // Ночная смена
                 if (includeNight && objData.night) {
                     const manager = objData.night['Руководитель']?.value || '';
                     if (!selectedManager || manager === selectedManager) {
                         html += `
                             <tr>
-                                <td>${selectedSummaryDate}</td>
                                 <td>${obj}</td>
-                                <td>ХА</td>
-                                ${PERSONNEL_CATEGORIES.map(cat => {
-                                    const data = objData.night[cat.name] || {};
-                                    if (cat.type === 'number') {
-                                        return `<td>${data.plan || '-'}</td><td>${data.fact || '-'}</td>`;
-                                    } else if (cat.type === 'select') {
-                                        return `<td>${data.value || '-'}</td>`;
-                                    }
-                                    return '<td>-</td>';
-                                }).join('')}
+                                <td>${objData.night['Штат']?.План || '-'}</td>
+                                <td>${objData.night['Штат']?.Факт || '-'}</td>
+                                <td>${objData.night['Штат']?.Дельта || '-'}</td>
+                                <td>${objData.night['Ozon Job']?.План || '-'}</td>
+                                <td>${objData.night['Ozon Job']?.Факт || '-'}</td>
+                                <td>${objData.night['Ozon Job']?.Капаситет || '-'}</td>
+                                <td>${objData.night['Ozon Job']?.['Доля OJ%'] || '-'}</td>
+                                <td>${objData.night['РВ']?.value || '-'}</td>
+                                <td>${objData.night['Командировка']?.value || '-'}</td>
+                                <td>${objData.night['Total']?.План || '-'}</td>
+                                <td>${objData.night['Total']?.Факт || '-'}</td>
+                                <td>${objData.night['Total']?.Дельта || '-'}</td>
+                                <td>${objData.night['Производительность']?.value || '-'}</td>
+                                <td>${objData.night['Причины невыхода']?.ОТ || '-'}</td>
+                                <td>${objData.night['Причины невыхода']?.БЛ || '-'}</td>
+                                <td>${objData.night['Причины невыхода']?.НН || '-'}</td>
+                                <td>${objData.night['Комментарии']?.value || '-'}</td>
                                 <td>🌙 Ночная</td>
                             </tr>
                         `;
                         rowAdded = true;
                     }
                 }
-
                 if (!rowAdded) {
                     html += `
                         <tr>
-                            <td>${selectedSummaryDate}</td>
                             <td>${obj}</td>
-                            <td>ХА</td>
-                            ${PERSONNEL_CATEGORIES.map(cat => 
-                                cat.type === 'number' ? '<td>-</td><td>-</td>' : '<td>-</td>'
-                            ).join('')}
+                            <td>-</td><td>-</td><td>-</td>
+                            <td>-</td><td>-</td><td>-</td><td>-</td>
+                            <td>-</td><td>-</td>
+                            <td>-</td><td>-</td><td>-</td>
+                            <td>-</td>
+                            <td>-</td><td>-</td><td>-</td>
+                            <td>-</td>
                             <td>-</td>
                         </tr>
                     `;
                 }
             });
-
-            html += '</tbody></table></div>';
+            html += `</tbody></table></div>`;
             tableDiv.innerHTML = html;
         }
-
-        function showSummarySection() {
-            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-            document.getElementById('summarySection').classList.add('active');
-        }
-
-        function showPersonnelSummarySection() {
-            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-            document.getElementById('personnelSummarySection').classList.add('active');
-        }
-
         function prevSummaryDay() {
             if (!selectedSummaryDate) return;
             const [day, month, year] = selectedSummaryDate.split('.').map(Number);
@@ -1581,7 +1607,6 @@ th:nth-child(n+3), td:nth-child(n+3) {
             document.getElementById('currentSummaryDate').textContent = selectedSummaryDate;
             showSummaryData();
         }
-
         function nextSummaryDay() {
             if (!selectedSummaryDate) return;
             const [day, month, year] = selectedSummaryDate.split('.').map(Number);
@@ -1591,121 +1616,6 @@ th:nth-child(n+3), td:nth-child(n+3) {
             document.getElementById('currentSummaryDate').textContent = selectedSummaryDate;
             showSummaryData();
         }
-
-        function prevPersonnelSummaryDay() {
-            if (!selectedSummaryDate) return;
-            const [day, month, year] = selectedSummaryDate.split('.').map(Number);
-            const date = new Date(year, month - 1, day);
-            date.setDate(date.getDate() - 1);
-            selectedSummaryDate = date.toLocaleDateString('ru-RU');
-            document.getElementById('currentPersonnelSummaryDate').textContent = selectedSummaryDate;
-            showPersonnelSummaryData();
-        }
-
-        function nextPersonnelSummaryDay() {
-            if (!selectedSummaryDate) return;
-            const [day, month, year] = selectedSummaryDate.split('.').map(Number);
-            const date = new Date(year, month - 1, day);
-            date.setDate(date.getDate() + 1);
-            selectedSummaryDate = date.toLocaleDateString('ru-RU');
-            document.getElementById('currentPersonnelSummaryDate').textContent = selectedSummaryDate;
-            showPersonnelSummaryData();
-        }
-
-        function toggleCalendarViewSummary() {
-            summaryCalendarView = summaryCalendarView === 'week' ? 'month' : 'week';
-            document.getElementById('summaryViewToggleText').textContent = summaryCalendarView === 'week' ? '📅 Неделя' : '📆 Месяц';
-            renderSummaryCalendar();
-        }
-
-        function renderSummaryCalendar() {
-            const view = summaryCalendarView;
-            const cal = document.getElementById('summaryCalendar');
-            cal.innerHTML = '';
-            const days = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'];
-            days.forEach(d => {
-                const h = document.createElement('div');
-                h.className = 'calendar-header';
-                h.textContent = d;
-                cal.appendChild(h);
-            });
-            let dates = [];
-            if (view === 'week') {
-                const mon = new Date(currentDate);
-                mon.setDate(mon.getDate() - ((mon.getDay() || 7) - 1));
-                for (let i = 0; i < 7; i++) {
-                    const d = new Date(mon);
-                    d.setDate(mon.getDate() + i);
-                    dates.push({ date: d, day: d.getDate() });
-                }
-            } else {
-                const y = currentDate.getFullYear(), m = currentDate.getMonth();
-                const lastDay = new Date(y, m + 1, 0);
-                dates = [];
-                for (let day = 1; day <= lastDay.getDate(); day++) {
-                    dates.push({ date: new Date(y, m, day), day });
-                }
-            }
-            dates.forEach(o => {
-                const b = document.createElement('button');
-                b.className = 'date-btn';
-                b.textContent = o.day;
-                b.onclick = () => {
-                    selectedSummaryDate = o.date.toLocaleDateString('ru-RU');
-                    document.getElementById('currentSummaryDate').textContent = selectedSummaryDate;
-                    showSummaryData();
-                };
-                cal.appendChild(b);
-            });
-        }
-
-        function toggleCalendarViewPersonnelSummary() {
-            personnelSummaryCalendarView = personnelSummaryCalendarView === 'week' ? 'month' : 'week';
-            document.getElementById('personnelSummaryViewToggleText').textContent = personnelSummaryCalendarView === 'week' ? '📅 Неделя' : '📆 Месяц';
-            renderPersonnelSummaryCalendar();
-        }
-
-        function renderPersonnelSummaryCalendar() {
-            const view = personnelSummaryCalendarView;
-            const cal = document.getElementById('personnelSummaryCalendar');
-            cal.innerHTML = '';
-            const days = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'];
-            days.forEach(d => {
-                const h = document.createElement('div');
-                h.className = 'calendar-header';
-                h.textContent = d;
-                cal.appendChild(h);
-            });
-            let dates = [];
-            if (view === 'week') {
-                const mon = new Date(currentDate);
-                mon.setDate(mon.getDate() - ((mon.getDay() || 7) - 1));
-                for (let i = 0; i < 7; i++) {
-                    const d = new Date(mon);
-                    d.setDate(mon.getDate() + i);
-                    dates.push({ date: d, day: d.getDate() });
-                }
-            } else {
-                const y = currentDate.getFullYear(), m = currentDate.getMonth();
-                const lastDay = new Date(y, m + 1, 0);
-                dates = [];
-                for (let day = 1; day <= lastDay.getDate(); day++) {
-                    dates.push({ date: new Date(y, m, day), day });
-                }
-            }
-            dates.forEach(o => {
-                const b = document.createElement('button');
-                b.className = 'date-btn';
-                b.textContent = o.day;
-                b.onclick = () => {
-                    selectedSummaryDate = o.date.toLocaleDateString('ru-RU');
-                    document.getElementById('currentPersonnelSummaryDate').textContent = selectedSummaryDate;
-                    showPersonnelSummaryData();
-                };
-                cal.appendChild(b);
-            });
-        }
-
         function toggleFullScreen() {
             const fs = document.getElementById('fullScreenTable');
             const tbl = document.getElementById('summaryTable').innerHTML;
@@ -1718,13 +1628,18 @@ th:nth-child(n+3), td:nth-child(n+3) {
                 document.body.style.overflow = 'auto';
             }
         }
-
         function togglePersonnelFullScreen() {
-            // Аналогично полноэкранному открытию для операций, можно расширить если нужно
-            alert('Полноэкранный режим для персонала не реализован, но логика аналогична');
-            // (Для полной реализации добавьте аналогичный блок fullScreenTable для персонала)
+            const fs = document.getElementById('personnelFullScreenTable');
+            const tbl = document.getElementById('personnelSummaryTable').innerHTML;
+            if (fs.style.display === 'none') {
+                document.getElementById('fullPersonnelSummaryTable').innerHTML = tbl;
+                fs.style.display = 'block';
+                document.body.style.overflow = 'hidden';
+            } else {
+                fs.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
         }
-
         function backToMain() {
             document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
             document.getElementById('mainSection').classList.add('active');
@@ -1733,14 +1648,13 @@ th:nth-child(n+3), td:nth-child(n+3) {
             selectedWarehouseDate = null;
             selectedPersonnelDate = null;
             selectedSummaryDate = null;
+            selectedPersonnelSummaryDate = null;
         }
-
         document.addEventListener('DOMContentLoaded', () => {
             document.querySelectorAll('input[name="warehouseReportType"]').forEach(r => r.addEventListener('change', loadCategoryInputs));
             document.querySelectorAll('input[name="personnelReportType"]').forEach(r => r.addEventListener('change', loadPersonnelCategoryInputs));
         });
-
-        window.onload = function () {
+        window.onload = function() {
             cleanOldReports();
             cleanOldPersonnelReports();
             generateWarehouseList();
@@ -1749,8 +1663,6 @@ th:nth-child(n+3), td:nth-child(n+3) {
             renderPersonnelCalendar();
             renderSummaryCalendar();
             renderPersonnelSummaryCalendar();
-            fillTestData();
-            fillPersonnelTestData();
         };
     </script>
 </body>
